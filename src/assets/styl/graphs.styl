@@ -1,0 +1,38 @@
+/**** graphs ****/
+
+.user__pie--container
+  display flex
+  align-items center
+  justify-content center
+
+  .flex--left,
+  .flex--right
+    font-size $big
+
+.user__pie--info
+  display flex
+  margin-left 50px
+
+.user__active--bullet
+  position relative
+  display flex
+  justify-content center
+  align-items center
+  padding-right 30px
+  font-size $small
+
+  &:before
+    position absolute
+    left -20px
+    width 12px
+    height 12px
+    border-radius 50%
+    content ''
+    background $turkis
+
+.user__passive--bullet
+  @extend .user__active--bullet
+
+  &:before
+    background $blueLight
+

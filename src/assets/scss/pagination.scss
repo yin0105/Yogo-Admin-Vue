@@ -1,0 +1,53 @@
+.VuePagination {
+    text-align: right;
+
+    nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+.VuePagination__pagination {
+    display:block;
+    text-align: center;
+    margin:0 0 0 20px;
+    line-height:0;
+    order: 1;
+}
+
+.VuePagination__count {
+    display:block;
+    margin:0;
+    font-size: 13px;
+}
+
+.VuePagination__pagination-item {
+    display: inline;
+
+    a, span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #0097a7;;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+    a {
+        cursor:pointer;
+    }
+
+    &.active {
+        a, a:hover, a:focus, span, span:hover, span:focus {
+            z-index: 1;
+            color: #fff;
+            cursor: default;
+            background-color: #0097a7;;
+            border-color: #0097a7;;
+        }
+    }
+}

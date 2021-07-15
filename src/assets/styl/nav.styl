@@ -1,0 +1,264 @@
+/**** nav ****/
+
+.submenu__desktop--top
+  position fixed
+  background $blueLight
+  height 60px
+  width 70px
+  top 0
+  left 0
+
+.submenu__desktop--container
+  position fixed
+  left 0
+  top 0
+  width 70px
+  height 100%
+  background $blueLight
+  color $white
+  padding 10px
+  z-index 5
+  overflow scroll
+  -webkit-overflow-scrolling scroll
+
+  h1
+    display none
+
+  ul
+    padding-top 60px
+    li
+      padding 8px 0
+      +for_breakpoint(desktop)
+        padding 2px 0
+
+      &:first-of-type
+        padding-top 0
+
+      i,
+      a
+        color $white !important
+        text-decoration none !important
+        font-size 40px
+        padding 5px 10px
+
+        span
+          display none
+
+      .router-link-active
+        text-decoration underline !important
+        +for_breakpoint(desktop)
+          background $blue
+          border-radius 3px
+          text-decoration none !important
+
+
+.wrapper__submenu--content
+  margin-left 70px
+
+.sidebar__nav--container
+  display none
+
+.client-logo
+  background transparent !important
+
+.profile--dropdown
+  display flex
+  align-items center
+  justify-content center
+
+  span
+    padding 0 10px
+    color $black
+    font-size 10px
+
+.dropdown-content
+  background $white
+  color $black
+  width 200px !important
+  li
+    padding-top 15px
+    a
+      color $blueLink
+      display inline
+
+
+img.logo-svg,
+div.logo-bitmap
+  width 160px
+  height 80px
+  margin 15px
+  max-width 100%
+
+div.logo-bitmap
+  background-repeat no-repeat
+  background-position center center
+  background-size contain
+
+.user-view
+  background $white
+  display flex
+  align-items center
+  justify-content center
+
+  img
+    width 70%
+    padding 20px
+
+/**** desktop and up ****/
+
++for_breakpoint(desktop)
+
+  .submenu__desktop--top
+    position fixed
+    background $white
+    height 64px
+    top 0
+    width 200px
+    left 320px
+
+  .submenu__desktop--container
+    top 0
+    left 320px
+    padding-top: 70px
+    width 200px
+    transition: .3s ease left;
+
+    h1
+      font-size 20px
+      display block
+      margin-bottom 40px
+    i
+    ul
+      padding-top 0
+      li
+
+        i,
+        a
+          color $white !important
+          display flex
+          text-decoration none !important
+          font-size 16px
+
+          span
+            display block
+          i
+            margin-right 10px
+
+  .wrapper__submenu--content
+    margin-left 200px
+
+  .sidebar__nav--container
+    display block
+    position fixed
+    background $white
+    height 100%
+    left 0
+    top 0
+    bottom 0
+    width 320px
+    // width 60px
+    z-index 7
+    overflow-y scroll
+    overflow-x hidden
+    -webkit-overflow-scrolling touch
+    transition .3s ease width
+
+    img.logo-svg,
+    div.logo-bitmap
+      width 240px
+      height 80px
+      margin 20px 40px
+
+    .user-view
+      background $white
+      height 120px
+      display flex
+      align-items center
+      padding 0 20px
+      justify-content center
+
+      .name
+        font-weight 600
+        font-size $medium
+
+      .email
+        font-size $small
+
+      img
+        width 100%
+        height auto
+        padding 70px
+
+      .card__header--info-left-inner
+        display flex
+        flex-direction column
+        line-height 1
+
+    ul.sidebar__nav--inner
+      -webkit-padding-start 0
+      -webkit-margin-before 0
+      width 100%
+      padding-left 20px
+      transition (.3s ease) !important
+
+      li
+        display flex
+        text-transform uppercase
+        margin 5px 0
+        padding 0 10px
+        width 100%
+
+        a
+          width 100%
+          display flex
+          align-items center
+          padding 10px 0
+          color $black
+          &:hover
+            text-decoration none
+            color $blue
+
+
+        span
+          width 100%
+          margin-left 20px
+
+          a
+            display block
+            width 100%
+            height 100%
+
+      .subheader
+        color $grayDark
+        padding 10px 20px
+        display block
+
+      .divider
+        margin 0 0 15px 0
+
+      .router-link-active
+        width 100%
+        box-sizing border-box !important
+        transition (.3s ease)
+        background $grayBase
+        margin-left -10px
+        padding-left 10px
+        border-radius 3px
+
+        .md-list-item-content
+          color $black !important
+
+      .router-link-active.client-logo
+        padding 0
+        margin 0
+
+  .sidebar-slim
+    .router-link-active
+      background transparent !important
+    li
+      padding 0 !important
+
+    .menu-toggle
+      i
+        margin-right 20px
+

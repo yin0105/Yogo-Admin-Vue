@@ -1,0 +1,110 @@
+/**** cards ****/
+
+.md-card
+  background $white
+  margin-bottom 15px
+
+.card__header--container
+  display flex
+  padding 20px
+  color $white !important
+  width 100%
+  justify-content space-between
+  flex-direction column
+  align-items space-between
+
+  .circle
+    width 50px
+    height 50px
+    border-radius 50%
+    z-index 1
+    overflow hidden !important
+
+  .name
+    font-weight 600
+
+  .title
+    font-weight 900
+    text-transform uppercase
+    font-size 20px
+    margin-top 10px
+    line-height 1.2
+
+  .card__header--info-left
+    display flex
+    align-items center
+
+    span.teacher
+      display flex
+      align-items center
+
+  .card__header--info-left-inner
+    color $white
+    display flex
+    flex-direction column
+    margin 0 10px
+
+    a
+      color $white
+
+  .card__header--info-right
+    display flex
+    flex-direction column
+
+span.teacher--multiple
+  display flex
+  flex-direction column
+
+  span.teacher
+    display flex
+    align-items center
+    margin 10px 0
+    line-height 1
+
+  span.name
+    font-weight bold
+
+  img
+    width 50px
+    height 50px
+
+  .card__header--info-left-inner
+    display flex
+    flex-direction column
+    margin-left 20px
+
+
+
+.card
+  .card-title
+    font-size 20px
+    i
+      font-size 7px
+
+.card-reveal
+  span
+    .icon-close
+      font-size 20px
+
+.md-avatar,
+.user__img--small
+  width 40px
+  height 40px
+  border-radius 50%
+  margin 5px !important
+
+.card-reveal
+  -webkit-overflow-scrolling touch
+
+.card__standard--container
+  width 100%
+
+/**** tablet and up ****/
+
++for_breakpoint(tablet)
+
+  .card__standard--container
+    margin 0 15px 0 0
+
+  .card__header--container
+    flex-direction row

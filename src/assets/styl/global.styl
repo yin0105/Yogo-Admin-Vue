@@ -1,0 +1,726 @@
+/**** global ****/
+
+body
+  margin 0
+  font-family 'Muli', Helvetica, Arial, sans-serif
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  background $grayBase
+
+
+*
+  box-sizing border-box
+
+h2
+  font-size 25px
+  line-height 1.4
+  padding-top 64px
+
+h3
+  font-size $big
+  font-weight 600
+  color $grayMedium
+
+h4
+  font-size $big
+
+ul
+    list-style none
+    padding 0
+
+  li
+    margin 0
+    padding 0
+
+tr
+  background $white
+
+.circle
+  border-radius 50%
+
+.text-white
+  color #fff !important
+
+.wrapper
+  padding 20px
+
+.w-full
+  width 100%
+
+.my-4 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.mt-0
+  margin-top 0
+
+.my-0
+  margin-top 0
+  margin-bottom 0
+
+.pt-0
+  padding-top 0
+
+.pt-2
+  padding-top 10px
+
+.py-2
+  padding-top 10px
+  padding-bottom 10px
+
+.mb-17
+  margin-bottom 17px
+
+.mt-4
+  margin-top: 20px;
+
+.shadow-none
+  box-shadow none
+
+.bold
+  font-weight 600
+
+.italic
+  font-style italic
+
+.mobile--hide
+  display none
+
+.leading-normal
+  line-height 1.5
+
+.min-h-14
+  min-height 3.5rem
+
+.border-bottom
+  border-bottom 1px solid #eee
+
+.p-1
+  padding 10px
+
+.p-2
+  padding 10px
+
+.py-1
+  padding-top 5px
+  padding-bottom 5px
+
+.mr-2
+  margin-right 10px
+
+.ml-0
+  margin-left 0
+
+.space1
+  height 5px
+
+.space2
+  height 10px
+
+.space3
+  height 15px
+
+.space4
+  height 20px
+
+.space5
+  height 25px
+
+.space6
+  height 30px
+
+.space7
+  height 35px
+
+.space8
+  height 40px
+
+.m-0
+  margin 0
+
+.m-4
+  margin 20px
+
+.mx-2
+  margin-left 10px
+  margin-right 10px
+
+.mx-4
+  margin-left 20px
+  margin-right 20px
+
+.ml-0
+  margin-left 0
+
+.ml-2
+  margin-left 10px
+
+
+.ml-4
+  margin-left 20px
+
+.pt-14
+  padding-top 70px
+
+.no-underline
+  text-decoration none !important
+
+.min-w-half-screen
+  min-width 50vw
+
+.margin-right1
+  margin-right 10px
+
+.margin__top-bottom
+  margin 10px 0
+
+.justify-end
+  justify-content flex-end
+
+.justify-center
+  justify-content center
+
+.justify-between
+  justify-content space-between
+
+.items-center
+  align-items center
+
+.px-3
+  padding-left 15px
+  padding-right 15px
+
+.pl-3
+  padding-left 15px
+
+.pl-4
+  padding-left 20px
+
+.pr-4
+  padding-right 20px
+
+.cursor-pointer
+  cursor pointer
+
+.hidden
+  display none
+
+.relative
+  position relative
+
+.flex-1
+  flex 1
+
+.flex-col
+  flex-direction column
+
+.w-auto
+  width auto
+
+.padding1
+  padding 5px 20px
+
+.padding2
+  padding 8px
+
+.absolute__top--right
+  position absolute
+  top 10px
+  right 10px
+
+.block
+  display block
+
+.margin__bottom--mobile
+  margin-bottom 40px
+
+.mb-2
+  margin-bottom 10px
+
+.mb-4
+  margin-bottom: 20px;
+
+.mb-8
+  margin-bottom: 40px;
+
+.mb-10
+  margin-bottom: 50px
+
+.mb-20
+  margin-bottom: 100px
+
+.mb-40
+  margin-bottom: 400px
+
+.pb-40
+  padding-bottom: 200px
+
+.mb-33px
+  margin-bottom: 33px
+
+.pointer
+  cursor pointer
+
+.clear
+  clear both
+
+.wide
+  width 100%
+
+.float--right
+  float right
+
+.align--right
+  text-align right
+
+.align__items--center
+  align-items center
+
+button.icon--big
+  div
+    div
+      i
+        font-size 35px !important
+
+.upper
+  text-transform uppercase
+
+.title
+  text-transform uppercase
+
+.text-big
+  font-size $big !important
+  font-weight 600
+
+.blue-light
+  background $blueLight !important
+
+.turkis
+  background $turkis !important
+
+.red
+  background $red !important
+
+.text--turkis
+  color $turkis
+
+.text--green
+  color $green
+
+.text--red
+  color $red
+
+.bg--white
+  background $white
+
+.bg--transparent
+  background transparent !important
+
+.text--yellow
+  color $yellow
+
+.text--blue
+  color $blue
+
+.text--white
+  color $white !important
+
+.align--vertical
+  vertical-align middle
+
+.md-app-drawer
+  background $white
+  z-index 21
+
+.overflow-hidden
+  overflow hidden
+
+.overflow-scroll
+  overflow scroll
+  -webkit-overflow-scrolling: touch;
+
+.ml-0
+  margin-left 0
+
+.md-ml-2
+  +for_breakpoint(tablet)
+    margin-left 8px
+
+.absolute
+  position absolute
+
+.width--100
+  width 100%
+
+.margin--none
+  margin 0
+
+.tar-md
+  +for_breakpoint(tablet)
+    text-align right
+
+.z-10
+  z-index 10 !important
+
+.mt-1
+  margin-top 5px
+
+.flex-lg
+  +for_breakpoint(desktop)
+    display flex
+
+.mt-16-md
+  +for_breakpoint(tablet)
+    margin-top 80px
+
+.mt2
+  margin-top 20px !important
+
+.move__up--date
+  margin-top -20px
+
+.space--between
+  display flex
+  flex-direction column
+  justify-content space-between
+  align-items space-between
+  height 70px
+
+.flex__align--start
+  align-self flex-start
+
+.flex__justify--start
+  justify-content flex-start !important
+
+
+.flex__fixed--center
+  position fixed
+  left 0
+  top 0
+  width 100%
+  height 100%
+  margin 0 auto
+  display flex
+  justify-content center
+  align-items center
+  z-index 10
+
+.flexbox__grid3--conatiner
+  display flex
+  flex-direction column
+  width 100%
+  overflow hidden
+
+  .flex--1,
+  .flex--2
+    flex 1.2
+
+  .flex--3
+    flex 1
+    margin 0
+
+.flex-wrap
+  flex-wrap wrap
+
+.user--row
+  display flex
+  flex-direction row
+  align-items center
+
+.user--list
+  h3,
+  img,
+  p
+    margin-right 20px
+
+  p.user--active
+    color $blueLight
+    padding-left 20px
+
+  p.user--passive
+    color $red
+    padding-left 20px
+
+ul.list--standard
+  font-size $medium
+  line-height 3
+
+  li
+    display flex
+    font-weight 600
+    border-bottom 1px solid lighten($grayDark, 85%)
+    span
+      font-weight 400
+      width 120px
+
+.profil-img--small
+  width 50px
+  height 50px
+
+.profile__image--edit
+  position absolute
+  width 75px
+  top 0
+
+  img
+    width 75px
+    height 75px
+    border-radius 50%
+
+  .overlay--edit
+    background rgba(255, 255, 255, 0.5)
+    position absolute
+    display flex
+    height 50%
+    border-radius 0 0 50px 50px
+    bottom 0
+    text-align center
+    width 100%
+
+  .md-error
+    width:200px
+
+.file--square
+  .md-file
+    i
+      width 150px !important
+      height 150px !important
+
+.icon--landscape
+  .md-file
+    width 100%
+    margin-top -100px
+    .md-icon
+      width 100%
+      height 150px
+
+.flex__center--spinner
+  display flex
+  justify-content center
+  align-items center
+  height 50vh
+
+.flex--column
+  display flex
+  flex-direction column
+
+.flex
+  display flex
+
+.flex__center--tablet-up
+
+  .md-icon
+    margin 0
+
+.custom__field--height
+  height 32px
+
+.space-between
+  justify-content space-between
+
+/**** tablet and up ****/
+
++for_breakpoint(tablet)
+
+  .md-min-width-40
+    min-width 40rem
+
+  .mr10-md
+    margin-right 10px
+
+  .flex__center--tablet-up
+    align-items center
+    justify-content center
+
+  .tablet__move--up
+    margin-top -70px
+
+  .margin__bottom--mobile
+    margin-bottom 0
+
+  .width__tablet--500
+    width 500px !important
+
+  .profile__image--edit
+    position absolute
+    width 100px
+    bottom 0
+    top auto
+
+    img
+      width 100px
+      height 100px
+      border-radius 50%
+
+    .overlay--edit
+      background rgba(255, 255, 255, 0.5)
+      position absolute
+      display flex
+      height 50%
+      border-radius 0 0 50px 50px
+      bottom 0
+      text-align center
+      width 100%
+
+  h2
+    font-size $bigHeader
+
+  .flex--row
+    display flex
+    flex-direction row
+    justify-content space-between
+
+  .space--between
+    display flex
+    justify-content space-between
+    align-items center
+
+  .padding__top--20
+    padding-top 20px
+
+  .flex__row--no-space
+    display flex
+
+    .row--inner
+      margin-right 20px
+
+  .flex--100
+    width 100% !important
+
+  .flex--75
+    width 74% !important
+
+  .flex--50
+    width 49% !important
+
+    input[type=number]
+      width 100%
+
+  .flex--35
+    width 34% !important
+
+  .flex--25
+    width 24% !important
+
+  .flex--20
+    width 20% !important
+
+  .flex--15
+    width 15% !important
+
+  .flex--1
+    flex 1
+
+  .flex--2
+    flex 2
+
+  .flexbox__grid3--conatiner
+    flex-direction row
+
+  .flex__2-1--container
+    display flex
+    justify-content space-between
+    align-items center
+
+    .input-field
+      flex 3
+
+    .btn
+      flex 1
+      max-width 220px
+      margin-left 40px
+
+  .flex__2-2--container
+    display flex
+
+  ul.list--standard
+    width 50%
+    margin 0 10px
+
+/**** desktop and up ****/
+
++for_breakpoint(desktop)
+
+  .wrapper
+    transition: 0.3s ease margin;
+    margin-left 320px
+
+  .mobile--hide
+    display block
+
+  .desktop__up--hidden
+    display none !important
+
+
+/**** desktop-big and up ****/
+
++for_breakpoint(desktop-big)
+
+  .wrapper
+
+    .wrapper--inner
+      width 1360px
+      margin 0 auto
+
+
+.flip {
+  -webkit-animation: flip .8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+  animation: flip .8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+@-webkit-keyframes flip {
+  0% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+  }
+  100% {
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+  }
+}
+@keyframes flip {
+  0% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+  }
+  100% {
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+  }
+}
+
+
+.flip-back {
+  -webkit-animation: flip-back .8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+  animation: flip-back .8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+@-webkit-keyframes flip-back {
+  0% {
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+
+  }
+  100% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+  }
+}
+@keyframes flip-back {
+    0% {
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+
+  }
+  100% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+  }
+}
+
+.vue-treeselect__option-arrow {
+  color: #000;
+  width: 12px;
+  height: 12px;
+}

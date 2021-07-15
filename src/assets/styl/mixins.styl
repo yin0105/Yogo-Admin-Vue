@@ -1,0 +1,23 @@
+media_queries = {
+  narrow        : "(max-height: 428px)",
+  narrow-mobile : "(max-height: 480px)",
+  semi-narrow   : "(max-height: 700px)",
+  mobile        : "(max-width: 767px)",
+  tablet        : "(min-width: 768px)",
+  desktop       : "(min-width: 1030px)"
+  desktop-big   : "(min-width: 1740px)"
+}
+
+for_breakpoint(breakpoints)
+  conditions = ()
+  for breakpoint in breakpoints
+    push(conditions, media_queries[breakpoint])
+  conditions = join(", ", conditions)
+  @media conditions
+    {block}
+
+transition($args)
+  transition $args
+
+animation ($args)
+  animation $args

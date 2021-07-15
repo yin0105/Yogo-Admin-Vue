@@ -1,0 +1,241 @@
+/**** material ****/
+
+.md-field .md-error,
+.md-invalid .md-error
+  padding 2px
+  background $white
+  color #ff1744
+  color var(--md-theme-default-fieldvariant, #ff1744)
+
+.profile__image--edit .md-error,
+.landscape__image--edit .md-error,
+.square__image--edit .md-error
+  width 100%
+  height auto
+
+.md-drawer
+  i
+    color $black !important
+
+.md-disabled
+  /*opacity .5 !important*/
+
+.padding--svg
+  .md-table-head:last-child .md-table-head-label
+    padding-right 32px
+
+
+.md-app-container
+  transform none
+
+.md-app-content
+  padding 0
+
+.md-app-content
+  .md-card
+    margin 20px 0
+    overflow auto
+    -webkit-overflow-scrolling touch !important
+
+
+.md-list-item-expand
+  border none !important
+
+.md-checkbox.md-theme-default.md-checked .md-checkbox-container
+  background $blueLight !important
+  border-color $blueLight !important
+
+.md-icon
+  &:after
+    background none !important
+
+.md-fixed
+  overflow scroll
+  -webkit-overflow-scrolling touch !important
+
+.md-table-head
+  text-align left
+
+.md-table-cell
+  text-align left
+
+.md-fab-top-right
+  top 85px !important
+
+.md-fab
+  z-index 2
+  span
+    i
+      color $white !important
+
+.md-menu-item
+  .md-list-item-content
+    font-size 12px !important
+
+.md-field.image-upload-field
+
+  &[data-image-format="profile-image"]
+
+    .profile__image--edit
+      position absolute
+      width 75px
+      top 0
+
+      img
+        width 75px
+        height 75px
+        border-radius 50%
+
+      .overlay--edit
+        background rgba(255, 255, 255, 0.5)
+        position absolute
+        display flex
+        height 50%
+        border-radius 0 0 50px 50px
+        bottom 0
+        text-align center
+        justify-content center
+        align-items center
+        width 100%
+
+  .md-file
+    z-index 20
+    position absolute
+    bottom 0
+    width 75px
+    height 75px
+    .md-icon
+      width 100px
+      height 100px
+
+      svg
+        fill transparent !important
+
+
+.md-has-file
+  .md-file
+    outline none !important
+    i
+      width 100%
+      position relative
+      top 0
+      svg
+        display none
+
+
+  &:after,
+  &:before
+    background transparent !important
+
+.md-datepicker-header,
+.md-datepicker-selected
+  color $white !important
+
+.md-datepicker.not-clearable .md-clear
+  display none
+
+.md-toolbar.md-theme-default.md-primary
+  background $white !important
+
+.md-content.md-theme-default
+  background $grayBase !important
+
+.indicator,
+.md-tabs-indicator
+  background $blueLight
+
+.md-tab
+  padding 16px 0
+
+.md-tooltip
+  font-size 12px !important
+
+.md-list-item-text
+  a
+    color $black !important
+    background none
+
+.md-list-item-default
+  a
+    font-size 1em !important
+    color $black
+    background $white !important
+
+.md-menu-content
+  background $white !important
+  z-index 20 !important
+
+.md-button-content
+  a
+    text-decoration none !important
+    padding 10px 15px !important
+
+
+.md-button
+  overflow auto !important
+
+
+
+button.button-link
+  .md-button-content
+    color $blueLink !important
+
+
+.md-elevation-4
+  box-shadow none !important
+
++for_breakpoint(tablet)
+
+  .md-has-file
+
+    .md-file,
+    i
+      width 100%
+
+      svg
+        display none
+
+
+
+  .md-field.image-upload-field
+
+    &[data-image-format="profile-image"]
+
+      .profile__image--edit
+        position absolute
+        width 100px
+        bottom 0
+        top auto
+
+        img
+          width 100px
+          height 100px
+          border-radius 50%
+
+        .overlay--edit
+          background rgba(255, 255, 255, 0.5)
+          position absolute
+          display flex
+          height 50%
+          border-radius 0 0 50px 50px
+          bottom 0
+          text-align center
+          width 100%
+
+    .md-file
+      width 100px
+      height 100px
+
+.md-table-cell-selection .md-table-cell-container,
+.md-table-cell-selection .md-table-cell-label,
+.md-table-cell-selection .md-table-head-container,
+.md-table-cell-selection .md-table-head-label
+  padding 0 5px
+
+.md-content.md-theme-default
+  table
+    background $white !important
+
+.md-dialog-fullscreen
+  overflow scroll
+  -webkit-overflow-scrolling touch

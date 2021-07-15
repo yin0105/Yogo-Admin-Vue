@@ -1,0 +1,63 @@
+/**** header ****/
+
+.main-header
+  position absolute
+  top 0
+  left 0
+  background $white
+  text-align center
+  height 60px
+  width 100%
+  display flex
+  align-items center
+  justify-content space-between
+
+  .logo
+    font-size 20px
+    position absolute
+
+  .logo-svg
+    height 45px
+    margin 0
+    width auto
+    padding-left 20px
+
+
+  .button-collapse
+    align-self flex-start
+    padding-left 20px
+
+  .header__profile--container
+    display flex
+    align-self center
+    padding 0 20px
+    position absolute
+    right 0
+
+    .profile--info
+      display flex
+      flex-direction row
+      align-items center
+      justify-content center
+
+    img
+      width 30px
+      height 30px
+
+/**** desktop and up ****/
+
++for_breakpoint(desktop)
+
+  .main-header
+    // margin-left 320px
+
+    .header__profile--container
+      cursor pointer
+
+      .profile--info
+        display flex
+        justify-content center
+        margin-right 20px
+
+        a
+          color $black

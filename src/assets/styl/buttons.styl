@@ -1,0 +1,114 @@
+/**** buttons ****/
+
+button.style--none
+  color $black
+  border-bottom 1px solid $blueLight
+
+.btn-floating
+  display flex
+  justify-content center
+  align-items center
+
+.fixed-action-btn
+  bottom 90px !important
+
+.btn__support--fixed
+  position fixed
+  right 24px
+  bottom 24px
+  z-index 20
+
+  button.btn--support
+    .md-icon
+        color $white !important
+
+button.turkis
+  .md-button-content
+    i
+      color $white !important
+
+.profile__image--edit
+  width 100px
+  height 100px
+  position relative
+
+  img
+    position absolute
+    border-radius 50%
+    width 100%
+    height 100%
+
+  .overlay--edit
+    display flex
+    align-items center
+    justify-content center
+    position absolute
+    bottom 0
+    background rgba(255, 255, 255, .5);
+    width 100%
+    height 50%
+    border-radius 0 0 100px 100px
+
+    input
+      width 100%
+      height 100%
+      opacity 0
+      overflow hidden
+      position absolute
+      cursor pointer
+
+.landscape__image--edit
+  @extend .profile__image--edit
+  width 100%
+  margin-top -70px
+
+  img
+    width 100%
+    height 100%
+    border-radius 0
+    object-fit cover
+
+  .overlay--edit
+    position absolute
+    bottom 0
+    height 50%
+    width 100%
+    border-radius 0
+    z-index 1
+
+.square__image--edit
+  width 150px
+  height 150px
+  @extend .landscape__image--edit
+
+  img
+    width 150px
+    height 150px
+    border-radius 0
+
+  .overlay--edit
+    border-radius 0
+    height 50%
+
+.image-upload-field
+
+  &:after
+    background none !important
+
+.btn--header
+  position absolute
+  align-self flex-start
+
+.color__picker--container
+  position relative
+  display flex
+  align-items center
+
+  p
+    margin-right 20px
+
+.color__picker--circle
+  width 30px
+  height 30px
+  border-radius 50%
+  cursor pointer

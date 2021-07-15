@@ -1,0 +1,85 @@
+/**** modal ****/
+
+.modal--inner
+  padding 20px
+
+.modal__fixed--container-bg
+  position absolute
+  width 100%
+  height 100%
+  background $blue
+
+.modal__fixed--container
+  position relative
+  display flex
+  flex-direction column
+  align-items center
+  z-index 2
+
+  h1
+    font-size 3em
+
+  .modal__fixed--inner
+    position relative
+    background $white
+    width 85%
+    -webkit-overflow-scrolling touch
+    padding 40px
+    margin-bottom 40px
+
+  img.logo-svg
+    width 50%
+    height 100px
+    padding 0
+    margin 40px
+
+  img.logo-bitmap
+    width 50%
+    height auto
+    padding 0
+    margin 40px
+
+
+
+/**** tablet and up ****/
+
++for_breakpoint(tablet)
+
+  .modal__fixed--container-bg
+    position fixed
+
+  .modal__fixed--container
+    width 100%
+    height 100%
+
+    h1
+      font-size 4.2em
+      margin-top -75px
+
+    .modal__fixed--inner
+      position relative
+      background $white
+      width 550px
+      padding 40px
+
+    img.logo-svg
+      width 250px
+      height 120px
+      padding 0
+      margin 30px
+
+    img.logo-bitmap
+      width 250px
+      margin:30px
+
+/**** tablet narro ****/
+
++for_breakpoint(narrow)
+
+  .modal__fixed--container
+    position relative
+
+
+
+
+

@@ -1,0 +1,51 @@
+/**** nav mobile ****/
+
+.md-app-side-drawer
+  .md-overlay
+    background none
+
+.md-elevation-4
+  box-shadow none
+
+.side-nav
+  .background
+    background $blue
+
+  li
+    .subheader
+      padding 0 16px
+
+    span
+      width 100%
+      a
+        width 100%
+        display block
+
+    .user-view
+      .name
+        font-weight 600
+        font-size $medium
+        line-height 1
+
+      .email
+        font-size $small
+
+
+.button-collapse
+  position absolute
+
+  span
+    font-size 20px
+    color $black
+
+
+
+
+
+/**** desktop and up ****/
+
++for_breakpoint(desktop)
+
+  .button-collapse
+    display none
+
