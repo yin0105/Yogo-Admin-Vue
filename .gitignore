@@ -12,4 +12,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-/env_config.js
+# /env_config.js
