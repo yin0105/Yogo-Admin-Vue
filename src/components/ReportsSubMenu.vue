@@ -30,6 +30,12 @@
             <span class="md-list-item-text">{{ $t('global.Customers') }}</span>
           </router-link>
         </li>
+        <li>
+          <router-link :to="{ name: 'ReportSalary' }">
+            <md-icon>payment</md-icon>
+            <span class="md-list-item-text">{{ $t('global.Salary') }}</span>
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>

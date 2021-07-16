@@ -466,6 +466,7 @@
     "LivestreamReport": "Livestream rapporten",
     "LivestreamReportsAreAvailableFromDate": "Livestream rapporter er tilgængelige fra {date}",
     "Livestreams": "Livestreams",
+    "LivestreamSignups": "Livestream tilmeldinger",
     "Log": "Log",
     "MainCategory": "Hovedkategori",
     "AddMainCategory": "Tilføj hovedkategori",
@@ -807,6 +808,7 @@
     "ShowWarningOnFewAvailableSpots": "Vis notifikation ved få ledige pladser",
     "SignOff": "Afmeld",
     "SignUp": "Tilmeld",
+    "SignUps": "Tilmeldinger",
     "SignUpForLivestream": "Tilmeld livestream",
     "SignUpForStudioClass": "Tilmeld fysisk klasse",
     "SignedUp": "Tilmeldte",
@@ -1024,7 +1026,8 @@
     "youCanNowSignup": "Du kan nu logge ind med din nye adgangskode",
     "SmsCannotContainLinks": "Sms'er må ikke indeholde links. Hvis de gør, vil de ikke blive leveret.",
     "NoClassesFound": "Ingen klasser fundet",
-    "YourPlanOnlyAllowsXTeachers": "Dit nuværende abonnement har et maksimum på {numberOfTeachers} undervisere."
+    "YourPlanOnlyAllowsXTeachers": "Dit nuværende abonnement har et maksimum på {numberOfTeachers} undervisere.",
+    "Salary": "Gage"
   },
   "time": {
     "day": "dag",
