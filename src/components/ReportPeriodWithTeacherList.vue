@@ -33,13 +33,13 @@
 
     <div class="flex--25 mr10-md min-h-14">
       <label>{{ $t('global.FromDate') }}</label>
-      <datepicker v-model="inputDate" :monday-first="true"></datepicker>
+      <datepicker v-model="fromDate" :monday-first="true"></datepicker>
     </div>
 
 
     <div class="flex--25">
       <label>{{ $t('global.EndDate') }}</label>
-      <datepicker v-model="inputEndDate" :monday-first="true"></datepicker>
+      <datepicker v-model="endDate" :monday-first="true"></datepicker>
     </div>
 
     <div class="flex--25">
@@ -69,8 +69,8 @@
         inputPeriodType: this.periodType,
         inputYear: this.year,
         inputMonth: this.month,
-        inputDate: this.date,
-        inputEndDate: this.endDate
+        inputDate: this.fromDate,
+        // inputEndDate: this.endDate
       }
     },
     watch: {
@@ -103,9 +103,9 @@
       date: {
         default: new Date(),
       },
-      endDate: {
-        default: new Date(),
-      },
+      // endDate: {
+      //   default: new Date(),
+      // },
     },
     computed: {
       years() {
@@ -123,7 +123,28 @@
           )
         }
         return months
+      }, 
+      fromDate() {
+        const today = new Date();
+        let yy = today.getFullYear();
+        let mm = today.getMonth() - 1;
+
+        if (mm < 0) {
+          mm += 12;
+          yy -= 1;
+        }
+
+        return new Date(yy, mm, 1);
       },
+      endDate() {
+        const today = new Date();
+        let yy = today.getFullYear();
+        let mm = today.getMonth();
+
+        return new Date(yy, mm, 0);
+      }
+      
+      
     },
   }
 
