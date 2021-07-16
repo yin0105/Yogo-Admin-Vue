@@ -3,7 +3,7 @@
       :value="value"
       @input="updateValue"
       :multiple="true"
-      :options="treeSelectClassTypesOptions"
+      :options="treeSelectTeachersOptions"
       :clearable="false"
       :defaultExpandLevel="1"
       value-consists-of="LEAF_PRIORITY"
@@ -21,22 +21,22 @@ export default {
   components: { Treeselect },
   data() {
     return {
-      classTypes: [],
+      teachers: [],
     };
   },
   props: ['value'],
   computed: {
-    treeSelectClassTypesOptions() {
-      return this.classTypes.length
+    treeSelectTeachersOptions() {
+      return this.teachers.length
           ? [
             {
               id: 'all_classTypes',
-              label: this.$t('global.AllClassTypes'),
+              label: this.$t('global.AllTeachers'),
               children: _.sortBy(
-                  _.map(this.classTypes, classType => {
+                  _.map(this.teachers, teacher => {
                     return {
-                      id: classType.id,
-                      label: classType.name,
+                      id: teacher.id,
+                      label: teacher.first_name + " " + teacher.last_name,
                     };
                   }),
                   'label',
@@ -47,8 +47,13 @@ export default {
     },
   },
   async created() {
-    this.classTypes = await YogoApi.get('/class-types');
-    this.classTypes = _.sortBy(this.classTypes, 'name');
+    this.teachers = await YogoApi.get(
+          '/users' +
+          '?teacher=1' +
+          '&populate[]=image',
+      );
+    this.teachers = _.sortBy(this.teachers, 'name');
+    console.log("teacher = ", this.teachers);
   },
   methods: {
     updateValue(newValue) {

@@ -109,6 +109,7 @@ export default {
           '?teacher=1' +
           '&populate[]=image',
       );
+      console.log("teachers = ", this.teachers);
 
       this.loading = false;
 
