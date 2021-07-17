@@ -12,9 +12,9 @@
       <div v-else>
 
 
-        <div v-if="showDateLimitationMessage">
+        <!-- <div v-if="showDateLimitationMessage">
           {{ $t('global.LivestreamReportsAreAvailableFromDate', { date: reportsAvailabilityDate }) }}
-        </div>
+        </div> -->
 
         <div class="w-100 overflow-scroll">
           <table class="classes">
@@ -36,6 +36,9 @@
             </tr>
             <tr v-for="classItem in classes">
               <td>
+                {{ classItem.id }}
+              </td>
+              <td>
                 {{ dbDateToHumanDate(classItem.date) }}
               </td>
               <td>
@@ -44,7 +47,7 @@
               <td>
                 {{ classItem.class_type.name }}
               </td>
-              <td>
+              <!-- <td>
               <span class="w-100 flex space-between">
                 <span>
                   {{ classItem.numberOfParticipants }}
@@ -57,9 +60,9 @@
                   {{ $t('global.Show') }}
                 </a>
               </span>
-              </td>
+              </td> -->
               <td>
-                {{ durationString(classItem.totalSeconds) }}
+                {{ getDuration(classItem.start_time, classItem.end_time) }}
               </td>
             </tr>
             <tr v-if="!classes.length">
@@ -177,12 +180,12 @@ export default {
   data() {
     return {
       selectedPeriod: {
-        periodType: 'day',
-        year: moment.tz('Europe/Copenhagen')
-            .year(),
-        month: moment.tz('Europe/Copenhagen')
-            .month(),
-        date: moment.tz('Europe/Copenhagen')
+        // periodType: 'day',
+        // year: moment.tz('Europe/Copenhagen')
+        //     .year(),
+        // month: moment.tz('Europe/Copenhagen')
+        //     .month(),
+        fromDate: moment.tz('Europe/Copenhagen')
             .toDate(),
         endDate: moment.tz('Europe/Copenhagen')
             .toDate(),
@@ -203,45 +206,45 @@ export default {
       'stateReady',
       'apiRoot',
     ]),
-    requestStartDate() {
-      switch (this.selectedPeriod.periodType) {
-        case 'year':
-          return this.selectedPeriod.year + '-01-01';
-        case 'month':
-          return this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-01';
-        case 'day':
-          return moment(this.selectedPeriod.date)
-              .format('YYYY-MM-DD');
-        case 'custom':
-          return moment(this.selectedPeriod.date)
-              .format('YYYY-MM-DD');
-      }
-    },
-    requestEndDate() {
-      switch (this.selectedPeriod.periodType) {
-        case 'year':
-          return this.selectedPeriod.year + '-12-31';
-        case 'month':
-          const numberOfDaysInMonth = moment({
-            y: this.selectedPeriod.year,
-            M: this.selectedPeriod.month,
-          })
-              .daysInMonth();
-          return this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-' + numberOfDaysInMonth;
-        case 'day':
-          return moment(this.selectedPeriod.date)
-              .format('YYYY-MM-DD');
-        case 'custom':
-          return moment(this.selectedPeriod.endDate)
-              .format('YYYY-MM-DD');
-      }
-    },
-    showDateLimitationMessage() {
-      return this.requestStartDate < REPORT_AVAILABLILITY_DATE;
-    },
-    reportsAvailabilityDate() {
-      return this.formatDate(REPORT_AVAILABLILITY_DATE);
-    },
+    // requestStartDate() {
+    //   switch (this.selectedPeriod.periodType) {
+    //     case 'year':
+    //       return this.selectedPeriod.year + '-01-01';
+    //     case 'month':
+    //       return this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-01';
+    //     case 'day':
+    //       return moment(this.selectedPeriod.date)
+    //           .format('YYYY-MM-DD');
+    //     case 'custom':
+    //       return moment(this.selectedPeriod.date)
+    //           .format('YYYY-MM-DD');
+    //   }
+    // },
+    // requestEndDate() {
+    //   switch (this.selectedPeriod.periodType) {
+    //     case 'year':
+    //       return this.selectedPeriod.year + '-12-31';
+    //     case 'month':
+    //       const numberOfDaysInMonth = moment({
+    //         y: this.selectedPeriod.year,
+    //         M: this.selectedPeriod.month,
+    //       })
+    //           .daysInMonth();
+    //       return this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-' + numberOfDaysInMonth;
+    //     case 'day':
+    //       return moment(this.selectedPeriod.date)
+    //           .format('YYYY-MM-DD');
+    //     case 'custom':
+    //       return moment(this.selectedPeriod.endDate)
+    //           .format('YYYY-MM-DD');
+    //   }
+    // },
+    // showDateLimitationMessage() {
+    //   return this.requestStartDate < REPORT_AVAILABLILITY_DATE;
+    // },
+    // reportsAvailabilityDate() {
+    //   return this.formatDate(REPORT_AVAILABLILITY_DATE);
+    // },
     totalLivestreamSeconds() {
       return _.sum(
           _.map(this.classes, 'totalSeconds'),
@@ -270,21 +273,72 @@ export default {
 
   methods: {
 
+    // async fetchData() {
+
+    //   this.loading = true;
+    //   console.log("fetchData :: ", this.selectedPeriod);
+
+    //   // const query = {
+    //   //   startDate: this.requestStartDate,
+    //   //   endDate: this.requestEndDate,
+    //   // };
+
+    //   // const url = '/reports/livestream';
+    //   // this.classes = await YogoApi.post(url, query);
+
+    //   this.loading = false;
+
+    // },
     async fetchData() {
+        this.loading = true
+        // const startDate = moment(this.selectedDate)
+        // const endDate = (this.viewType === 'week' ? moment(startDate).add(6, 'days') : moment(startDate))
+        console.log('/classes' +
+          '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
+          '&endDate=' + moment(this.selectedPeriod.endDate).format('YYYY-MM-DD') +
+          '&populate[]=class_type' +
+          '&populate[]=teachers' +
+          '&populate[]=room' +
+          '&populate[]=room.branch' +
+          '&populate[]=signup_count' +
+          '&populate[]=waiting_list_count' +
+          '&populate[]=waiting_list_max' +
+          '&populate[]=livestream_signup_count' +
+          '&sort[]=' + encodeURIComponent('date ASC') +
+          '&sort[]=' + encodeURIComponent('start_time ASC') );
+          
+        let allClasses = await YogoApi.get('/classes' +
+          '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
+          '&endDate=' + moment(this.selectedPeriod.endDate).format('YYYY-MM-DD') +
+          '&populate[]=class_type' +
+          '&populate[]=teachers' +
+          '&populate[]=room' +
+          '&populate[]=room.branch' +
+          '&populate[]=signup_count' +
+          '&populate[]=waiting_list_count' +
+          '&populate[]=waiting_list_max' +
+          '&populate[]=livestream_signup_count' +
+          '&sort[]=' + encodeURIComponent('date ASC') +
+          '&sort[]=' + encodeURIComponent('start_time ASC') ,
+          // (this.filterByBranch ? '&branch='+this.filterByBranch : ''),
+        )
+        console.log("classes :: ", allClasses);
+        this.classes = allClasses.classes
+        this.classes = _.sortBy(this.classes, ['date', 'start_time'])
+        // this.days = [];
+        // for (let i = 0; i <= (this.viewType === 'week' ? 6 : 0) ; i++) {
+        //   this.days[i] = {}
+        //   this.days[i].date = this.getDateByIndex(i)
+        //   let formattedDate = this.days[i].date.format('YYYY-MM-DD')
+        //   this.days[i].classes = _.takeWhile(allClasses, cls => {
+        //     return moment(cls.date)
+        //       .format('YYYY-MM-DD') === formattedDate
+        //   })
+        //   allClasses.splice(0, this.days[i].classes.length)
 
-      this.loading = true;
-
-      const query = {
-        startDate: this.requestStartDate,
-        endDate: this.requestEndDate,
-      };
-
-      const url = '/reports/livestream';
-      this.classes = await YogoApi.post(url, query);
-
-      this.loading = false;
-
-    },
+        // }
+        this.loading = false
+      },
 
     durationString(seconds) {
       return _.padStart(Math.floor(seconds / 3600), 2, '0') +
@@ -293,6 +347,17 @@ export default {
           this.$t('global.minutes') +
           _.padStart(seconds % 60, 2, '0') +
           this.$t('global.seconds');
+    },
+
+    getDuration(start_time, end_time) {
+      let start_timer = parseInt(start_time.split(":")[0]) * 60 + parseInt(start_time.split(":")[1])
+      let end_timer = parseInt(end_time.split(":")[0]) * 60 + parseInt(end_time.split(":")[1])
+      let seconds = end_timer - start_timer
+
+      return _.padStart(Math.floor(seconds / 60), 2, '0') +
+          this.$t('global.hours') +
+          _.padStart(Math.floor(seconds % 60), 2, '0') +
+          this.$t('global.minutes');
     },
 
     async showClassUsers(classItem) {

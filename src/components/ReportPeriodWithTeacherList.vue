@@ -66,43 +66,43 @@
     name: 'reportperiodwithteacherlist',
     data() {
       return {
-        inputPeriodType: this.periodType,
-        inputYear: this.year,
-        inputMonth: this.month,
-        inputDate: this.fromDate,
+        // inputPeriodType: this.periodType,
+        // inputYear: this.year,
+        // inputMonth: this.month,
+        // inputDate: this.fromDate,
         // inputEndDate: this.endDate
       }
     },
     watch: {
-      inputPeriodType(newPeriodType) {
-        this.$emit('update:periodType', newPeriodType)
-      },
-      inputYear(newYear) {
-        this.$emit('update:year', newYear)
-      },
-      inputMonth(newMonth) {
-        this.$emit('update:month', newMonth)
-      },
-      inputDate(newDate) {
-        this.$emit('update:date', newDate)
-      },
-      inputEndDate(newEndDate) {
+      // inputPeriodType(newPeriodType) {
+      //   this.$emit('update:periodType', newPeriodType)
+      // },
+      // inputYear(newYear) {
+      //   this.$emit('update:year', newYear)
+      // },
+      // inputMonth(newMonth) {
+      //   this.$emit('update:month', newMonth)
+      // },
+      // fromDate(newFromDate) {
+      //   this.$emit('update:fromDate', newFromDate)
+      // },
+      endDate(newEndDate) {
         this.$emit('update:endDate', newEndDate)
       },
     },
     props: {
-      periodType: {
-        default: 'year',
-      },
-      year: {
-        default: moment().year(),
-      },
-      month: {
-        default: moment().month(),
-      },
-      date: {
-        default: new Date(),
-      },
+      // periodType: {
+      //   default: 'year',
+      // },
+      // year: {
+      //   default: moment().year(),
+      // },
+      // month: {
+      //   default: moment().month(),
+      // },
+      // date: {
+      //   default: new Date(),
+      // },
       // endDate: {
       //   default: new Date(),
       // },
@@ -124,28 +124,48 @@
         }
         return months
       }, 
-      fromDate() {
-        const today = new Date();
-        let yy = today.getFullYear();
-        let mm = today.getMonth() - 1;
+      fromDate: {
+        get: function() {
+          const today = new Date();
+          let yy = today.getFullYear();
+          let mm = today.getMonth() - 1;
 
-        if (mm < 0) {
-          mm += 12;
-          yy -= 1;
+          if (mm < 0) {
+            mm += 12;
+            yy -= 1;
+          }
+
+          return new Date(yy, mm, 1);
+        }, 
+        set: function(date) {
+          console.log("fromDate: set, ", date);
+          this.$emit('update:fromDate', date);
         }
-
-        return new Date(yy, mm, 1);
       },
-      endDate() {
-        const today = new Date();
-        let yy = today.getFullYear();
-        let mm = today.getMonth();
+      endDate: {
+        get: function() {
+          const today = new Date();
+          let yy = today.getFullYear();
+          let mm = today.getMonth();
 
-        return new Date(yy, mm, 0);
+          return new Date(yy, mm, 0);
+        },
+        set: function(date) {
+          console.log("endDate: set, ", date);
+          this.$emit('update:endDate', date);
+        }
       }
-      
+    },
+
+    created() {
+      console.log("created: ", this.fromDate);
       
     },
+    mounted() {
+      console.log("mounted: ", this.fromDate);
+      this.$emit('update:fromDate', this.fromDate);
+      this.$emit('update:endDate', this.endDate);
+    }
   }
 
 </script>
