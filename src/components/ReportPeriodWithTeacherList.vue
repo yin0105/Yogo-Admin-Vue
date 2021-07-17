@@ -138,7 +138,6 @@
           return new Date(yy, mm, 1);
         }, 
         set: function(date) {
-          console.log("fromDate: set, ", date);
           this.$emit('update:fromDate', date);
         }
       },
@@ -151,18 +150,11 @@
           return new Date(yy, mm, 0);
         },
         set: function(date) {
-          console.log("endDate: set, ", date);
           this.$emit('update:endDate', date);
         }
       }
-    },
-
-    created() {
-      console.log("created: ", this.fromDate);
-      
-    },
+    },    
     mounted() {
-      console.log("mounted: ", this.fromDate);
       this.$emit('update:fromDate', this.fromDate);
       this.$emit('update:endDate', this.endDate);
     }

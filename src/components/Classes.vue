@@ -187,20 +187,6 @@
         this.loading = true
         const startDate = moment(this.selectedDate)
         const endDate = (this.viewType === 'week' ? moment(startDate).add(6, 'days') : moment(startDate))
-        console.log('/classes' +
-          '?startDate=' + startDate.format('YYYY-MM-DD') +
-          '&endDate=' + endDate.format('YYYY-MM-DD') +
-          '&populate[]=class_type' +
-          '&populate[]=teachers' +
-          '&populate[]=room' +
-          '&populate[]=room.branch' +
-          '&populate[]=signup_count' +
-          '&populate[]=waiting_list_count' +
-          '&populate[]=waiting_list_max' +
-          '&populate[]=livestream_signup_count' +
-          '&sort[]=' + encodeURIComponent('date ASC') +
-          '&sort[]=' + encodeURIComponent('start_time ASC') +
-          (this.filterByBranch ? '&branch='+this.filterByBranch : ''));
 
         let allClasses = await YogoApi.get('/classes' +
           '?startDate=' + startDate.format('YYYY-MM-DD') +
@@ -218,7 +204,6 @@
           (this.filterByBranch ? '&branch='+this.filterByBranch : ''),
         )
 
-        console.log("all classes : ", allClasses);
         allClasses = allClasses.classes
         allClasses = _.sortBy(allClasses, ['date', 'start_time'])
         this.days = [];

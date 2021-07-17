@@ -64,6 +64,10 @@
               <td>
                 {{ getDuration(classItem.start_time, classItem.end_time) }}
               </td>
+              <td>{{ classItem.signup_count }}</td>
+              <td>{{ classItem.checkedin_count }}</td>
+              <td>{{ classItem.livestream_signup_count }}</td>
+              <td>{{ classItem.room.name }}</td>
             </tr>
             <tr v-if="!classes.length">
               <td colspan="5">{{ $t('global.NoClassesForTheSelectedTimePeriod') }}</td>
@@ -307,24 +311,28 @@ export default {
           '&sort[]=' + encodeURIComponent('date ASC') +
           '&sort[]=' + encodeURIComponent('start_time ASC') );
           
-        let allClasses = await YogoApi.get('/classes' +
-          '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
-          '&endDate=' + moment(this.selectedPeriod.endDate).format('YYYY-MM-DD') +
-          '&populate[]=class_type' +
-          '&populate[]=teachers' +
-          '&populate[]=room' +
-          '&populate[]=room.branch' +
-          '&populate[]=signup_count' +
-          '&populate[]=waiting_list_count' +
-          '&populate[]=waiting_list_max' +
-          '&populate[]=livestream_signup_count' +
-          '&sort[]=' + encodeURIComponent('date ASC') +
-          '&sort[]=' + encodeURIComponent('start_time ASC') ,
-          // (this.filterByBranch ? '&branch='+this.filterByBranch : ''),
-        )
-        console.log("classes :: ", allClasses);
-        this.classes = allClasses.classes
-        this.classes = _.sortBy(this.classes, ['date', 'start_time'])
+        if (this.selectedPeriod.fromDate <= this.selectedPeriod.endDate) {
+          let allClasses = await YogoApi.get('/classes' +
+            '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
+            '&endDate=' + moment(this.selectedPeriod.endDate).format('YYYY-MM-DD') +
+            '&populate[]=class_type' +
+            '&populate[]=teachers' +
+            '&populate[]=room' +
+            '&populate[]=room.branch' +
+            '&populate[]=signup_count' +
+            '&populate[]=waiting_list_count' +
+            '&populate[]=waiting_list_max' +
+            '&populate[]=livestream_signup_count' +
+            '&sort[]=' + encodeURIComponent('date ASC') +
+            '&sort[]=' + encodeURIComponent('start_time ASC') ,
+            // (this.filterByBranch ? '&branch='+this.filterByBranch : ''),
+          )
+          console.log("classes :: ", allClasses);
+          this.classes = allClasses.classes
+          this.classes = _.sortBy(this.classes, ['date', 'start_time'])
+        } else {
+          this.classes = [];
+        }
         // this.days = [];
         // for (let i = 0; i <= (this.viewType === 'week' ? 6 : 0) ; i++) {
         //   this.days[i] = {}
