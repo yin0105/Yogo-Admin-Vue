@@ -24,7 +24,7 @@ export default {
       teachers: [],
     };
   },
-  props: ['value'],
+  // props: ['value'],
   computed: {
     treeSelectTeachersOptions() {
       return this.teachers.length
@@ -45,6 +45,16 @@ export default {
           ]
           : [];
     },
+    value() {
+      let val = []
+      if (this.teachers.length) {
+        console.log("ok: ", this.teachers.length);
+        for (const i in this.teachers) {
+          val.push(this.teachers[i].id);
+        }
+      }
+      return val;
+    },
   },
   async created() {
     this.teachers = await YogoApi.get(
@@ -53,11 +63,30 @@ export default {
           '&populate[]=image',
       );
     this.teachers = _.sortBy(this.teachers, 'name');
-    console.log("teacher = ", this.teachers);
+    // this.value = this.teachers.map((teacher) => {
+    //   return {
+    //     id: teacher.id,
+    //     label: teacher.first_name + " " + teacher.last_name,
+    //   };
+    // }); 
+    // console.log("value = ", this.value);
+  },
+  mounted() {
+    console.log("mounted : ", this.treeSelectTeachersOptions)
   },
   methods: {
     updateValue(newValue) {
-      this.$emit('input', newValue);
+      console.log("newValue : ", newValue);
+      let selectedTeachers = [];
+      for (const i in this.teachers) {
+        for (const j in newValue) {
+          if (this.teachers[i].id == newValue[j]) {
+            selectedTeachers.push({"id": this.teachers[i].id, "name": this.teachers[i].first_name + " " + this.teachers[i].last_name});
+            break;
+          }
+        }
+      }
+      this.$emit('update:teachers', selectedTeachers);
     },
   },
 };

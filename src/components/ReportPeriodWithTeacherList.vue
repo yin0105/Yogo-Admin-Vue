@@ -44,7 +44,7 @@
 
     <div class="flex--25">
       <label>{{ $t('global.Teacher') }}</label>
-      <YogoTreeselectTeacher></YogoTreeselectTeacher>
+      <YogoTreeselectTeacher v-bind.sync="selectedTeachers"></YogoTreeselectTeacher>
       
     </div>
 
@@ -66,14 +66,18 @@
     name: 'reportperiodwithteacherlist',
     data() {
       return {
-        // inputPeriodType: this.periodType,
-        // inputYear: this.year,
-        // inputMonth: this.month,
-        // inputDate: this.fromDate,
-        // inputEndDate: this.endDate
+        selectedTeachers: {
+          teachers: []
+        },
       }
     },
     watch: {
+      selectedTeachers: {
+        handler: function (newTeachers) {
+          this.$emit('update:teachers', newTeachers);
+        },
+        deep: true,
+      },
       // inputPeriodType(newPeriodType) {
       //   this.$emit('update:periodType', newPeriodType)
       // },

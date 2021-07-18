@@ -16,7 +16,8 @@
           {{ $t('global.LivestreamReportsAreAvailableFromDate', { date: reportsAvailabilityDate }) }}
         </div> -->
 
-        <div class="w-100 overflow-scroll">
+        <div v-for="(teacher, idx) in this.selectedPeriod.teachers.teachers" class="w-100 overflow-scroll">
+          <h3>{{ teacher.name }}</h3>
           <table class="classes">
             <tr>
               <th>{{ $t('global.ID') }}</th>
@@ -34,7 +35,7 @@
               <!-- <th>{{ $t('global.ParticipantsInclTeacher') }}</th>
               <th>{{ $t('global.StreamTimeTotal') }}</th> -->
             </tr>
-            <tr v-for="classItem in classes">
+            <tr v-for="classItem in teacher.classes">
               <td>
                 {{ classItem.id }}
               </td>
@@ -47,20 +48,6 @@
               <td>
                 {{ classItem.class_type.name }}
               </td>
-              <!-- <td>
-              <span class="w-100 flex space-between">
-                <span>
-                  {{ classItem.numberOfParticipants }}
-                </span>
-                <a
-                    @click="showClassUsers(classItem)"
-                    v-if="classItem.numberOfParticipants"
-                    class="cursor-pointer no-underline"
-                >
-                  {{ $t('global.Show') }}
-                </a>
-              </span>
-              </td> -->
               <td>
                 {{ getDuration(classItem.start_time, classItem.end_time) }}
               </td>
@@ -193,6 +180,7 @@ export default {
             .toDate(),
         endDate: moment.tz('Europe/Copenhagen')
             .toDate(),
+        teachers: [],
       },
 
       classes: [],
@@ -332,6 +320,18 @@ export default {
           this.classes = _.sortBy(this.classes, ['date', 'start_time'])
         } else {
           this.classes = [];
+        }
+        for (const i in this.selectedPeriod.teachers.teachers) {
+          this.selectedPeriod.teachers.teachers[i].classes = [];
+          for (const j in this.classes) {
+            for (const k in this.classes[j].teachers) {
+              if (this.selectedPeriod.teachers.teachers[i].id == this.classes[j].teachers[k].id) {
+                this.selectedPeriod.teachers.teachers[i].classes.push(this.classes[j]);
+                break;
+              }
+            }
+          }
+
         }
         // this.days = [];
         // for (let i = 0; i <= (this.viewType === 'week' ? 6 : 0) ; i++) {
