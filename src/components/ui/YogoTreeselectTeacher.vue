@@ -63,13 +63,6 @@ export default {
           '&populate[]=image',
       );
     this.teachers = _.sortBy(this.teachers, 'name');
-    // this.value = this.teachers.map((teacher) => {
-    //   return {
-    //     id: teacher.id,
-    //     label: teacher.first_name + " " + teacher.last_name,
-    //   };
-    // }); 
-    // console.log("value = ", this.value);
   },
   mounted() {
     console.log("mounted : ", this.treeSelectTeachersOptions)
@@ -81,7 +74,7 @@ export default {
       for (const i in this.teachers) {
         for (const j in newValue) {
           if (this.teachers[i].id == newValue[j]) {
-            selectedTeachers.push({"id": this.teachers[i].id, "name": this.teachers[i].first_name + " " + this.teachers[i].last_name});
+            selectedTeachers.push({"id": this.teachers[i].id, "name": this.teachers[i].first_name + " " + this.teachers[i].last_name, classes: [], folded: true});
             break;
           }
         }

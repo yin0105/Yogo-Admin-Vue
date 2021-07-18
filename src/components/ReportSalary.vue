@@ -35,7 +35,7 @@
               <!-- <th>{{ $t('global.ParticipantsInclTeacher') }}</th>
               <th>{{ $t('global.StreamTimeTotal') }}</th> -->
             </tr>
-            <tr v-for="classItem in teacher.classes">
+            <tr v-if="!teacher.folded" v-for="classItem in teacher.classes">
               <td>
                 {{ classItem.id }}
               </td>
@@ -56,20 +56,39 @@
               <td>{{ classItem.livestream_signup_count }}</td>
               <td>{{ classItem.room.name }}</td>
             </tr>
-            <tr v-if="!classes.length">
+            <tr v-if="!teacher.classes.length">
               <td colspan="5">{{ $t('global.NoClassesForTheSelectedTimePeriod') }}</td>
             </tr>
 
             <tr>
               <th colspan="3">
-                {{ $t('global.Total') }}:
-              </th>
+                <md-button v-if="teacher.classes.length" @click="toggleFolded(idx)" v-bind:style="{margin: '0px', fontWeight: 'bold', color: 'white'}">
+                  {{ $t('global.Total') }}: {{teacher.classes.length}} classes
+                  <md-icon v-if="teacher.folded" v-bind:style="{color: 'white'}">expand_more</md-icon>
+                  <md-icon v-else v-bind:style="{color: 'white'}">expand_less</md-icon>
+                </md-button>
+                <span v-else>{{ $t('global.Total') }}:</span>
+              </th>              
+
               <th>
-                {{ totalParticipantSessions }}
+                <!-- {{ totalParticipantSessions }} -->
               </th>
-              <th>
-                {{ durationString(totalLivestreamSeconds) }}
+
+              <th v-if="teacher.classes.length">
+                {{ durationStringWithoutSecond(teacher.totalMins) }}
               </th>
+              <th v-else></th>
+              
+              <th v-if="teacher.classes.length">{{ teacher.totalSignups }}</th>
+              <th v-else></th>
+
+              <th v-if="teacher.classes.length">{{ teacher.totalCheckedIn }}</th>
+              <th v-else></th>
+              
+              <th v-if="teacher.classes.length">{{ teacher.totalLivestreamSignups }}</th>
+              <th v-else></th>
+              
+              <th></th>
             </tr>
           </table>
         </div>
@@ -171,15 +190,11 @@ export default {
   data() {
     return {
       selectedPeriod: {
-        // periodType: 'day',
-        // year: moment.tz('Europe/Copenhagen')
-        //     .year(),
-        // month: moment.tz('Europe/Copenhagen')
-        //     .month(),
         fromDate: moment.tz('Europe/Copenhagen')
             .toDate(),
         endDate: moment.tz('Europe/Copenhagen')
             .toDate(),
+        dateUpdated: false,
         teachers: [],
       },
 
@@ -198,45 +213,6 @@ export default {
       'stateReady',
       'apiRoot',
     ]),
-    // requestStartDate() {
-    //   switch (this.selectedPeriod.periodType) {
-    //     case 'year':
-    //       return this.selectedPeriod.year + '-01-01';
-    //     case 'month':
-    //       return this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-01';
-    //     case 'day':
-    //       return moment(this.selectedPeriod.date)
-    //           .format('YYYY-MM-DD');
-    //     case 'custom':
-    //       return moment(this.selectedPeriod.date)
-    //           .format('YYYY-MM-DD');
-    //   }
-    // },
-    // requestEndDate() {
-    //   switch (this.selectedPeriod.periodType) {
-    //     case 'year':
-    //       return this.selectedPeriod.year + '-12-31';
-    //     case 'month':
-    //       const numberOfDaysInMonth = moment({
-    //         y: this.selectedPeriod.year,
-    //         M: this.selectedPeriod.month,
-    //       })
-    //           .daysInMonth();
-    //       return this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-' + numberOfDaysInMonth;
-    //     case 'day':
-    //       return moment(this.selectedPeriod.date)
-    //           .format('YYYY-MM-DD');
-    //     case 'custom':
-    //       return moment(this.selectedPeriod.endDate)
-    //           .format('YYYY-MM-DD');
-    //   }
-    // },
-    // showDateLimitationMessage() {
-    //   return this.requestStartDate < REPORT_AVAILABLILITY_DATE;
-    // },
-    // reportsAvailabilityDate() {
-    //   return this.formatDate(REPORT_AVAILABLILITY_DATE);
-    // },
     totalLivestreamSeconds() {
       return _.sum(
           _.map(this.classes, 'totalSeconds'),
@@ -253,8 +229,14 @@ export default {
       if (newReadyState) this.fetchData();
     },
     selectedPeriod: {
-      handler: function (newPeriod) {
-        this.fetchData();
+      handler: function (newPeriod, oldPeriod) {
+        if (newPeriod == oldPeriod) console.log("OK");
+        console.log(newPeriod.fromDate, oldPeriod.fromDate);
+        console.log("dateUpdated: ", newPeriod.dateUpdated);
+        if ( newPeriod.dateUpdated || newPeriod.teachers.teachers[0].totalMins == undefined) {
+          this.fetchData();
+        }
+        
       },
       deep: true,
     },
@@ -264,41 +246,8 @@ export default {
   },
 
   methods: {
-
-    // async fetchData() {
-
-    //   this.loading = true;
-    //   console.log("fetchData :: ", this.selectedPeriod);
-
-    //   // const query = {
-    //   //   startDate: this.requestStartDate,
-    //   //   endDate: this.requestEndDate,
-    //   // };
-
-    //   // const url = '/reports/livestream';
-    //   // this.classes = await YogoApi.post(url, query);
-
-    //   this.loading = false;
-
-    // },
     async fetchData() {
         this.loading = true
-        // const startDate = moment(this.selectedDate)
-        // const endDate = (this.viewType === 'week' ? moment(startDate).add(6, 'days') : moment(startDate))
-        console.log('/classes' +
-          '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
-          '&endDate=' + moment(this.selectedPeriod.endDate).format('YYYY-MM-DD') +
-          '&populate[]=class_type' +
-          '&populate[]=teachers' +
-          '&populate[]=room' +
-          '&populate[]=room.branch' +
-          '&populate[]=signup_count' +
-          '&populate[]=waiting_list_count' +
-          '&populate[]=waiting_list_max' +
-          '&populate[]=livestream_signup_count' +
-          '&sort[]=' + encodeURIComponent('date ASC') +
-          '&sort[]=' + encodeURIComponent('start_time ASC') );
-          
         if (this.selectedPeriod.fromDate <= this.selectedPeriod.endDate) {
           let allClasses = await YogoApi.get('/classes' +
             '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
@@ -322,50 +271,64 @@ export default {
           this.classes = [];
         }
         for (const i in this.selectedPeriod.teachers.teachers) {
+          let totalMins = 0, totalCheckedIn = 0, totalSignups = 0, totalLivestreamSignups = 0;
           this.selectedPeriod.teachers.teachers[i].classes = [];
           for (const j in this.classes) {
             for (const k in this.classes[j].teachers) {
               if (this.selectedPeriod.teachers.teachers[i].id == this.classes[j].teachers[k].id) {
                 this.selectedPeriod.teachers.teachers[i].classes.push(this.classes[j]);
+                let start_timer = parseInt(this.classes[j].start_time.split(":")[0]) * 60 + parseInt(this.classes[j].start_time.split(":")[1])
+                let end_timer = parseInt(this.classes[j].end_time.split(":")[0]) * 60 + parseInt(this.classes[j].end_time.split(":")[1])
+                totalMins += end_timer - start_timer
+                totalCheckedIn += this.classes[j].checkedin_count;
+                totalSignups += this.classes[j].signup_count;
+                totalLivestreamSignups += this.classes[j].livestream_signup_count;
                 break;
               }
             }
           }
-
+          this.selectedPeriod.teachers.teachers[i].totalMins = totalMins
+          this.selectedPeriod.teachers.teachers[i].totalCheckedIn = totalCheckedIn
+          this.selectedPeriod.teachers.teachers[i].totalSignups = totalSignups
+          this.selectedPeriod.teachers.teachers[i].totalLivestreamSignups = totalLivestreamSignups          
+          // Vue.set(this.selectedPeriod.teachers.teachers[i], "folded", true);
         }
-        // this.days = [];
-        // for (let i = 0; i <= (this.viewType === 'week' ? 6 : 0) ; i++) {
-        //   this.days[i] = {}
-        //   this.days[i].date = this.getDateByIndex(i)
-        //   let formattedDate = this.days[i].date.format('YYYY-MM-DD')
-        //   this.days[i].classes = _.takeWhile(allClasses, cls => {
-        //     return moment(cls.date)
-        //       .format('YYYY-MM-DD') === formattedDate
-        //   })
-        //   allClasses.splice(0, this.days[i].classes.length)
+        this.selectedPeriod.dateUpdated = false;
 
-        // }
         this.loading = false
       },
 
     durationString(seconds) {
-      return _.padStart(Math.floor(seconds / 3600), 2, '0') +
-          this.$t('global.hours') +
+      return [_.padStart(Math.floor(seconds / 3600), 2, '0') +
+          this.$t('time.hours') ,
           _.padStart(Math.floor((seconds % 3600) / 60), 2, '0') +
-          this.$t('global.minutes') +
+          this.$t('time.minutes') ,
           _.padStart(seconds % 60, 2, '0') +
-          this.$t('global.seconds');
+          this.$t('time.seconds')].join(" ");;
+    },
+    durationStringWithoutSecond(mins) {
+      const hh = Math.floor(mins / 60);
+      const mm = Math.floor(mins % 60);
+
+      let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
+      if (mm > 0) {
+        val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
+      }
+      return val;
     },
 
     getDuration(start_time, end_time) {
-      let start_timer = parseInt(start_time.split(":")[0]) * 60 + parseInt(start_time.split(":")[1])
-      let end_timer = parseInt(end_time.split(":")[0]) * 60 + parseInt(end_time.split(":")[1])
-      let seconds = end_timer - start_timer
+      let start_timer = parseInt(start_time.split(":")[0]) * 60 + parseInt(start_time.split(":")[1]);
+      let end_timer = parseInt(end_time.split(":")[0]) * 60 + parseInt(end_time.split(":")[1]);
+      let mins = end_timer - start_timer;
+      const hh = Math.floor(mins / 60);
+      const mm = Math.floor(mins % 60);
 
-      return _.padStart(Math.floor(seconds / 60), 2, '0') +
-          this.$t('global.hours') +
-          _.padStart(Math.floor(seconds % 60), 2, '0') +
-          this.$t('global.minutes');
+      let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
+      if (mm > 0) {
+        val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
+      }
+      return val;
     },
 
     async showClassUsers(classItem) {
@@ -384,6 +347,11 @@ export default {
           .sortBy('sortByTeacher', 'first_name', 'last_name')
           .value();
       this.showParticipantsDialog = true;
+    },
+
+    toggleFolded(idx) {
+      console.log("toggled");
+      this.selectedPeriod.teachers.teachers[idx].folded = !this.selectedPeriod.teachers.teachers[idx].folded;
     },
 
     moment: moment,
