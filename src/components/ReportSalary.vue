@@ -10,6 +10,10 @@
       <loading-animation v-if="loading"></loading-animation>
 
       <div v-else>
+        <div class="toolbar">
+          <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('csv')">Download CSV</md-button>
+          
+        </div>
 
 
         <!-- <div v-if="showDateLimitationMessage">
@@ -176,6 +180,7 @@ import moment from 'moment-timezone';
 import ReportsSubmenu from './ReportsSubMenu';
 
 import dateTimeFunctions from '../mixins/dateTimeFunctions';
+import downloadFile from '../helpers/downloadFile';
 
 const REPORT_AVAILABLILITY_DATE = '2021-02-12';
 
@@ -352,6 +357,23 @@ export default {
     toggleFolded(idx) {
       console.log("toggled");
       this.selectedPeriod.teachers.teachers[idx].folded = !this.selectedPeriod.teachers.teachers[idx].folded;
+    },
+
+    async downloadFile(format) {
+
+      const response = await YogoApi.post(
+          '/reports/make-report-token',
+          {
+            teachers: this.selectedPeriod.teachers.teachers,
+            fromDate: this.selectedPeriod.fromDate,
+            endDate: this.selectedPeriod.endDate,
+          },
+      );
+
+      const relativePath = '/reports/salary?format=' + format + '&reportToken=' + response.token;
+
+      downloadFile(relativePath);
+
     },
 
     moment: moment,
