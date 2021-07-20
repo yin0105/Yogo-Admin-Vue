@@ -355,7 +355,6 @@ export default {
     },
 
     toggleFolded(idx) {
-      console.log("toggled");
       this.selectedPeriod.teachers.teachers[idx].folded = !this.selectedPeriod.teachers.teachers[idx].folded;
     },
 
@@ -369,6 +368,7 @@ export default {
             endDate: this.selectedPeriod.endDate,
           },
       );
+      console.log("from : ", moment.tz(this.selectedPeriod.fromDate, 'Europe/Copenhagen'));
 
       const relativePath = '/reports/salary?format=' + format + '&reportToken=' + response.token;
 

@@ -28,6 +28,7 @@
   import Datepicker from 'vuejs-datepicker'
   import moment from 'moment'
   import YogoTreeselectTeacher from '@/components/ui/YogoTreeselectTeacher';
+  
 
   export default {
     components: {
@@ -84,6 +85,7 @@
           }
 
           return new Date(yy, mm, 1);
+          sendDateTime = moment.tz(sendDate + ' ' + this.form.sendTime, 'Europe/Copenhagen')
         }, 
         set: function(date) {
           this.$emit('update:fromDate', date);
