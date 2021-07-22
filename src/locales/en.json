@@ -1026,7 +1026,8 @@
     "SmsCannotContainLinks": "Sms's can not contain links. If they do, they will not be delivered.",
     "NoClassesFound": "No classes found",
     "YourPlanOnlyAllowsXTeachers": "Your current plan has a maximum of {numberOfTeachers} teachers.",
-    "Salary": "Salary"
+    "Salary": "Salary",
+    "SalaryReport": "Salary Report"
   },
   "time": {
     "day": "day",

@@ -20,6 +20,10 @@
           <md-icon>supervisor_account</md-icon>
           {{ $t('global.GoToTeacherModuleLabel') }}
         </md-menu-item>
+        <md-menu-item @click="$router.push({ name: 'TeacherReportSalary' })" v-if="user.teacher">
+          <md-icon>payment</md-icon>
+          {{ $t('global.SalaryReport') }}
+        </md-menu-item>
         <md-menu-item v-on:click="logout()">
           <md-icon>power_settings_new</md-icon>
           {{ $t('global.SignOut') }}
@@ -73,6 +77,17 @@ export default {
         console.log('Could not open teacher module. Current domain is not a .yogo.dk domain.')
       }
     },
+    gotoTeacherSalaryReport() {
+      const documentLocation = document.location.href
+      // const matches = documentLocation.match(/https?:\/\/[\w\d:-]+\.yogo\.dk/)
+      // if (matches) {
+      //   const baseUrl = matches[0]
+      document.location = baseUrl + '/undervisere/report_salary'
+      // } else {
+      //   console.log('Could not open teacher module. Current domain is not a .yogo.dk domain.')
+      // }
+    },
+
   },
 }
 

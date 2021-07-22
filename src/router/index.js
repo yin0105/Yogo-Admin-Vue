@@ -15,6 +15,7 @@ import ClassEdit from '@/components/ClassEdit'
 import ClassAdd from '@/components/ClassAdd'
 import ClassesEditMultiple from '@/components/ClassesEditMultiple'
 import Teachers from '@/components/Teachers'
+import TeacherReportSalary from '@/components/TeacherReportSalary'
 import TeacherForm from '@/components/TeacherForm'
 import Events from '@/components/Events'
 import EventEdit from '@/components/EventEdit'
@@ -184,6 +185,11 @@ const router = new Router({
       meta: {
         formType: 'add',
       },
+    },
+    {
+      path: '/undervisere/report_salary',
+      name: 'TeacherReportSalary',
+      component: TeacherReportSalary,
     },
     {
       path: '/underviser/:id/rediger',

@@ -1028,7 +1028,8 @@
     "SmsCannotContainLinks": "Sms'er må ikke indeholde links. Hvis de gør, vil de ikke blive leveret.",
     "NoClassesFound": "Ingen klasser fundet",
     "YourPlanOnlyAllowsXTeachers": "Dit nuværende abonnement har et maksimum på {numberOfTeachers} undervisere.",
-    "Salary": "Gage"
+    "Salary": "Gage",
+    "SalaryReport": "Lønrapport"
   },
   "time": {
     "day": "dag",
