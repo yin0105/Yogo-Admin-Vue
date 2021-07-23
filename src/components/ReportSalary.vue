@@ -361,11 +361,13 @@ export default {
     },
 
     async downloadFile(format) {
+      console.log("teachers :: ", this.selectedPeriod.teachers.teachers);
+      console.log("map :: ", this.selectedPeriod.teachers.teachers.map(teacher => {return {id: teacher.id, name: teacher.name}}));
 
       const response = await YogoApi.post(
           '/reports/make-report-token',
           {
-            teachers: this.selectedPeriod.teachers.teachers,
+            teachers: this.selectedPeriod.teachers.teachers.map(teacher => {return {id: teacher.id, name: teacher.name}}),
             fromDate: this.selectedPeriod.fromDate,
             endDate: this.selectedPeriod.endDate,
           },
