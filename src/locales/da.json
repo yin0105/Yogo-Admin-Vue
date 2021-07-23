@@ -1029,7 +1029,9 @@
     "NoClassesFound": "Ingen klasser fundet",
     "YourPlanOnlyAllowsXTeachers": "Dit nuværende abonnement har et maksimum på {numberOfTeachers} undervisere.",
     "Salary": "Gage",
-    "SalaryReport": "Lønrapport"
+    "SalaryReport": "Lønrapport",
+    "ReepayAPIkey": "Reepay API key",
+    "ReepayWebhookSecret": "Reepay Webhook Secret"
   },
   "time": {
     "day": "dag",

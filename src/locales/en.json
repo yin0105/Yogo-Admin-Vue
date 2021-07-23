@@ -1027,7 +1027,9 @@
     "NoClassesFound": "No classes found",
     "YourPlanOnlyAllowsXTeachers": "Your current plan has a maximum of {numberOfTeachers} teachers.",
     "Salary": "Salary",
-    "SalaryReport": "Salary Report"
+    "SalaryReport": "Salary Report",
+    "ReepayAPIkey": "Reepay API key",
+    "ReepayWebhookSecret": "Reepay Webhook Secret"
   },
   "time": {
     "day": "day",

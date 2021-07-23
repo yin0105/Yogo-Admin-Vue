@@ -25,6 +25,19 @@
           <md-checkbox v-model="form.payment_show_mobilepay_logo">{{ $t('global.ShowMobilepayLogo') }}</md-checkbox>
         </div>
 
+        <md-field>
+          <label>{{ $t('global.ReepayAPIkey') }}</label>
+          <md-input type="text" v-model="form.payment_service_provider_reepay_private_api_key" required></md-input>
+         
+        </md-field>
+
+        <md-field>
+          <label>{{ $t('global.ReepayWebhookSecret') }}</label>
+          <md-input type="text" v-model="form.payment_service_provider_reepay_webhook_secret" required></md-input>
+         
+        </md-field>
+
+
       </div>
 
       <div class="mt2">
@@ -70,7 +83,11 @@ export default {
         '/clients/' + this.client.id + '/settings' +
         '?keys[]=payment_show_visa_mastercard_logos' +
         '&keys[]=payment_show_dankort_logo' +
-        '&keys[]=payment_show_mobilepay_logo',
+        '&keys[]=payment_show_mobilepay_logo' +
+        '&keys[]=payment_service_provider_reepay_webhook_secret' +
+        '&keys[]=payment_service_provider_reepay_private_api_key',
+        
+        
     );
     this.loading = false;
   },
@@ -83,6 +100,8 @@ export default {
             'payment_show_visa_mastercard_logos',
             'payment_show_dankort_logo',
             'payment_show_mobilepay_logo',
+            'payment_service_provider_reepay_webhook_secret',
+            'payment_service_provider_reepay_private_api_key',
           ],
       );
       await YogoApi.put('/clients/' + this.client.id + '/settings', submitData);
