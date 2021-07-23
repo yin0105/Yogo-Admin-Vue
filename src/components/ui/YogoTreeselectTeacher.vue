@@ -48,7 +48,6 @@ export default {
     value() {
       let val = []
       if (this.teachers.length) {
-        console.log("ok: ", this.teachers.length);
         for (const i in this.teachers) {
           val.push(this.teachers[i].id);
         }
@@ -64,12 +63,8 @@ export default {
       );
     this.teachers = _.sortBy(this.teachers, 'name');
   },
-  mounted() {
-    console.log("mounted : ", this.treeSelectTeachersOptions)
-  },
   methods: {
     updateValue(newValue) {
-      console.log("newValue : ", newValue);
       let selectedTeachers = [];
       for (const i in this.teachers) {
         for (const j in newValue) {

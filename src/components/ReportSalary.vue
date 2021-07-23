@@ -237,9 +237,6 @@ export default {
     },
     selectedPeriod: {
       handler: function (newPeriod, oldPeriod) {
-        if (newPeriod == oldPeriod) console.log("OK");
-        console.log(newPeriod.fromDate, oldPeriod.fromDate);
-        console.log("dateUpdated: ", newPeriod.dateUpdated);
         if ( newPeriod.dateUpdated || newPeriod.teachers.teachers[0].totalMins == undefined) {
           this.fetchData();
         }
@@ -271,7 +268,6 @@ export default {
             '&sort[]=' + encodeURIComponent('start_time ASC') ,
             // (this.filterByBranch ? '&branch='+this.filterByBranch : ''),
           )
-          console.log("classes :: ", allClasses);
           this.classes = allClasses.classes
           this.classes = _.sortBy(this.classes, ['date', 'start_time'])
         } else {
@@ -361,9 +357,6 @@ export default {
     },
 
     async downloadFile(format) {
-      console.log("teachers :: ", this.selectedPeriod.teachers.teachers);
-      console.log("map :: ", this.selectedPeriod.teachers.teachers.map(teacher => {return {id: teacher.id, name: teacher.name}}));
-
       const response = await YogoApi.post(
           '/reports/make-report-token',
           {
@@ -372,7 +365,6 @@ export default {
             endDate: this.selectedPeriod.endDate,
           },
       );
-      console.log("from : ", moment.tz(this.selectedPeriod.fromDate, 'Europe/Copenhagen'));
 
       const relativePath = '/reports/salary?format=' + format + '&reportToken=' + response.token;
 
