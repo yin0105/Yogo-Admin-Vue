@@ -58,9 +58,9 @@ yogoApi.interceptors.request.use(function (config) {
 
   headers['X-Yogo-Request-Context'] = 'admin';
 
-  if (envConfig.clientId) {
+    if (envConfig.clientId) {
     headers['X-Yogo-Client-ID'] = envConfig.clientId;
-  }
+    }
   config.headers = headers;
 
   return config;

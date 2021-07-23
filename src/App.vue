@@ -141,7 +141,7 @@
           <md-list-item>
             <md-icon>settings</md-icon>
             <span class="md-list-item-text" @click="toggleMenu"><router-link
-                :to="{ name: 'SettingsAppearance' }">{{ $t('global.Settings') }}</router-link></span>
+                :to="{ name: 'SettingsCompany' }">{{ $t('global.Settings') }}</router-link></span>
           </md-list-item>
 
         </md-list>
@@ -507,7 +507,7 @@
             </li>
 
             <li>
-              <router-link :to="{ name: 'SettingsAppearance' }">
+              <router-link :to="{ name: 'SettingsCompany' }">
                 <md-icon>
                   settings
                   <md-tooltip

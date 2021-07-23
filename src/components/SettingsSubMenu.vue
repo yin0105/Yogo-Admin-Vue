@@ -7,6 +7,12 @@
       <h1>{{ $t('global.Settings') }}</h1>
       <ul>
         <li>
+          <router-link :to="{ name: 'SettingsCompany' }">
+            <md-icon>account_box</md-icon>
+            <span class="md-list-item-text">Company</span>
+          </router-link>
+        </li>
+        <li>
           <router-link :to="{ name: 'SettingsAppearance' }">
             <md-icon>settings_brightness</md-icon>
             <span class="md-list-item-text">{{ $t('global.Appearance') }}</span>
