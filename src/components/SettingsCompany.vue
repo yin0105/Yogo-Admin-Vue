@@ -72,7 +72,7 @@
             <div class="space8"></div>
             <div class="flex--row">
                 <label>Company Logo</label><br>
-                <imagefield :imageId.sync="form.logo" imageFormat="square"></imagefield>  
+                <imagefield :imageId.sync="form.logo" imageFormat="square"></imagefield> 
                 <label>Company Logo in White for Admin Login</label><br> 
                 <imagefield :imageId.sync="form.logo_white" imageFormat="square"></imagefield>       
             </div>  
@@ -153,8 +153,24 @@
       async submit() {
         this.loading = true
         const submitData = _pick(
-          this.form
+          this.form,
+          [
+            'name',
+            'address_1',
+            'address_2',
+            'zip_code',
+            'city',
+            'country',
+            'vat_number',
+            'email',
+            'phone',
+            'website',
+            'sms_sender_name',
+            'logo',
+            'logo_white'
+          ],
         )
+        console.log("submitData = ", submitData);
         await YogoApi.put('/clients/' + this.client.id , submitData)
         this.loading = false
 

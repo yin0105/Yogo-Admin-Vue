@@ -186,6 +186,8 @@
           }
         }
 
+        console.log("userData = ", userData);
+
         const updatedUserData = await YogoApi.put('/users/' + this.user.id, userData)
         updatedUserData.date_of_birth = updatedUserData.date_of_birth ? moment(updatedUserData.date_of_birth)
           .toDate() : null

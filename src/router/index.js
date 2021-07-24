@@ -85,6 +85,7 @@ import SettingsPayment from '@/components/SettingsPayment';
 import SettingsImportGeneric from '@/components/SettingsImportGeneric';
 import SettingsMemberships from '@/components/SettingsMemberships';
 import SettingsImportMomoyoga from '@/components/SettingsImportMomoyoga';
+import SettingsCompany from '@/components/SettingsCompany';
 
 Vue.use(Router)
 
@@ -529,6 +530,11 @@ const router = new Router({
       path: '/settings-no-show-fees',
       name: 'SettingsNoShowFees',
       component: SettingsNoShowFees,
+    },
+    {
+      path: '/settings-company',
+      name: 'SettingsCompany',
+      component: SettingsCompany,
     },
     {
       path: '/indstillinger-venteliste',
