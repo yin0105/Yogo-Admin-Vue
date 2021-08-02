@@ -74,7 +74,7 @@
 
       </div>
       <div v-else-if="!loading">
-        <md-button class="md-raised md-primary" @click="showEditDomainDlg = true">
+        <md-button class="md-raised md-primary" @click="connectToVimeo">
           {{ $t('global.ConnectToVimeo') }}
         </md-button>
         <p>
@@ -402,17 +402,32 @@ export default {
     },
     async connectToVimeo() {
       console.log("connect to vimeo");
-      // const redirectUri = (envConfig.externalCallbackUrl || envConfig.apiRoot) + '/integrations/vimeo/auth/callback';
+      this.loading = true;
+      const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys=website_domain');
+      if (res) {
+        this.loading = false;
+        console.log("res = ", res);
+        this.connectToRealVimeo();
+      } else {
+        this.loading = false;
+        this.showEditDomainDlg = true;
+      }
+    },
 
-      // const queryString = qs.stringify({
-      //   response_type: 'code',
-      //   client_id: this.vimeoStatus.vimeoClientId,
-      //   redirect_uri: redirectUri,
-      //   state: this.vimeoStatus.oauthCsrfState + '_' + document.location.href,
-      //   scope: 'public private create edit',
-      // });
+    connectToRealVimeo() {
+      console.log("connectToRealVimeo ...");
+      this.loading = true;
+      const redirectUri = (envConfig.externalCallbackUrl || envConfig.apiRoot) + '/integrations/vimeo/auth/callback';
 
-      // document.location = VIMEO_AUTHORIZE_URL + '?' + queryString;
+      const queryString = qs.stringify({
+        response_type: 'code',
+        client_id: this.vimeoStatus.vimeoClientId,
+        redirect_uri: redirectUri,
+        state: this.vimeoStatus.oauthCsrfState + '_' + document.location.href,
+        scope: 'public private create edit',
+      });
+
+      document.location = VIMEO_AUTHORIZE_URL + '?' + queryString;
     },
 
     onSelectVideo(video) {
@@ -504,9 +519,9 @@ export default {
       const matches = cleanedDomainName.match(/^(([a-zA-Z0-9][a-zA-Z0-9-]{1,60}[a-zA-Z0-9]|([a-zA-Z0-9])+)\.)+[a-zA-Z]{2,}$/g);
 
       if (matches) {
-        console.log(matches[0]);
         this.loading = true;
         await YogoApi.put('/clients/' + this.client.id + '/settings', {"website_domain": matches[0]});
+        this.connectToRealVimeo();
         this.loading = false;
       }
     },
