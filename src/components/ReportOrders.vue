@@ -196,7 +196,7 @@
           },
         );
 
-        const relativePath = '/reports/salary?format=' + format + '&reportToken=' + response.token;
+        const relativePath = '/reports/orders?format=' + format + '&reportToken=' + response.token;
 
         downloadFile(relativePath);
 
