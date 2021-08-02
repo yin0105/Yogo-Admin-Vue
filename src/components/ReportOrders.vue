@@ -190,7 +190,7 @@
         const response = await YogoApi.post(
           '/reports/make-report-token',
           {
-            periodType: 'custom',
+            // periodType: 'custom',
             startDate: this.startDate,
             endDate: this.endDate,
           },
