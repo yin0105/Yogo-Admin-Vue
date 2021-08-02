@@ -186,18 +186,19 @@
       async downloadFile(format) {
         console.log("startDate = ", this.startDate);
         console.log("endDate = ", this.endDate);
-        // const response = await YogoApi.post(
-        //   '/reports/make-report-token',
-        //   {
-        //     periodType: 'custom',
-        //     startDate: this.startDate,
-        //     endDate: this.endDate,
-        //   },
-        // );
+        
+        const response = await YogoApi.post(
+          '/reports/make-report-token',
+          {
+            periodType: 'custom',
+            startDate: this.startDate,
+            endDate: this.endDate,
+          },
+        );
 
-        // const relativePath = '/reports/turnover?format=' + format + '&reportToken=' + response.token;
+        const relativePath = '/reports/salary?format=' + format + '&reportToken=' + response.token;
 
-        // downloadFile(relativePath);
+        downloadFile(relativePath);
 
 
         // const response = await YogoApi.post(
