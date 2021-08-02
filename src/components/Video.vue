@@ -196,14 +196,15 @@
           <div v-bind:style="{marginTop: '20px', marginBottom: '10px'}">
             {{ $t('global.EditVimeoWebsiteDomainText4') }}
           </div>
-          <md-input v-model="domainName" class="md-layout-item md-large-size-100 mt-10"></md-input>
+          <md-field v-bind:style="{marginBottom: '0px !important'}">
+            <md-input v-model="domainName" class="md-layout-item md-large-size-100 mt-10"></md-input>
+          </md-field>
         </div>
       </md-dialog-content>
       
-
       <md-dialog-actions>
-        <md-button class="md-primary" @click="showEditDomainDlg = false">Cancel</md-button>
-        <md-button class="md-primary" @click="showEditDomainDlg = false">OK</md-button>
+        <md-button class="md-primary" @click="cancelEditDomainDlg">Cancel</md-button>
+        <md-button class="md-primary" @click="saveEditDomainDlg">OK</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -414,7 +415,6 @@ export default {
       // document.location = VIMEO_AUTHORIZE_URL + '?' + queryString;
     },
 
-
     onSelectVideo(video) {
       // When the updated video is spliced into the table, selection changes to undefined
       if (!video) return;
@@ -476,6 +476,36 @@ export default {
 
     openRestrictToYogoExplanation() {
       this.$refs.RestrictToYogoExplanationDialog.open();
+    },
+
+    cancelEditDomainDlg() {
+      this.showEditDomainDlg = false;
+    },
+
+    saveEditDomainDlg() {
+      this.showEditDomainDlg = false;
+      console.log("domainName = ", this.domainName);
+      let cleanedDomainName = this.domainName;
+      cleanedDomainName = cleanedDomainName.trim();
+      
+      if (cleanedDomainName.indexOf("http://") == 0) {
+        cleanedDomainName = cleanedDomainName.substring(7);
+      } else if (cleanedDomainName.indexOf("https://") == 0) {
+        cleanedDomainName = cleanedDomainName.substring(8);
+      }
+
+      if (cleanedDomainName.indexOf("www.") == 0) {
+        cleanedDomainName = cleanedDomainName.substring(4);
+      }
+
+      console.log("cleanedDomainName = ", cleanedDomainName);
+
+      if (cleanedDomainName == "") { return; }
+      const matches = cleanedDomainName.match(/^(([a-zA-Z0-9][a-zA-Z0-9-]{1,60}[a-zA-Z0-9]|([a-zA-Z0-9])+)\.)+[a-zA-Z]{2,}$/g);
+
+      if (matches) {
+        console.log(matches[0]);
+      }
     },
   },
 };
