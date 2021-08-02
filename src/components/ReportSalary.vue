@@ -13,8 +13,7 @@
         <div class="toolbar">
           <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('csv')">Download CSV</md-button>
           <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('xlsx')">Download XLSX</md-button>
-          <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('pdf')">Download PDF</md-button>
-          
+          <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('pdf')">Download PDF</md-button>          
         </div>
 
 
