@@ -102,60 +102,60 @@
 
         this.loading = true
 
-        const query = {
+        let query = {
           periodType: this.selectedPeriod.periodType,
         }
         switch (this.selectedPeriod.periodType) {
-          // case 'year':
-          //   query = {
-          //     periodType: 'year',
-          //     year: this.selectedPeriod.year,
-          //     startDate: this.selectedPeriod.year + '-01-01',
-          //   };
-          //   break;
-          // case 'month':
-          //   query = {
-          //     periodType: 'month',
-          //     year: this.selectedPeriod.year,
-          //     month: this.selectedPeriod.month + 1,
-          //     startDate: this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-01',
-          //   };
-          //   break;
-          // case 'day':
-          //   query = {
-          //     periodType: 'day',
-          //     date: moment(this.selectedPeriod.date).format('YYYY-MM-DD'),
-          //     startDate: moment(this.selectedPeriod.date)
-          //         .format('YYYY-MM-DD'),
-          //   };
-          //   break;
-          // case 'custom':
-          //   query = {
-          //     periodType: 'custom',
-          //     startDate: moment(this.selectedPeriod.date)
-          //         .format('YYYY-MM-DD'),
-          //     endDate: moment(this.selectedPeriod.endDate)
-          //         .format('YYYY-MM-DD'),
-          //   };
-          //   break;
-            
           case 'year':
-            query.year = this.selectedPeriod.year
-            break
+            query = {
+              periodType: 'year',
+              year: this.selectedPeriod.year,
+              startDate: this.selectedPeriod.year + '-01-01',
+            };
+            break;
           case 'month':
-            query.month = this.selectedPeriod.month + 1
-            query.year = this.selectedPeriod.year
-            break
+            query = {
+              periodType: 'month',
+              year: this.selectedPeriod.year,
+              month: this.selectedPeriod.month + 1,
+              startDate: this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-01',
+            };
+            break;
           case 'day':
-            query.date = moment(this.selectedPeriod.date)
-              .format('YYYY-MM-DD')
-            break
+            query = {
+              periodType: 'day',
+              date: moment(this.selectedPeriod.date).format('YYYY-MM-DD'),
+              startDate: moment(this.selectedPeriod.date)
+                  .format('YYYY-MM-DD'),
+            };
+            break;
           case 'custom':
-            query.startDate = moment(this.selectedPeriod.date)
-              .format('YYYY-MM-DD')
-            query.endDate = moment(this.selectedPeriod.endDate)
-              .format('YYYY-MM-DD')
-            break
+            query = {
+              periodType: 'custom',
+              startDate: moment(this.selectedPeriod.date)
+                  .format('YYYY-MM-DD'),
+              endDate: moment(this.selectedPeriod.endDate)
+                  .format('YYYY-MM-DD'),
+            };
+            break;
+            
+          // case 'year':
+          //   query.year = this.selectedPeriod.year
+          //   break
+          // case 'month':
+          //   query.month = this.selectedPeriod.month + 1
+          //   query.year = this.selectedPeriod.year
+          //   break
+          // case 'day':
+          //   query.date = moment(this.selectedPeriod.date)
+          //     .format('YYYY-MM-DD')
+          //   break
+          // case 'custom':
+          //   query.startDate = moment(this.selectedPeriod.date)
+          //     .format('YYYY-MM-DD')
+          //   query.endDate = moment(this.selectedPeriod.endDate)
+          //     .format('YYYY-MM-DD')
+          //   break
         }
 
 
