@@ -74,7 +74,7 @@
 
       </div>
       <div v-else-if="!loading">
-        <md-button class="md-raised md-primary" @click="connectToVimeo">
+        <md-button class="md-raised md-primary" @click="showEditDomainDlg = true">
           {{ $t('global.ConnectToVimeo') }}
         </md-button>
         <p>
@@ -185,6 +185,28 @@
       </md-dialog-actions>
     </md-dialog>
 
+    <md-dialog :md-active.sync="showEditDomainDlg">
+      <md-dialog-title v-bind:style="{fontWeight: 'bold'}">{{ $t('global.EditVimeoWebsiteDomainTitle') }}</md-dialog-title>
+      <md-dialog-content v-bind:style="{paddingBottom: '10px !important'}">
+        <div v-bind:style="{ width: '380px', padding: '0px 10px 0px 10px' }">
+          {{ $t('global.EditVimeoWebsiteDomainText1') }} {{ $t('global.EditVimeoWebsiteDomainText1') }}
+          <div v-bind:style="{marginTop: '20px'}">
+            {{ $t('global.EditVimeoWebsiteDomainText3') }}
+          </div>
+          <div v-bind:style="{marginTop: '20px', marginBottom: '10px'}">
+            {{ $t('global.EditVimeoWebsiteDomainText4') }}
+          </div>
+          <md-input v-model="domainName" class="md-layout-item md-large-size-100 mt-10"></md-input>
+        </div>
+      </md-dialog-content>
+      
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showEditDomainDlg = false">Cancel</md-button>
+        <md-button class="md-primary" @click="showEditDomainDlg = false">OK</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
     <RestrictToYogoExplanationDialog ref="RestrictToYogoExplanationDialog"></RestrictToYogoExplanationDialog>
 
   </div>
@@ -242,6 +264,10 @@ export default {
       teachers: [],
       videoFilters: [],
       videoMainCategories: [],
+
+      // showWebsiteDomainDiag: true, 
+      showEditDomainDlg: false,
+      domainName: '',
     };
   },
   computed: {
@@ -374,17 +400,18 @@ export default {
       this.videoMainCategories = await YogoApi.get('/video-main-categories');
     },
     async connectToVimeo() {
-      const redirectUri = (envConfig.externalCallbackUrl || envConfig.apiRoot) + '/integrations/vimeo/auth/callback';
+      console.log("connect to vimeo");
+      // const redirectUri = (envConfig.externalCallbackUrl || envConfig.apiRoot) + '/integrations/vimeo/auth/callback';
 
-      const queryString = qs.stringify({
-        response_type: 'code',
-        client_id: this.vimeoStatus.vimeoClientId,
-        redirect_uri: redirectUri,
-        state: this.vimeoStatus.oauthCsrfState + '_' + document.location.href,
-        scope: 'public private create edit',
-      });
+      // const queryString = qs.stringify({
+      //   response_type: 'code',
+      //   client_id: this.vimeoStatus.vimeoClientId,
+      //   redirect_uri: redirectUri,
+      //   state: this.vimeoStatus.oauthCsrfState + '_' + document.location.href,
+      //   scope: 'public private create edit',
+      // });
 
-      document.location = VIMEO_AUTHORIZE_URL + '?' + queryString;
+      // document.location = VIMEO_AUTHORIZE_URL + '?' + queryString;
     },
 
 
@@ -477,4 +504,11 @@ img.thumbnail {
   max-width: 232px;
 }
 
+.md-dialog-fullscreen {
+  overflow: hidden !important;
+}
+
+.md-dialog-container {
+  max-width: 768px !important;
+}
 </style>
