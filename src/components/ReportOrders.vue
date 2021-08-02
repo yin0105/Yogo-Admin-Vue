@@ -71,6 +71,8 @@
 
         loading: true,
         orders: [],
+        startDate: null,
+        endDate: null,
       }
     },
     computed: {
@@ -111,6 +113,7 @@
               periodType: 'year',
               year: this.selectedPeriod.year,
               startDate: this.selectedPeriod.year + '-01-01',
+              endtDate: this.selectedPeriod.year + '-12-31',
             };
             break;
           case 'month':
@@ -119,23 +122,22 @@
               year: this.selectedPeriod.year,
               month: this.selectedPeriod.month + 1,
               startDate: this.selectedPeriod.year + '-' + _.padStart(this.selectedPeriod.month + 1, 2, '0') + '-01',
+              endDate: moment(new Date(this.selectedPeriod.year, this.selectedPeriod.month + 1, 0)).format('YYYY-MM-DD'),
             };
             break;
           case 'day':
             query = {
               periodType: 'day',
               date: moment(this.selectedPeriod.date).format('YYYY-MM-DD'),
-              startDate: moment(this.selectedPeriod.date)
-                  .format('YYYY-MM-DD'),
+              startDate: moment(this.selectedPeriod.date).format('YYYY-MM-DD'),
+              endDate: moment(this.selectedPeriod.date).format('YYYY-MM-DD'),
             };
             break;
           case 'custom':
             query = {
               periodType: 'custom',
-              startDate: moment(this.selectedPeriod.date)
-                  .format('YYYY-MM-DD'),
-              endDate: moment(this.selectedPeriod.endDate)
-                  .format('YYYY-MM-DD'),
+              startDate: moment(this.selectedPeriod.date).format('YYYY-MM-DD'),
+              endDate: moment(this.selectedPeriod.endDate).format('YYYY-MM-DD'),
             };
             break;
             
@@ -158,6 +160,9 @@
           //   break
         }
 
+        // console.log("this.selectedPeriod.date = ", this.selectedPeriod.date);
+        // console.log(moment(new Date(this.selectedPeriod.year, 11, 31)).format('YYYY-MM-DD'));
+        // console.log(moment(new Date(this.selectedPeriod.year, this.selectedPeriod.month + 1, 0)).format('YYYY-MM-DD'));
 
         this.orders = await YogoApi.get('/orders?' + qs.stringify(query))
 
@@ -169,8 +174,9 @@
           },
         )
 
-
-        this.loading = false
+        this.loading = false;
+        this.startDate = query.startDate;
+        this.endDate = query.endDate;
 
       },
       getReceiptLink(order) {
@@ -178,6 +184,22 @@
       },
 
       async downloadFile(format) {
+        console.log("startDate = ", this.startDate);
+        console.log("endDate = ", this.endDate);
+        // const response = await YogoApi.post(
+        //   '/reports/make-report-token',
+        //   {
+        //     periodType: 'custom',
+        //     startDate: this.startDate,
+        //     endDate: this.endDate,
+        //   },
+        // );
+
+        // const relativePath = '/reports/turnover?format=' + format + '&reportToken=' + response.token;
+
+        // downloadFile(relativePath);
+
+
         // const response = await YogoApi.post(
         //     '/reports/make-report-token',
         //     {
