@@ -1032,11 +1032,11 @@
     "SalaryReport": "Lønrapport",
     "ReepayAPIkey": "Reepay API key",
     "ReepayWebhookSecret": "Reepay Webhook Secret",
-    "EditVimeoWebsiteDomainTitle": "Where do you want to show your videos?",
-    "EditVimeoWebsiteDomainText1": "The videos that you sell access to, will need to be locked to a website, usually your own.",
-    "EditVimeoWebsiteDomainText2": "This will prevent people from watching them without buying access.",
-    "EditVimeoWebsiteDomainText3": "If you want to change the website later, please contact YOGO.",
-    "EditVimeoWebsiteDomainText4": "Website where my videos will be displayed"
+    "EditVimeoWebsiteDomainTitle": "Hvor vil du vise dine videoer?",
+    "EditVimeoWebsiteDomainText1": "De videoer, du sælger adgang til, skal låses til et websted, normalt dit eget.",
+    "EditVimeoWebsiteDomainText2": "Dette forhindrer folk i at se dem uden at købe adgang.",
+    "EditVimeoWebsiteDomainText3": "Hvis du vil ændre webstedet senere, bedes du kontakte YOGO.",
+    "EditVimeoWebsiteDomainText4": "Websted, hvor mine videoer vises"
   },
   "time": {
     "day": "dag",

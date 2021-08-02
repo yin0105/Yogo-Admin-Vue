@@ -482,7 +482,7 @@ export default {
       this.showEditDomainDlg = false;
     },
 
-    saveEditDomainDlg() {
+    async saveEditDomainDlg() {
       this.showEditDomainDlg = false;
       console.log("domainName = ", this.domainName);
       let cleanedDomainName = this.domainName;
@@ -505,6 +505,9 @@ export default {
 
       if (matches) {
         console.log(matches[0]);
+        this.loading = true;
+        await YogoApi.put('/clients/' + this.client.id + '/settings', {"website_domain": matches[0]});
+        this.loading = false;
       }
     },
   },
