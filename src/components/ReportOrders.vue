@@ -140,29 +140,7 @@
               endDate: moment(this.selectedPeriod.endDate).format('YYYY-MM-DD'),
             };
             break;
-            
-          // case 'year':
-          //   query.year = this.selectedPeriod.year
-          //   break
-          // case 'month':
-          //   query.month = this.selectedPeriod.month + 1
-          //   query.year = this.selectedPeriod.year
-          //   break
-          // case 'day':
-          //   query.date = moment(this.selectedPeriod.date)
-          //     .format('YYYY-MM-DD')
-          //   break
-          // case 'custom':
-          //   query.startDate = moment(this.selectedPeriod.date)
-          //     .format('YYYY-MM-DD')
-          //   query.endDate = moment(this.selectedPeriod.endDate)
-          //     .format('YYYY-MM-DD')
-          //   break
         }
-
-        // console.log("this.selectedPeriod.date = ", this.selectedPeriod.date);
-        // console.log(moment(new Date(this.selectedPeriod.year, 11, 31)).format('YYYY-MM-DD'));
-        // console.log(moment(new Date(this.selectedPeriod.year, this.selectedPeriod.month + 1, 0)).format('YYYY-MM-DD'));
 
         this.orders = await YogoApi.get('/orders?' + qs.stringify(query))
 
@@ -198,21 +176,6 @@
         const relativePath = '/reports/orders?format=' + format + '&reportToken=' + response.token;
 
         downloadFile(relativePath);
-
-
-        // const response = await YogoApi.post(
-        //     '/reports/make-report-token',
-        //     {
-        //       teachers: this.selectedPeriod.teachers.teachers.map(teacher => {return {id: teacher.id, name: teacher.name}}),
-        //       fromDate: this.selectedPeriod.fromDate,
-        //       endDate: this.selectedPeriod.endDate,
-        //     },
-        // );
-
-        // const relativePath = '/reports/salary?format=' + format + '&reportToken=' + response.token;
-
-        // downloadFile(relativePath);
-
       },
       moment: moment,
     },
