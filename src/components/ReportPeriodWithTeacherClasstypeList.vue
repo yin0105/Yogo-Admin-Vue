@@ -13,14 +13,14 @@
       <datepicker v-model="endDate" :monday-first="true"></datepicker>
     </div>
 
-    <div class="flex--20 mr10-md min-h-14">
+    <div class="flex--25 mr10-md min-h-14">
       <label>{{ $t('global.Teacher') }}</label>
       <YogoTreeselectTeacher v-bind.sync="selectedTeachers"></YogoTreeselectTeacher>      
     </div>
 
-    <div class="flex--20">
-      <label>{{ $t('global.Classes') }}</label>
-      <YogoTreeselectTeacher v-bind.sync="selectedTeachers"></YogoTreeselectTeacher>      
+    <div class="flex--25">
+      <label>{{ $t('global.ClassType') }}</label>
+      <YogoTreeselectClassTypes v-bind.sync="selectedClassTypes"></YogoTreeselectClassTypes>      
     </div>
 
   </div>
@@ -32,18 +32,23 @@
   import Datepicker from 'vuejs-datepicker'
   import moment from 'moment'
   import YogoTreeselectTeacher from '@/components/ui/YogoTreeselectTeacher';
+  import YogoTreeselectClassTypes from '@/components/ui/YogoTreeselectClassTypes';
   
 
   export default {
     components: {
       Datepicker,
-      YogoTreeselectTeacher
+      YogoTreeselectTeacher,
+      YogoTreeselectClassTypes
     },
-    name: 'reportperiodwithteacherlist',
+    name: 'reportperiodwithteacherclasstypelist',
     data() {
       return {
         selectedTeachers: {
           teachers: []
+        },
+        selectedClassTypes: {
+          classTypes: []
         },
       }
     },
@@ -51,6 +56,12 @@
       selectedTeachers: {
         handler: function (newTeachers) {
           this.$emit('update:teachers', newTeachers);
+        },
+        deep: true,
+      },
+      selectedClassTypes: {
+        handler: function (newClassTypes) {
+          this.$emit('update:classTypes', newClassTypes);
         },
         deep: true,
       },

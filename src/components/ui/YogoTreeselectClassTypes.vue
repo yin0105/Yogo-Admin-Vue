@@ -24,7 +24,7 @@ export default {
       classTypes: [],
     };
   },
-  props: ['value'],
+  // props: ['value'],
   computed: {
     treeSelectClassTypesOptions() {
       return this.classTypes.length
@@ -44,6 +44,15 @@ export default {
             },
           ]
           : [];
+    },
+    value() {
+      let val = []
+      if (this.classTypes.length) {
+        for (const i in this.classTypes) {
+          val.push(this.classTypes[i].id);
+        }
+      }
+      return val;
     },
   },
   async created() {
