@@ -72,7 +72,8 @@ import ReportOrders from '../components/ReportOrders'
 import SettingsLivestream from '../components/SettingsLivestream'
 import ReportLivestream from '../components/ReportLivestream'
 import ReportCustomers from '@/components/ReportCustomers';
-import ReportSalary from '../components/ReportSalary'
+import ReportSalary from '../components/ReportSalary';
+import ReportClasses from '../components/ReportClasses';
 import ClassEmailForm from '../components/ClassEmailForm'
 import SettingsImportConventus from '@/components/SettingsImportConventus';
 import ClassTypeEmailForm from '@/components/ClassTypeEmailForm';
@@ -485,6 +486,11 @@ const router = new Router({
       path: '/report/customers',
       name: 'ReportCustomers',
       component: ReportCustomers,
+    },
+    {
+      path: '/report/classes',
+      name: 'ReportClasses',
+      component: ReportClasses,
     },
     {
       path: '/report/salary',
