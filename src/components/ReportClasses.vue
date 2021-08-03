@@ -42,33 +42,28 @@
               <th>{{ $t('global.LivestreamSignups') }}</th>
               
               <th>ClassPass.com {{ $t('global.SignUps') }}</th>
-              
-              
-              
 
-              <!-- <th>{{ $t('global.ParticipantsInclTeacher') }}</th>
-              <th>{{ $t('global.StreamTimeTotal') }}</th> -->
             </tr>
             <tr v-if="!teacher.folded" v-for="classItem in teacher.classes">
-              <td>
-                {{ classItem.id }}
-              </td>
-              <td>
-                {{ dbDateToHumanDate(classItem.date) }}
-              </td>
-              <td>
-                {{ classItem.start_time.substr(0, 5) }}-{{ classItem.end_time.substr(0, 5) }}
-              </td>
-              <td>
-                {{ classItem.class_type.name }}
-              </td>
-              <td>
-                {{ getDuration(classItem.start_time, classItem.end_time) }}
-              </td>
+              <td>{{ classItem.id }}</td>
+              <td>{{ dbDateToHumanDate(classItem.date) }}</td>
+              <td>{{ classItem.start_time }}</td>
+              <td>{{ classItem.end_time }}</td>
+              <td>{{ getDuration(classItem.start_time, classItem.end_time) }}</td>
+              <td>{{ classItem.class_type.name }}</td>
+              <td>{{ classItem.teachersList }}</td>
+              <td>{{ classItem.room.name }}</td>
+              <td>{{ classItem.room.branch }}</td>
+              <td>{{ classItem.studio_attendance_enabled }}</td>
+              <td>{{ classItem.livestream_enabled }}</td>
+              <td>&nbsp;</td>
+              <td>{{ classItem.cancelled }}</td>           
+
+
               <td>{{ classItem.signup_count }}</td>
               <td>{{ classItem.checkedin_count }}</td>
               <td>{{ classItem.livestream_signup_count }}</td>
-              <td>{{ classItem.room.name }}</td>
+              
             </tr>
             <tr v-if="!teacher.classes.length">
               <td colspan="5">{{ $t('global.NoClassesForTheSelectedTimePeriod') }}</td>
@@ -278,6 +273,7 @@ export default {
           )
           this.classes = allClasses.classes
           this.classes = _.sortBy(this.classes, ['date', 'start_time'])
+          console.log("classes = ", this.classes);
         } else {
           this.classes = [];
         }
@@ -287,6 +283,17 @@ export default {
           for (const j in this.classes) {
             for (const k in this.classes[j].teachers) {
               if (this.selectedPeriod.teachers.teachers[i].id == this.classes[j].teachers[k].id) {
+                //get teachers list
+                let teachersList = "";
+                for (const kk in this.classes[j].teachers) {
+                    if (teachersList != "") {teachersList += ", ";}
+                    teachersList += this.classes[j].teachers[kk].first_name + " " + this.classes[j].teachers[kk].last_name;
+                }
+                this.classes[j].teachersList = teachersList;
+                this.classes[j].studio_attendance_enabled = this.toYesNo(this.classes[j].studio_attendance_enabled);
+                this.classes[j].livestream_enabled = this.toYesNo(this.classes[j].livestream_enabled);
+                this.classes[j].cancelled = this.toYesNo(this.classes[j].cancelled);
+
                 this.selectedPeriod.teachers.teachers[i].classes.push(this.classes[j]);
                 let start_timer = parseInt(this.classes[j].start_time.split(":")[0]) * 60 + parseInt(this.classes[j].start_time.split(":")[1])
                 let end_timer = parseInt(this.classes[j].end_time.split(":")[0]) * 60 + parseInt(this.classes[j].end_time.split(":")[1])
@@ -340,6 +347,10 @@ export default {
         val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
       }
       return val;
+    },
+
+    toYesNo(v) {
+        return v?"Yes": "No";
     },
 
     async showClassUsers(classItem) {
