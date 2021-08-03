@@ -206,6 +206,8 @@ export default {
             .toDate(),
         dateUpdated: false,
         teachers: [],
+        onlyPhysicalAttendance: false,
+        onlyLivestream: false,
       },
 
       classes: [],
@@ -241,7 +243,8 @@ export default {
     selectedPeriod: {
       handler: function (newPeriod, oldPeriod) {
         if ( newPeriod.dateUpdated || newPeriod.teachers.teachers[0].totalMins == undefined) {
-          this.fetchData();
+            console.log("newPeriod = ", newPeriod);
+            this.fetchData();
         }
         
       },
