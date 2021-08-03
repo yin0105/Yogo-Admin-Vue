@@ -21,16 +21,30 @@
           <table class="classes">
             <tr>
               <th>{{ $t('global.ID') }}</th>
-
               <th>{{ $t('global.Date') }}</th>
-              <th>{{ $t('global.Time') }}</th>
+              <th>{{ $t('global.Start') }}</th>
+              <th>{{ $t('global.End') }}</th>
+              <th>{{ $t('global.Duration') }}</th>
               <th>{{ $t('global.Class') }}</th>
 
-              <th>{{ $t('global.Duration') }}</th>
+              <th>{{ $t('global.Teacher') }}</th>
+
+              <th>{{ $t('global.Room') }}</th>
+
+              <th>{{ $t('global.Branch') }}</th>
+              <th>{{ $t('global.PhysicalAttendance') }}</th>
+              <th>{{ $t('global.Livestream') }}</th>
+              <th>{{ $t('global.ClassPassComEnabled') }}</th>
+              <th>{{ $t('global.Cancelled') }}</th>
+              
               <th>{{ $t('global.SignUps') }}</th>
               <th>{{ $t('global.CheckedIn') }}</th>
               <th>{{ $t('global.LivestreamSignups') }}</th>
-              <th>{{ $t('global.Room') }}</th>
+              
+              <th>ClassPass.com {{ $t('global.SignUps') }}</th>
+              
+              
+              
 
               <!-- <th>{{ $t('global.ParticipantsInclTeacher') }}</th>
               <th>{{ $t('global.StreamTimeTotal') }}</th> -->

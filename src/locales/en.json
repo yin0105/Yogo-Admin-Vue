@@ -1034,7 +1034,9 @@
     "EditVimeoWebsiteDomainText1": "The videos that you sell access to, will need to be locked to a website, usually your own.",
     "EditVimeoWebsiteDomainText2": "This will prevent people from watching them without buying access.",
     "EditVimeoWebsiteDomainText3": "If you want to change the website later, please contact YOGO.",
-    "EditVimeoWebsiteDomainText4": "Website where my videos will be displayed"
+    "EditVimeoWebsiteDomainText4": "Website where my videos will be displayed",
+    "PhysicalAttendance": "Physical attendance",
+    "ClassPassComEnabled": "ClassPass.com enabled"
   },
   "time": {
     "day": "day",

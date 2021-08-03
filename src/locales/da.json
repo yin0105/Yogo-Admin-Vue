@@ -1036,7 +1036,9 @@
     "EditVimeoWebsiteDomainText1": "De videoer, du sælger adgang til, skal låses til et websted, normalt dit eget.",
     "EditVimeoWebsiteDomainText2": "Dette forhindrer folk i at se dem uden at købe adgang.",
     "EditVimeoWebsiteDomainText3": "Hvis du vil ændre webstedet senere, bedes du kontakte YOGO.",
-    "EditVimeoWebsiteDomainText4": "Websted, hvor mine videoer vises"
+    "EditVimeoWebsiteDomainText4": "Websted, hvor mine videoer vises",
+    "PhysicalAttendance": "Fysisk fremmøde",
+    "ClassPassComEnabled": "ClassPass.com aktiveret"
   },
   "time": {
     "day": "dag",
