@@ -16,7 +16,7 @@
                 <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('pdf')">Download PDF</md-button>          
             </div>
 
-            <div v-for="(teacher, idx) in this.selectedTeachersList" class="w-100 overflow-scroll">
+            <div v-if="!selectedPeriod.invalidDuration" v-for="(teacher, idx) in this.selectedTeachersList" class="w-100 overflow-scroll">
                 <h3>{{ teacher.name }}</h3>
                 <table class="classes">
                     <tr>
@@ -206,7 +206,9 @@
                         .toDate(),
                     endDate: moment.tz('Europe/Copenhagen')
                         .toDate(),
+                    dateUpdated: false,
                     dataUpdated: false,
+                    invalidDuration: false,
                     teachers: [],
                     classTypes: [],
                     onlyPhysicalAttendance: false,
@@ -248,8 +250,9 @@
             selectedPeriod: {
                 handler: function (newPeriod, oldPeriod) {
                     if ( newPeriod.dataUpdated ) {
-                        console.log("newPeriod = ", newPeriod);
-                        this.fetchData();
+                        if (!newPeriod.invalidDuration) {
+                            this.fetchData(newPeriod.dateUpdated);
+                        }
                     }                    
                 },
                 deep: true,
@@ -260,7 +263,7 @@
         },
 
         methods: {
-            async fetchData() {
+            async fetchData(dateUpdated) {
                 this.loading = true
                 if (this.selectedPeriod.fromDate <= this.selectedPeriod.endDate) {
                     let allClasses = await YogoApi.get('/classes' +

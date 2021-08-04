@@ -1041,7 +1041,8 @@
     "ClassPassComEnabled": "ClassPass.com aktiveret",
     "OnlyPhysicalAttendance": "Kun klasser med fysisk fremmøde",
     "OnlyLivestream": "Kun klasser med livestream",
-    "OnlyClassPassEnabled": "Kun klasser med ClassPass.com booking aktiveret"
+    "OnlyClassPassEnabled": "Kun klasser med ClassPass.com booking aktiveret",
+    "MaxTimePeriodIsOneYear": "Maks tidsperiode er et år"
   },
   "time": {
     "day": "dag",

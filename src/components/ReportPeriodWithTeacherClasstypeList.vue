@@ -10,6 +10,7 @@
         <div class="flex--20 mr10-md min-h-14">
             <label>{{ $t('global.EndDate') }}</label>
             <datepicker v-model="endDate" :monday-first="true"></datepicker>
+            <label v-bind:style="{ fontSize: '12px', color: 'red'  }">{{ $t('global.MaxTimePeriodIsOneYear') }}</label>
         </div>
 
         <div class="flex--25 mr10-md min-h-14">
@@ -135,8 +136,8 @@
                     sendDateTime = moment.tz(sendDate + ' ' + this.form.sendTime, 'Europe/Copenhagen')
                 }, 
                 set: function(date) {
-                    this.$emit('update:fromDate', date);
-                    this.$emit('update:dataUpdated', true);
+                    this.$emit('update:fromDate', date);                    
+                    this.validateDuration(date, this.endDate);
                 }
             },
             endDate: {
@@ -148,16 +149,31 @@
                     return new Date(yy, mm, 0);
                 },
                 set: function(date) {
-                this.$emit('update:endDate', date);
-                this.$emit('update:dataUpdated', true);
+                    this.$emit('update:endDate', date);
+                    this.validateDuration(this.fromDate, date);
                 }
             }
         },    
         mounted() {
             this.$emit('update:fromDate', this.fromDate);
             this.$emit('update:endDate', this.endDate);
-            this.$emit('update:dataUpdated', true);
-        }
+            // this.$emit('update:dataUpdated', true);
+        },
+
+        methods: {
+            validateDuration(f, e) {
+                const limitDate = moment(f, 'YYYY-MM-DD').add(1, 'years');
+                if (limitDate < e) {
+                    this.invalidDuration = true;
+                } else {
+                    this.invalidDuration = false;
+                    console.log("==", f, limitDate, e);
+                }
+                this.$emit('update:invalidDuration', this.invalidDuration);
+                this.$emit('update:dateUpdated', true);
+                this.$emit('update:dataUpdated', true);
+            },
+        },
     }
 
 </script>

@@ -1039,7 +1039,8 @@
     "ClassPassComEnabled": "ClassPass.com enabled",
     "OnlyPhysicalAttendance": "Only classes with physical attendance",
     "OnlyLivestream": "Only classes with livestream",
-    "OnlyClassPassEnabled": "Only classes with ClassPass.com booking enabled"
+    "OnlyClassPassEnabled": "Only classes with ClassPass.com booking enabled",
+    "MaxTimePeriodIsOneYear": "Max time period is one year"
   },
   "time": {
     "day": "day",
