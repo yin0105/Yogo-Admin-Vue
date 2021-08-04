@@ -61,7 +61,8 @@
                         <td v-if="classItem.livestream_enabled == 1">{{ $t('global.Yes') }}</td>
                         <td v-else>{{ $t('global.No') }}</td>
                         
-                        <td>&nbsp;</td>
+                        <td v-if="classItem.classpass_com_enabled == 1">{{ $t('global.Yes') }}</td>
+                        <td v-else>{{ $t('global.No') }}</td>
                         
                         <td v-if="classItem.cancelled == 1">{{ $t('global.Yes') }}</td>
                         <td v-else>{{ $t('global.No') }}</td>
@@ -210,6 +211,7 @@
                     classTypes: [],
                     onlyPhysicalAttendance: false,
                     onlyLivestream: false,
+                    onlyClassPassEnabled: false,
                     countClassTypes: 0,
                 },
 
@@ -296,6 +298,7 @@
                         let exist = false;
                         if (this.selectedPeriod.onlyPhysicalAttendance && !this.classes[j].studio_attendance_enabled) continue;
                         if (this.selectedPeriod.onlyLivestream && !this.classes[j].livestream_enabled) continue;
+                        if (this.selectedPeriod.onlyClassPassEnabled && !this.classes[j].classpass_com_enabled) continue;
 
                         for (const k in this.selectedPeriod.classTypes.classTypes) {
                             if (this.classes[j].class_type_id == this.selectedPeriod.classTypes.classTypes[k].id) {

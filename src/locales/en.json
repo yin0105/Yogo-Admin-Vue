@@ -1036,7 +1036,10 @@
     "EditVimeoWebsiteDomainText3": "If you want to change the website later, please contact YOGO.",
     "EditVimeoWebsiteDomainText4": "Website where my videos will be displayed",
     "PhysicalAttendance": "Physical attendance",
-    "ClassPassComEnabled": "ClassPass.com enabled"
+    "ClassPassComEnabled": "ClassPass.com enabled",
+    "OnlyPhysicalAttendance": "Only classes with physical attendance",
+    "OnlyLivestream": "Only classes with livestream",
+    "OnlyClassPassEnabled": "Only classes with ClassPass.com booking enabled"
   },
   "time": {
     "day": "day",

@@ -22,10 +22,13 @@
             <YogoTreeselectClassTypes2 v-bind.sync="selectedClassTypes"></YogoTreeselectClassTypes2>      
         </div>
         <div class="flex--25 mr10-md min-h-14">
-            <md-checkbox v-model="onlyPhysicalAttendance">Only classes with physical attendance</md-checkbox>
+            <md-checkbox v-model="onlyPhysicalAttendance">{{ $t('global.OnlyPhysicalAttendance') }}</md-checkbox>
         </div>
         <div class="flex--25 mr10-md min-h-14">
-            <md-checkbox v-model="onlyLivestream">Only classes with livestream</md-checkbox>
+            <md-checkbox v-model="onlyLivestream">{{ $t('global.OnlyLivestream') }}</md-checkbox>
+        </div>
+        <div class="flex--25 mr10-md min-h-14">
+            <md-checkbox v-model="onlyClassPassEnabled">{{ $t('global.OnlyClassPassEnabled') }}</md-checkbox>
         </div>
     </div>
 
@@ -56,6 +59,7 @@
                 },
                 onlyPhysicalAttendance: false,
                 onlyLivestream: false,
+                onlyClassPassEnabled: false,
             }
         },
         watch: {
@@ -84,6 +88,12 @@
             onlyLivestream(newOnlyLivestream, oldOnlyLivestream) {
                 if (newOnlyLivestream !== oldOnlyLivestream) {
                     this.$emit('update:onlyLivestream', newOnlyLivestream);
+                    this.$emit('update:dataUpdated', true);
+                }
+            },
+            onlyClassPassEnabled(newOnlyClassPassEnabled, oldOnlyClassPassEnabled) {
+                if (newOnlyClassPassEnabled !== oldOnlyClassPassEnabled) {
+                    this.$emit('update:onlyClassPassEnabled', newOnlyClassPassEnabled);
                     this.$emit('update:dataUpdated', true);
                 }
             },

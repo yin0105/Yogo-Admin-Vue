@@ -1038,7 +1038,10 @@
     "EditVimeoWebsiteDomainText3": "Hvis du vil ændre webstedet senere, bedes du kontakte YOGO.",
     "EditVimeoWebsiteDomainText4": "Websted, hvor mine videoer vises",
     "PhysicalAttendance": "Fysisk fremmøde",
-    "ClassPassComEnabled": "ClassPass.com aktiveret"
+    "ClassPassComEnabled": "ClassPass.com aktiveret",
+    "OnlyPhysicalAttendance": "Kun klasser med fysisk fremmøde",
+    "OnlyLivestream": "Kun klasser med livestream",
+    "OnlyClassPassEnabled": "Kun klasser med ClassPass.com booking aktiveret"
   },
   "time": {
     "day": "dag",
