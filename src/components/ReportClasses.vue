@@ -11,9 +11,9 @@
 
         <div v-else>
             <div class="toolbar">
-                <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('csv')">Download CSV</md-button>
-                <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('xlsx')">Download XLSX</md-button>
-                <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('pdf')">Download PDF</md-button>          
+                <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('csv')" :disabled="selectedPeriod.invalidDuration">Download CSV</md-button>
+                <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('xlsx')" :disabled="selectedPeriod.invalidDuration">Download XLSX</md-button>
+                <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('pdf')" :disabled="selectedPeriod.invalidDuration">Download PDF</md-button>          
             </div>
 
             <div v-if="!selectedPeriod.invalidDuration" v-for="(teacher, idx) in this.selectedTeachersList" class="w-100 overflow-scroll">

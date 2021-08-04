@@ -10,7 +10,7 @@
         <div class="flex--20 mr10-md min-h-14">
             <label>{{ $t('global.EndDate') }}</label>
             <datepicker v-model="endDate" :monday-first="true"></datepicker>
-            <label v-bind:style="{ fontSize: '12px', color: 'red'  }">{{ $t('global.MaxTimePeriodIsOneYear') }}</label>
+            <label v-if="invalidDuration" v-bind:style="{ fontSize: '12px', color: 'red'  }">{{ $t('global.MaxTimePeriodIsOneYear') }}</label>
         </div>
 
         <div class="flex--25 mr10-md min-h-14">
@@ -61,6 +61,7 @@
                 onlyPhysicalAttendance: false,
                 onlyLivestream: false,
                 onlyClassPassEnabled: false,
+                invalidDuration: false,
             }
         },
         watch: {
