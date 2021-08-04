@@ -63,7 +63,7 @@
                 handler: function (newTeachers) {
                     console.log("update teachers");
                     this.$emit('update:teachers', newTeachers);
-                    // this.$emit('update:dataUpdated', true);
+                    this.$emit('update:dataUpdated', true);
                 },
                 deep: true,
             },

@@ -16,7 +16,7 @@
                 <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('pdf')">Download PDF</md-button>          
             </div>
 
-            <div v-for="(teacher, idx) in this.selectedPeriod.teachers.teachers" class="w-100 overflow-scroll">
+            <div v-for="(teacher, idx) in this.selectedTeachersList" class="w-100 overflow-scroll">
                 <h3>{{ teacher.name }}</h3>
                 <table class="classes">
                     <tr>
@@ -208,7 +208,7 @@
                 },
 
                 classes: [],
-
+                selectedTeachersList: [],
                 loading: true,
 
                 classParticipantsDialogClass: null,
@@ -239,8 +239,8 @@
             },
             selectedPeriod: {
                 handler: function (newPeriod, oldPeriod) {
-                    console.log("newPeriod = ", newPeriod, "  oldPeriod = ", oldPeriod);
-                    if ( newPeriod.dataUpdated || newPeriod.teachers.teachers[0].totalMins == undefined || newPeriod.classTypes != oldPeriod.classTypes) {
+                    // console.log("newPeriod = ", newPeriod, "  oldPeriod = ", oldPeriod);
+                    if ( newPeriod.dataUpdated ) {
                         console.log("newPeriod = ", newPeriod);
                         this.fetchData();
                     }
@@ -278,12 +278,28 @@
                 } else {
                     this.classes = [];
                 }
+                this.selectedTeachersList = [];
                 for (const i in this.selectedPeriod.teachers.teachers) {
+                    let teacher = {}
                     let totalMins = 0, totalCheckedIn = 0, totalSignups = 0, totalLivestreamSignups = 0;
-                    this.selectedPeriod.teachers.teachers[i].classes = [];
+                    
+                    // this.selectedPeriod.teachers.teachers[i].classes = [];
+                    teacher.name = this.selectedPeriod.teachers.teachers[i].name;
+                    teacher.classes = []
 
                     for (const j in this.classes) {
-                    
+                        let exist = false;
+                        for (const k in this.selectedPeriod.classTypes.classTypes) {
+                            console.log("class_type_id = ", this.classes[j] );
+                            console.log("id = ", this.selectedPeriod.classTypes.classTypes[k]);
+                            if (this.classes[j].class_type_id == this.selectedPeriod.classTypes.classTypes[k].id) {
+                                exist = true;
+                                break;
+                            }
+                        }
+
+                        if (!exist) continue;
+                        
                         for (const k in this.classes[j].teachers) {
                             if (this.selectedPeriod.teachers.teachers[i].id == this.classes[j].teachers[k].id) {
                                 //get teachers list
@@ -297,7 +313,9 @@
                                 this.classes[j].livestream_enabled = this.toYesNo(this.classes[j].livestream_enabled);
                                 this.classes[j].cancelled = this.toYesNo(this.classes[j].cancelled);
 
-                                this.selectedPeriod.teachers.teachers[i].classes.push(this.classes[j]);
+                                // this.selectedPeriod.teachers.teachers[i].classes.push(this.classes[j]);
+                                teacher.classes.push(this.classes[j]);
+
                                 let start_timer = parseInt(this.classes[j].start_time.split(":")[0]) * 60 + parseInt(this.classes[j].start_time.split(":")[1])
                                 let end_timer = parseInt(this.classes[j].end_time.split(":")[0]) * 60 + parseInt(this.classes[j].end_time.split(":")[1])
                                 totalMins += end_timer - start_timer
@@ -308,10 +326,11 @@
                             }
                         }
                     }
-                    this.selectedPeriod.teachers.teachers[i].totalMins = totalMins
-                    this.selectedPeriod.teachers.teachers[i].totalCheckedIn = totalCheckedIn
-                    this.selectedPeriod.teachers.teachers[i].totalSignups = totalSignups
-                    this.selectedPeriod.teachers.teachers[i].totalLivestreamSignups = totalLivestreamSignups          
+                    teacher.totalMins = totalMins
+                    teacher.totalCheckedIn = totalCheckedIn
+                    teacher.totalSignups = totalSignups
+                    teacher.totalLivestreamSignups = totalLivestreamSignups  
+                    this.selectedTeachersList.push(teacher);        
                     // Vue.set(this.selectedPeriod.teachers.teachers[i], "folded", true);
                 }
                 this.selectedPeriod.dataUpdated = false;
