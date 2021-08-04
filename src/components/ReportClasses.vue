@@ -70,6 +70,7 @@
                         <td>{{ classItem.signup_count }}</td>
                         <td>{{ classItem.checkedin_count }}</td>
                         <td>{{ classItem.livestream_signup_count }}</td>
+                        <td></td>
                         
                     </tr>
                     <tr v-if="!teacher.classes.length">
@@ -92,8 +93,17 @@
 
                         <th v-if="teacher.classes.length">
                             {{ durationStringWithoutSecond(teacher.totalMins) }}
-                        </th>
+                        </th>                        
                         <th v-else></th>
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         
                         <th v-if="teacher.classes.length">{{ teacher.totalSignups }}</th>
                         <th v-else></th>
