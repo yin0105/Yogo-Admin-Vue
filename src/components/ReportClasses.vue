@@ -204,10 +204,12 @@ export default {
             .toDate(),
         endDate: moment.tz('Europe/Copenhagen')
             .toDate(),
-        dateUpdated: false,
+        dataUpdated: false,
         teachers: [],
+        classTypes: [],
         onlyPhysicalAttendance: false,
         onlyLivestream: false,
+        countClassTypes: 0,
       },
 
       classes: [],
@@ -242,7 +244,8 @@ export default {
     },
     selectedPeriod: {
       handler: function (newPeriod, oldPeriod) {
-        if ( newPeriod.dateUpdated || newPeriod.teachers.teachers[0].totalMins == undefined) {
+        console.log("newPeriod = ", newPeriod, "  oldPeriod = ", oldPeriod);
+        if ( newPeriod.dataUpdated || newPeriod.teachers.teachers[0].totalMins == undefined || newPeriod.classTypes != oldPeriod.classTypes) {
             console.log("newPeriod = ", newPeriod);
             this.fetchData();
         }
@@ -314,7 +317,7 @@ export default {
           this.selectedPeriod.teachers.teachers[i].totalLivestreamSignups = totalLivestreamSignups          
           // Vue.set(this.selectedPeriod.teachers.teachers[i], "folded", true);
         }
-        this.selectedPeriod.dateUpdated = false;
+        this.selectedPeriod.dataUpdated = false;
 
         this.loading = false
       },

@@ -24,7 +24,7 @@ export default {
       classTypes: [],
     };
   },
-  props: ['value'],
+  // props: ['value'],
   computed: {
     treeSelectClassTypesOptions() {
       return this.classTypes.length
@@ -44,15 +44,34 @@ export default {
             },
           ]
           : [];
-    },    
+    },
+    value() {
+      let val = []
+      if (this.classTypes.length) {
+        for (const i in this.classTypes) {
+          val.push(this.classTypes[i].id);
+        }
+      }
+      return val;
+    },
   },
   async created() {
     this.classTypes = await YogoApi.get('/class-types');
     this.classTypes = _.sortBy(this.classTypes, 'name');
+    console.log("this.classTypes = ", this.classTypes);
   },
   methods: {
     updateValue(newValue) {
-      this.$emit('input', newValue);
+      let selectedClassTypes = [];
+      for (const i in this.classTypes) {
+        for (const j in newValue) {
+          if (this.classTypes[i].id == newValue[j]) {
+            selectedClassTypes.push({"id": this.classTypes[i].id, "name": this.classTypes[i].name});
+            break;
+          }
+        }
+      }
+      this.$emit('update:classTypes', selectedClassTypes);
     },
   },
 };

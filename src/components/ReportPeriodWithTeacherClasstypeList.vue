@@ -19,7 +19,7 @@
 
         <div class="flex--25">
             <label>{{ $t('global.ClassType') }}</label>
-            <YogoTreeselectClassTypes v-bind.sync="selectedClassTypes"></YogoTreeselectClassTypes>      
+            <YogoTreeselectClassTypes2 v-bind.sync="selectedClassTypes"></YogoTreeselectClassTypes2>      
         </div>
         <div class="flex--25 mr10-md min-h-14">
             <md-checkbox v-model="onlyPhysicalAttendance">Only classes with physical attendance</md-checkbox>
@@ -36,14 +36,14 @@
     import Datepicker from 'vuejs-datepicker'
     import moment from 'moment'
     import YogoTreeselectTeacher from '@/components/ui/YogoTreeselectTeacher';
-    import YogoTreeselectClassTypes from '@/components/ui/YogoTreeselectClassTypes';
+    import YogoTreeselectClassTypes2 from '@/components/ui/YogoTreeselectClassTypes2';
 
 
     export default {
         components: {
             Datepicker,
             YogoTreeselectTeacher,
-            YogoTreeselectClassTypes
+            YogoTreeselectClassTypes2
         },
         name: 'reportperiodwithteacherclasstypelist',
         data() {
@@ -61,13 +61,17 @@
         watch: {
             selectedTeachers: {
                 handler: function (newTeachers) {
+                    console.log("update teachers");
                     this.$emit('update:teachers', newTeachers);
+                    // this.$emit('update:dataUpdated', true);
                 },
                 deep: true,
             },
             selectedClassTypes: {
                 handler: function (newClassTypes) {
+                    console.log("update classTypes");
                     this.$emit('update:classTypes', newClassTypes);
+                    this.$emit('update:dataUpdated', true);
                 },
                 deep: true,
             },
@@ -121,7 +125,7 @@
                 }, 
                 set: function(date) {
                     this.$emit('update:fromDate', date);
-                    this.$emit('update:dateUpdated', true);
+                    this.$emit('update:dataUpdated', true);
                 }
             },
             endDate: {
@@ -134,14 +138,14 @@
                 },
                 set: function(date) {
                 this.$emit('update:endDate', date);
-                this.$emit('update:dateUpdated', true);
+                this.$emit('update:dataUpdated', true);
                 }
             }
         },    
         mounted() {
             this.$emit('update:fromDate', this.fromDate);
             this.$emit('update:endDate', this.endDate);
-            this.$emit('update:dateUpdated', true);
+            this.$emit('update:dataUpdated', true);
         }
     }
 
