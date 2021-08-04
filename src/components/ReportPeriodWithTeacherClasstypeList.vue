@@ -22,13 +22,13 @@
             <label>{{ $t('global.ClassType') }}</label>
             <YogoTreeselectClassTypes2 v-bind.sync="selectedClassTypes"></YogoTreeselectClassTypes2>      
         </div>
-        <div class="flex--25 mr10-md min-h-14">
+        <div class="flex--25 mr10-md ">
             <md-checkbox v-model="onlyPhysicalAttendance">{{ $t('global.OnlyPhysicalAttendance') }}</md-checkbox>
         </div>
-        <div class="flex--25 mr10-md min-h-14">
+        <div class="flex--25 mr10-md ">
             <md-checkbox v-model="onlyLivestream">{{ $t('global.OnlyLivestream') }}</md-checkbox>
         </div>
-        <div class="flex--25 mr10-md min-h-14">
+        <div class="flex--25 mr10-md ">
             <md-checkbox v-model="onlyClassPassEnabled">{{ $t('global.OnlyClassPassEnabled') }}</md-checkbox>
         </div>
     </div>
