@@ -75,17 +75,18 @@
                 },
                 deep: true,
             },
-            onlyPhysicalAttendance(newRepeatClassIntervalFactor, oldOnlyPhysicalAttendance) {
+            onlyPhysicalAttendance(newOnlyPhysicalAttendance, oldOnlyPhysicalAttendance) {
                 if (newOnlyPhysicalAttendance !== oldOnlyPhysicalAttendance) {
                     this.$emit('update:onlyPhysicalAttendance', newOnlyPhysicalAttendance);
+                    this.$emit('update:dataUpdated', true);
                 }
             },
-            // onlyPhysicalAttendance: {
-            //     handler: function (newOnlyPhysicalAttendance) {
-            //         this.$emit('update:onlyPhysicalAttendance', newOnlyPhysicalAttendance);
-            //     },
-            //     deep: true,
-            // }
+            onlyLivestream(newOnlyLivestream, oldOnlyLivestream) {
+                if (newOnlyLivestream !== oldOnlyLivestream) {
+                    this.$emit('update:onlyLivestream', newOnlyLivestream);
+                    this.$emit('update:dataUpdated', true);
+                }
+            },
         // endDate(newEndDate) {
         //   this.$emit('update:endDate', newEndDate)
         // },

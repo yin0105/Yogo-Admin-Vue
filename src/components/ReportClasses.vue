@@ -54,11 +54,17 @@
                         <td>{{ classItem.teachersList }}</td>
                         <td>{{ classItem.room.name }}</td>
                         <td>{{ classItem.room.branch }}</td>
-                        <td>{{ classItem.studio_attendance_enabled }}</td>
-                        <td>{{ classItem.livestream_enabled }}</td>
+                        
+                        <td v-if="classItem.studio_attendance_enabled == 1">{{ $t('global.Yes') }}</td>
+                        <td v-else>{{ $t('global.No') }}</td>
+                        
+                        <td v-if="classItem.livestream_enabled == 1">{{ $t('global.Yes') }}</td>
+                        <td v-else>{{ $t('global.No') }}</td>
+                        
                         <td>&nbsp;</td>
-                        <td>{{ classItem.cancelled }}</td>           
-
+                        
+                        <td v-if="classItem.cancelled == 1">{{ $t('global.Yes') }}</td>
+                        <td v-else>{{ $t('global.No') }}</td>
 
                         <td>{{ classItem.signup_count }}</td>
                         <td>{{ classItem.checkedin_count }}</td>
@@ -239,12 +245,10 @@
             },
             selectedPeriod: {
                 handler: function (newPeriod, oldPeriod) {
-                    // console.log("newPeriod = ", newPeriod, "  oldPeriod = ", oldPeriod);
                     if ( newPeriod.dataUpdated ) {
                         console.log("newPeriod = ", newPeriod);
                         this.fetchData();
-                    }
-                    
+                    }                    
                 },
                 deep: true,
             },
@@ -288,10 +292,12 @@
                     teacher.classes = []
 
                     for (const j in this.classes) {
+
                         let exist = false;
+                        if (this.selectedPeriod.onlyPhysicalAttendance && !this.classes[j].studio_attendance_enabled) continue;
+                        if (this.selectedPeriod.onlyLivestream && !this.classes[j].livestream_enabled) continue;
+
                         for (const k in this.selectedPeriod.classTypes.classTypes) {
-                            console.log("class_type_id = ", this.classes[j] );
-                            console.log("id = ", this.selectedPeriod.classTypes.classTypes[k]);
                             if (this.classes[j].class_type_id == this.selectedPeriod.classTypes.classTypes[k].id) {
                                 exist = true;
                                 break;
@@ -299,6 +305,7 @@
                         }
 
                         if (!exist) continue;
+                        
                         
                         for (const k in this.classes[j].teachers) {
                             if (this.selectedPeriod.teachers.teachers[i].id == this.classes[j].teachers[k].id) {
@@ -309,9 +316,9 @@
                                     teachersList += this.classes[j].teachers[kk].first_name + " " + this.classes[j].teachers[kk].last_name;
                                 }
                                 this.classes[j].teachersList = teachersList;
-                                this.classes[j].studio_attendance_enabled = this.toYesNo(this.classes[j].studio_attendance_enabled);
-                                this.classes[j].livestream_enabled = this.toYesNo(this.classes[j].livestream_enabled);
-                                this.classes[j].cancelled = this.toYesNo(this.classes[j].cancelled);
+                                // this.classes[j].studio_attendance_enabled = this.toYesNo(this.classes[j].studio_attendance_enabled);
+                                // this.classes[j].livestream_enabled = this.toYesNo(this.classes[j].livestream_enabled);
+                                // this.classes[j].cancelled = this.toYesNo(this.classes[j].cancelled);
 
                                 // this.selectedPeriod.teachers.teachers[i].classes.push(this.classes[j]);
                                 teacher.classes.push(this.classes[j]);
@@ -370,9 +377,9 @@
                 return val;
             },
 
-            toYesNo(v) {
-                return v?"Yes": "No";
-            },
+            // toYesNo(v) {
+            //     return v ? $t('global.Yes') : $t('global.No');
+            // },
 
             async showClassUsers(classItem) {
                 this.classParticipantsDialogClass = classItem;
