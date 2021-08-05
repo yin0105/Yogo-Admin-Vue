@@ -173,7 +173,7 @@ export default {
 
 
         const image = await YogoApi.request({
-          url: '/images',
+          url: `/images/${imageSize.width}/${imageSize.height}`,
           method: 'post',
           data: data,
           headers: { 'Content-Type': 'multipart/form-data' },
