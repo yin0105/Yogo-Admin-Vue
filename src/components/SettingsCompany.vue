@@ -8,6 +8,7 @@
       <loading-animation v-if="loading"/>
 
         <div v-else>
+          <form novalidate @submit.prevent="submit">
             <div class="flex--row">
                 <div class="flex--50">
                 <md-field>
@@ -59,17 +60,22 @@
                 </md-field>
             </div>
             <div class="flex--row">
-                <md-field class="flex--50" >
+              <div class="flex--50">
+                <md-field :class="getValidationClass('website')">
                     <label>Website</label>
                     <md-input required v-model="form.website"></md-input>
+                    <!-- <template v-slot:errors>
+                      <span class="error"  >The website URL is required</span>
+                    </template> -->
                     <span class="md-error" v-if="!$v.form.website.required">The website URL is required</span>
                     <span class="md-error" v-else-if="!$v.form.website.valid">Invalid website URL</span>
-                    <div id="website_feedback" v-bind:style="invalidFeedbackStyleObject">{{ website_feedback }}</div>
+                    <!-- <div id="website_feedback" v-bind:style="invalidFeedbackStyleObject">{{ website_feedback }}</div> -->
                 </md-field>
-                <md-field class="flex--50">
-                    <label>SMS Sender Name</label>
-                    <md-input v-model="form.sms_sender_name"></md-input>
-                </md-field>
+              </div>
+              <md-field class="flex--50">
+                  <label>SMS Sender Name</label>
+                  <md-input v-model="form.sms_sender_name"></md-input>
+              </md-field>
             </div>
             <div class="space8"></div>
             <div class="space8"></div>
@@ -79,6 +85,7 @@
                 <label>Company Logo in White for Admin Login</label><br> 
                 <imagefield :imageId.sync="form.logo_white" imageFormat="square"></imagefield>       
             </div>  
+          </form>
 
         <div class="space"></div>
 
@@ -88,14 +95,86 @@
 
     </div>
 
+    <!-- <div>
+    <form novalidate class="md-layout" @submit.prevent="validateUser">
+      <md-card class="md-layout-item md-size-50 md-small-size-100">
+        <md-card-header>
+          <div class="md-title">Users</div>
+        </md-card-header>
+
+        <md-card-content>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('firstName')">
+                <label for="first-name">First Name</label>
+                <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
+                <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
+              </md-field>
+            </div>
+
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('lastName')">
+                <label for="last-name">Last Name</label>
+                <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastName" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
+                <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
+              </md-field>
+            </div>
+          </div>
+
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('gender')">
+                <label for="gender">Gender</label>
+                <md-select name="gender" id="gender" v-model="form.gender" md-dense :disabled="sending">
+                  <md-option></md-option>
+                  <md-option value="M">M</md-option>
+                  <md-option value="F">F</md-option>
+                </md-select>
+                <span class="md-error">The gender is required</span>
+              </md-field>
+            </div>
+
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('age')">
+                <label for="age">Age</label>
+                <md-input type="number" id="age" name="age" autocomplete="age" v-model="form.age" :disabled="sending" />
+                <span class="md-error" v-if="!$v.form.age.required">The age is required</span>
+                <span class="md-error" v-else-if="!$v.form.age.maxlength">Invalid age</span>
+              </md-field>
+            </div>
+          </div>
+
+          <md-field :class="getValidationClass('email')">
+            <label for="email">Email</label>
+            <md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
+            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+          </md-field>
+        </md-card-content>
+
+        <md-progress-bar md-mode="indeterminate" v-if="sending" />
+
+        <md-card-actions>
+          <md-button type="submit" class="md-primary" :disabled="sending">Create user</md-button>
+        </md-card-actions>
+      </md-card>
+
+      <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
+    </form>
+  </div> -->
+
   </div>
+
+  
 
 </template>
 
 <script>
 
   import { validationMixin } from 'vuelidate';
-  import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+  import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
   import SettingsSubMenu from './SettingsSubMenu'
   import LoadingAnimation from "./LoadingAnimation"
   import CountrySelect from './CountrySelect.vue'
@@ -109,6 +188,7 @@
   import qs from 'qs'
 
   export default {
+    mixins: [validationMixin,],    
     components: {
       LoadingAnimation,
       SettingsSubMenu,
@@ -119,20 +199,32 @@
       return {
         loading: true,
         form:{
-          // name : '',
-          // address_1 : '',
-          // address_2 : '',
-          // zip_code : '',
-          // city : '',
-          // country : '',
-          // vat_number : '',
-          // email : '',
-          // phone : '',
-          // website : '',
-          // sms_sender_name : '',
-          // logo : '',
-          // logo_white : ''
+          name : '',
+          address_1 : '',
+          address_2 : '',
+          zip_code : '',
+          city : '',
+          country : '',
+          vat_number : '',
+          email : '',
+          phone : '',
+          website : '',
+          sms_sender_name : '',
+          logo : '',
+          logo_white : '',
+
+
+          // firstName: null,
+          // lastName: null,
+          // gender: null,
+          // age: null,
+          // email: null,
         },
+        // userSaved: false,
+        // sending: false,
+        // lastUser: null,
+
+        
         website_feedback: '',
 
         invalidFeedbackStyleObject: {
@@ -165,12 +257,33 @@
       this.form = await YogoApi.get('/clients/' + this.client.id);
       this.loading = false
     },
+
     methods: {
-      async submit() {
-        if (!this.form.website) {
-          this.website_feedback = "You must enter the website URL.";
-          return;
+      getValidationClass(fieldName) {
+        const field = this.$v.form[fieldName];
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty,
+          };
         }
+        return {};
+      },
+
+      // validateUser () {
+      //   this.$v.$touch()
+
+      //   if (!this.$v.$invalid) {
+      //     this.saveUser()
+      //   }
+      // },
+
+      async submit() {
+        console.log("1");
+        this.$v.$touch();
+        console.log("2: ", this.form.website.required);
+        if (this.$v.$invalid) return;
+        console.log("3");
         
         
         this.loading = true
@@ -208,11 +321,32 @@
           required,
 
           valid: function(value) {
+            console.log("valid");
             const matches = this.form.website.match(/^(([a-zA-Z0-9][a-zA-Z0-9-]{1,60}[a-zA-Z0-9]|([a-zA-Z0-9])+)\.)+[a-zA-Z]{2,}$/g);
             if (!matches) return false;
             return true;
           },
         },
+
+        firstName: {
+          required,
+          minLength: minLength(3)
+        },
+        lastName: {
+          required,
+          minLength: minLength(3)
+        },
+        age: {
+          required,
+          maxLength: maxLength(3)
+        },
+        gender: {
+          required
+        },
+        email: {
+          required,
+          email
+        }
         // first_name: {
         //   required,
         // },
