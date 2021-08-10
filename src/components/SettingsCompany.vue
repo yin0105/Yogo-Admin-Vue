@@ -151,6 +151,17 @@
     },
     methods: {
       async submit() {
+        if (!this.form.website) {
+          this.website_feedback = "You must enter the website URL.";
+          return;
+        }
+        const matches = this.form.website.match(/^(([a-zA-Z0-9][a-zA-Z0-9-]{1,60}[a-zA-Z0-9]|([a-zA-Z0-9])+)\.)+[a-zA-Z]{2,}$/g);
+
+        if (!matches) {
+          this.website_feedback = "You must enter the website URL.";
+          return;
+        }
+        
         this.loading = true
         const submitData = _pick(
           this.form,
