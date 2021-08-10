@@ -50,10 +50,13 @@
                 </md-field>
             </div>
             <div class="flex--row">
-                <md-field class="flex--50">
+                <div class="flex--50">
+                  <md-field :class="getValidationClass('email')">
                     <label>{{ $t('global.Email') }}</label>
                     <md-input v-model="form.email"></md-input>
-                </md-field>
+                    <span class="md-error" v-if="!$v.form.email.email">{{ $t('global.notValidEmail') }}</span>
+                  </md-field>
+                </div>
                 <md-field class="flex--50">
                   <label>{{ $t('global.Phone') }}</label>
                   <md-input v-model="form.phone"></md-input>
@@ -64,18 +67,22 @@
                 <md-field :class="getValidationClass('website')">
                     <label>Website</label>
                     <md-input required v-model="form.website"></md-input>
-                    <!-- <template v-slot:errors>
-                      <span class="error"  >The website URL is required</span>
-                    </template> -->
                     <span class="md-error" v-if="!$v.form.website.required">The website URL is required</span>
                     <span class="md-error" v-else-if="!$v.form.website.valid">Invalid website URL</span>
-                    <!-- <div id="website_feedback" v-bind:style="invalidFeedbackStyleObject">{{ website_feedback }}</div> -->
                 </md-field>
               </div>
-              <md-field class="flex--50">
+              <div class="flex--50">
+                <md-field :class="getValidationClass('sms_sender_name')">
+                    <label>SMS Sender Name</label>
+                    <md-input required v-model="form.sms_sender_name"></md-input>
+                    <!-- <span class="md-error" v-if="!$v.form.sms_sender_name.required">The website URL is required</span> -->
+                    <span class="md-error" v-if="!$v.form.sms_sender_name.maxLength">Max 11 characters including spaces</span>
+                </md-field>
+              </div>
+              <!-- <md-field class="flex--50">
                   <label>SMS Sender Name</label>
                   <md-input v-model="form.sms_sender_name"></md-input>
-              </md-field>
+              </md-field> -->
             </div>
             <div class="space8"></div>
             <div class="space8"></div>
@@ -94,76 +101,6 @@
 
 
     </div>
-
-    <!-- <div>
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
-        <md-card-header>
-          <div class="md-title">Users</div>
-        </md-card-header>
-
-        <md-card-content>
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('firstName')">
-                <label for="first-name">First Name</label>
-                <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
-                <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
-              </md-field>
-            </div>
-
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('lastName')">
-                <label for="last-name">Last Name</label>
-                <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastName" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
-                <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
-              </md-field>
-            </div>
-          </div>
-
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('gender')">
-                <label for="gender">Gender</label>
-                <md-select name="gender" id="gender" v-model="form.gender" md-dense :disabled="sending">
-                  <md-option></md-option>
-                  <md-option value="M">M</md-option>
-                  <md-option value="F">F</md-option>
-                </md-select>
-                <span class="md-error">The gender is required</span>
-              </md-field>
-            </div>
-
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('age')">
-                <label for="age">Age</label>
-                <md-input type="number" id="age" name="age" autocomplete="age" v-model="form.age" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.age.required">The age is required</span>
-                <span class="md-error" v-else-if="!$v.form.age.maxlength">Invalid age</span>
-              </md-field>
-            </div>
-          </div>
-
-          <md-field :class="getValidationClass('email')">
-            <label for="email">Email</label>
-            <md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
-          </md-field>
-        </md-card-content>
-
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
-        <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Create user</md-button>
-        </md-card-actions>
-      </md-card>
-
-      <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
-    </form>
-  </div> -->
 
   </div>
 
@@ -322,56 +259,23 @@
 
           valid: function(value) {
             console.log("valid");
-            const matches = this.form.website.match(/^(([a-zA-Z0-9][a-zA-Z0-9-]{1,60}[a-zA-Z0-9]|([a-zA-Z0-9])+)\.)+[a-zA-Z]{2,}$/g);
+            const matches = this.form.website.match('^(https?:\\/\\/)?'+ // protocol
+              '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+              '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+              '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+              '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+              '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
             if (!matches) return false;
             return true;
           },
         },
-
-        firstName: {
-          required,
-          minLength: minLength(3)
-        },
-        lastName: {
-          required,
-          minLength: minLength(3)
-        },
-        age: {
-          required,
-          maxLength: maxLength(3)
-        },
-        gender: {
-          required
-        },
         email: {
           required,
           email
+        },
+        sms_sender_name: {
+          maxLength: maxLength(11),
         }
-        // first_name: {
-        //   required,
-        // },
-        // last_name: {
-        //   required,
-        // },
-        // email: {
-        //   required,
-        //   email,
-        // },
-        // password: {
-        //   required,
-        //   valid: function(value) {
-        //     const containsUppercase = /[A-Z]/.test(value)
-        //     const containsLowercase = /[a-z]/.test(value)
-        //     const containsNumber = /[0-9]/.test(value)
-        //     // const containsSpecial = /[#?!@$%^&*-]/.test(value)
-        //     return containsUppercase && containsLowercase && containsNumber
-        //   },
-        //   minLength: minLength(6),
-        // confirm_password: { 
-        //   required, 
-        //   sameAsPassword: sameAs("password") 
-        // },
-        // locale: {},
       },
     },
   };
