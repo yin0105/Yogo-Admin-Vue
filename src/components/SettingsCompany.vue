@@ -62,6 +62,9 @@
                 <md-field class="flex--50" >
                     <label>Website</label>
                     <md-input required v-model="form.website"></md-input>
+                    <span class="md-error" v-if="!$v.form.website.required">The website URL is required</span>
+                    <span class="md-error" v-else-if="!$v.form.website.valid">Invalid website URL</span>
+                    <div id="website_feedback" v-bind:style="invalidFeedbackStyleObject">{{ website_feedback }}</div>
                 </md-field>
                 <md-field class="flex--50">
                     <label>SMS Sender Name</label>
@@ -91,6 +94,8 @@
 
 <script>
 
+  import { validationMixin } from 'vuelidate';
+  import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
   import SettingsSubMenu from './SettingsSubMenu'
   import LoadingAnimation from "./LoadingAnimation"
   import CountrySelect from './CountrySelect.vue'
@@ -128,6 +133,17 @@
           // logo : '',
           // logo_white : ''
         },
+        website_feedback: '',
+
+        invalidFeedbackStyleObject: {
+          display: 'block',
+          width: '100%',
+          position: 'relative',
+          top: '33px',
+          color: 'red',
+          textAlign: 'center',
+          fontSize: 'small',
+        }
       }
     },
     computed: {
@@ -155,12 +171,7 @@
           this.website_feedback = "You must enter the website URL.";
           return;
         }
-        const matches = this.form.website.match(/^(([a-zA-Z0-9][a-zA-Z0-9-]{1,60}[a-zA-Z0-9]|([a-zA-Z0-9])+)\.)+[a-zA-Z]{2,}$/g);
-
-        if (!matches) {
-          this.website_feedback = "You must enter the website URL.";
-          return;
-        }
+        
         
         this.loading = true
         const submitData = _pick(
@@ -191,6 +202,44 @@
         })
       },
     },
-  }
+    validations: {
+      form: {
+        website: {
+          required,
+
+          valid: function(value) {
+            const matches = this.form.website.match(/^(([a-zA-Z0-9][a-zA-Z0-9-]{1,60}[a-zA-Z0-9]|([a-zA-Z0-9])+)\.)+[a-zA-Z]{2,}$/g);
+            if (!matches) return false;
+            return true;
+          },
+        },
+        // first_name: {
+        //   required,
+        // },
+        // last_name: {
+        //   required,
+        // },
+        // email: {
+        //   required,
+        //   email,
+        // },
+        // password: {
+        //   required,
+        //   valid: function(value) {
+        //     const containsUppercase = /[A-Z]/.test(value)
+        //     const containsLowercase = /[a-z]/.test(value)
+        //     const containsNumber = /[0-9]/.test(value)
+        //     // const containsSpecial = /[#?!@$%^&*-]/.test(value)
+        //     return containsUppercase && containsLowercase && containsNumber
+        //   },
+        //   minLength: minLength(6),
+        // confirm_password: { 
+        //   required, 
+        //   sameAsPassword: sameAs("password") 
+        // },
+        // locale: {},
+      },
+    },
+  };
 
 </script>
