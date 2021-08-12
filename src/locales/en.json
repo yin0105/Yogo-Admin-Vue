@@ -1045,7 +1045,12 @@
   "classpass": {
     "EnableClasspassIntegration": "Enable ClassPass integration",
     "ReleaseAllUnbookedSeats": "Release all unbooked seats to ClassPass a certain time before classes start",
-    "TimeBeforeClass": "Time before class, unbooked seats are released"
+    "TimeBeforeClass": "Time before class, unbooked seats are released",
+    "ClassPassIntegrationEnabled": "ClassPass integration enabled",
+    "YouCanNowLet": "You can now let people sign up for your classes through ClassPass. \n\nYou can enable this for each class or you can manage it for many classes simultaneously here:",
+    "EditMultipleClasses": "Edit multiple classes",
+    "DisableClassPassIntegration": "Disable ClassPass integration?",
+    "DoYouWantToDisable": "Do you want to disable the integration with ClassPass? \n\nThis will prevent people from signing up through ClassPass in the future, but existing sign-ups will not be affected."
   },
   "time": {
     "day": "day",

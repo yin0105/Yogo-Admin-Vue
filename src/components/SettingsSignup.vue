@@ -25,10 +25,8 @@
 
         <md-button class="md-raised md-primary" @click="submit">{{ $t('global.Save') }}</md-button>
       </div>
-
-    </div>
-
-  </div>
+    </div>    
+  </div> 
 
 </template>
 
@@ -57,7 +55,7 @@
           signup_phone_field_required: false,
           signup_show_date_of_birth_field: false,
           signup_date_of_birth_field_required: false,
-        },
+        },      
 
       }
     },
@@ -105,7 +103,7 @@
           '/clients/' + this.client.id + '/settings',
           submitData,
         )
-        this.loading = false
+        this.loading = false        
 
         this.$store.commit('postFlashMessage', {
           type: 'MESSAGE_TYPE_INFO',

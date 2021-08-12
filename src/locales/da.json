@@ -1047,7 +1047,12 @@
   "classpass": {
     "EnableClasspassIntegration": "Aktiver ClassPass -integration",
     "ReleaseAllUnbookedSeats": "Slip alle ubookede pladser til ClassPass et bestemt tidspunkt, før undervisningen starter",
-    "TimeBeforeClass": "Tid før klassen frigives ubookede pladser"
+    "TimeBeforeClass": "Tid før klassen frigives ubookede pladser",
+    "ClassPassIntegrationEnabled": "ClassPass -integration aktiveret",
+    "YouCanNowLet": "Du kan nu lade folk tilmelde dig dine klasser via ClassPass. \n\n Du kan aktivere dette for hver klasse, eller du kan administrere det for mange klasser samtidigt her: Rediger flere klasser",
+    "EditMultipleClasses": "Rediger flere klasser",
+    "DisableClassPassIntegration": "Deaktiver ClassPass -integration?",
+    "DoYouWantToDisable": "Vil du deaktivere integrationen med ClassPass? \n\n Dette forhindrer folk i at tilmelde sig via ClassPass i fremtiden, men eksisterende tilmeldinger påvirkes ikke."
   },
   "time": {
     "day": "dag",
