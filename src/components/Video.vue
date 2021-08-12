@@ -197,7 +197,7 @@
             {{ $t('global.EditVimeoWebsiteDomainText4') }}
           </div>
           <md-field v-bind:style="{marginBottom: '0px !important'}">
-            <md-input v-model="domainName" class="md-layout-item md-large-size-100 mt-10"></md-input>
+            <md-input v-model="domainName" class="md-layout-item md-large-size-100 mt-10" placeholder="mywebsite.com"></md-input>
           </md-field>
         </div>
       </md-dialog-content>
