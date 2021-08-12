@@ -10,16 +10,14 @@
       <div v-else>
         <div class="flex--50">
           <div>
-            <md-checkbox v-model="form.signup_show_phone_field">{{ $t('classpass.EnableClasspassIntegration') }}</md-checkbox>
+            <md-checkbox v-model="form.classpass_com_integration_enabled">{{ $t('classpass.EnableClasspassIntegration') }}</md-checkbox>
           </div>
-          <div v-if="form.signup_show_phone_field">
-            <md-checkbox v-model="form.signup_phone_field_required">{{ $t('classpass.ReleaseAllUnbookedSeats') }}</md-checkbox>
+          <div v-if="form.classpass_com_integration_enabled">
+            <md-checkbox v-model="form.classpass_com_release_seats_before_class_starts">{{ $t('classpass.ReleaseAllUnbookedSeats') }}</md-checkbox>
           </div>
-          <div>
-            <md-checkbox v-model="form.signup_show_date_of_birth_field">{{ $t('classpass.TimeBeforeClass') }}</md-checkbox>
-          </div>
-          <div v-if="form.signup_show_date_of_birth_field">
-            <md-checkbox v-model="form.signup_date_of_birth_field_required">{{ $t('global.DateOfBirthFieldRequired') }}</md-checkbox>
+          <div class="mt-4">
+            <label>{{ $t('classpass.TimeBeforeClass') }}</label>
+            <HoursMinutesInput v-bind:minutes.sync="form.classpass_com_release_seats_minutes_before_class_starts"></HoursMinutesInput>
           </div>
         </div>
 
@@ -41,22 +39,23 @@
   import {mapGetters} from 'vuex'
 
   import _pick from 'lodash/pick'
+  import HoursMinutesInput from '@/components/form/HoursMinutesInput';
 
   export default {
-    name: 'SettingsSignup',
+    name: 'SettingsClassPass',
     components: {
       LoadingAnimation,
       SettingsSubMenu,
+      HoursMinutesInput,      
     },
     data() {
       return {
         loading: true,
 
         form: {
-          signup_show_phone_field: false,
-          signup_phone_field_required: false,
-          signup_show_date_of_birth_field: false,
-          signup_date_of_birth_field_required: false,
+          classpass_com_integration_enabled: false,
+          classpass_com_release_seats_before_class_starts: false,
+          classpass_com_release_seats_minutes_before_class_starts: 0,
         },
 
       }
