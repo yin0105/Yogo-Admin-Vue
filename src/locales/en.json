@@ -1042,6 +1042,11 @@
     "OnlyClassPassEnabled": "Only classes with ClassPass.com booking enabled",
     "MaxTimePeriodIsOneYear": "Max time period is one year"
   },
+  "classpass": {
+    "EnableClasspassIntegration": "Enable ClassPass integration",
+    "ReleaseAllUnbookedSeats": "Release all unbooked seats to ClassPass a certain time before classes start",
+    "TimeBeforeClass": "Time before class, unbooked seats are released"
+  },
   "time": {
     "day": "day",
     "days": "days",

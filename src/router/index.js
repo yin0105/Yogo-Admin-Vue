@@ -87,6 +87,7 @@ import SettingsImportGeneric from '@/components/SettingsImportGeneric';
 import SettingsMemberships from '@/components/SettingsMemberships';
 import SettingsImportMomoyoga from '@/components/SettingsImportMomoyoga';
 import SettingsCompany from '@/components/SettingsCompany';
+import SettingsClassPass from '@/components/SettingsClassPass';
 
 Vue.use(Router)
 
@@ -542,6 +543,12 @@ const router = new Router({
       name: 'SettingsCompany',
       component: SettingsCompany,
     },
+    {
+      path: '/settings-classpass',
+      name: 'SettingsClassPass',
+      component: SettingsClassPass,
+    },
+    
     {
       path: '/indstillinger-venteliste',
       name: 'SettingsWaitingList',

@@ -11,7 +11,7 @@
             <md-icon>account_box</md-icon>
             <span class="md-list-item-text">Company</span>
           </router-link>
-        </li>
+        </li>        
         <li>
           <router-link :to="{ name: 'SettingsAppearance' }">
             <md-icon>settings_brightness</md-icon>
@@ -112,6 +112,12 @@
           <router-link :to="{ name: 'SettingsPayment' }">
             <md-icon>credit_card</md-icon>
             <span class="md-list-item-text">{{ $t('global.Payment') }}</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'SettingsClassPass' }">
+            <md-icon>account_box</md-icon>
+            <span class="md-list-item-text">ClassPass</span>
           </router-link>
         </li>
         <li v-if="user.email.match(/@yogo\.dk$/)" class="yogo-only-menu-item">

@@ -1044,6 +1044,11 @@
     "OnlyClassPassEnabled": "Kun klasser med ClassPass.com booking aktiveret",
     "MaxTimePeriodIsOneYear": "Maks tidsperiode er et år"
   },
+  "classpass": {
+    "EnableClasspassIntegration": "Aktiver ClassPass -integration",
+    "ReleaseAllUnbookedSeats": "Slip alle ubookede pladser til ClassPass et bestemt tidspunkt, før undervisningen starter",
+    "TimeBeforeClass": "Tid før klassen frigives ubookede pladser"
+  },
   "time": {
     "day": "dag",
     "days": "dage",
