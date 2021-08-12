@@ -10,7 +10,7 @@
       <div v-else>
         <div class="flex--50">
           <div>
-            <md-checkbox v-model="form.classpass_com_integration_enabled">{{ $t('classpass.EnableClasspassIntegration') }}</md-checkbox>
+            <md-checkbox v-model="form.classpass_com_integration_enabled" v-on:change="changeEnable">{{ $t('classpass.EnableClasspassIntegration') }}</md-checkbox>
           </div>
           <div v-if="form.classpass_com_integration_enabled">
             <md-checkbox v-model="form.classpass_com_release_all_seats_before_class_start">{{ $t('classpass.ReleaseAllUnbookedSeats') }}</md-checkbox>
@@ -104,6 +104,13 @@
       this.pre_classpass_com_integration_enabled = this.form.classpass_com_integration_enabled
     },
     watch: {
+      form(newForm) {
+        console.log("form changed");
+      },
+      classpass_com_integration_enabled(new_classpass_com_integration_enabled) {
+        console.log(new_classpass_com_integration_enabled);
+        if (!new_classpass_com_integration_enabled) this.classpass_com_release_all_seats_before_class_start = false;
+      },
     },
     methods: {
 
@@ -144,6 +151,11 @@
         this.pre_classpass_com_integration_enabled = this.form.classpass_com_integration_enabled
 
       },
+
+      changeEnable() {
+        if (!this.form.classpass_com_integration_enabled)
+          this.form.classpass_com_release_all_seats_before_class_start = false;
+      }
     },
   }
 
