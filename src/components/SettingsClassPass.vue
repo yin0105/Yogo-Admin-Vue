@@ -113,7 +113,8 @@
         
           if (this.form.classpass_com_integration_enabled) {
             await this.submit()
-            this.showConfirmEnabledDialog = true            
+            this.showConfirmEnabledDialog = true
+            console.log(await YogoApi.post('/v1/inventory/partners', {partner_id: this.client.id}));           
           } else {
             this.showConfirmDisabledDialog = true
           }
