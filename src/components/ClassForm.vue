@@ -634,11 +634,12 @@ export default {
         waiting_list_signups: [],
         livestream: 'attendanceOnly',
         class_type_id: '',
-        room_id: '',
-        classpassIntegration: false,
+        room_id: '',        
         allowBooking: 'bookingNo',
         classpassSeats: 0,
       },
+
+      classpassIntegration: false,
       loading: this.formType === 'edit',
 
       classTypes: [],
@@ -705,17 +706,14 @@ export default {
       this.loading = true;
       const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=classpass_com_integration_enabled');
 
-      if (res) {
-        this.loading = false;
-        this.classpassIntegration = res.classpass_com_integration_enabled;
-        console.log("fetchClasspassIntegration = ", this.classpassIntegration, res.classpass_com_integration_enabled);
-      } else {
-        this.loading = false;
-        console.log("None");
-      }
+      this.loading = false;
+      this.classpassIntegration = res.classpass_com_integration_enabled;
+      console.log("fetchClasspassIntegration = ", this.classpassIntegration, res.classpass_com_integration_enabled);
+
     },
 
     async fetchClass() {
+      console.log("== before =");
       const classItem = (await YogoApi.get('/classes' +
           '?id=' + this.$route.params.id +
           '&populate[]=signups.user.image' +
@@ -729,8 +727,11 @@ export default {
           '&populate[]=livestream_signup_count' +
           '&populate[]=class_type' +
           '&populate[]=room' +
-          '&populate[]=class_emails.instances.recipient',
+          '&populate[]=class_emails.instances.recipient' ,
+          // '&populate[]=classpass_com_all_seats_allowed' ,
+          // '&populate[]=classpass_com_number_of_seats_allowed',
       )).classes[0];
+      console.log("== after = ", classItem);
       if (classItem.teachers.length) {
         classItem.teachers = _.map(classItem.teachers, 'id');
       }
@@ -745,6 +746,19 @@ export default {
       }
       if (classItem.room) {
         delete classItem.room;
+      }
+
+      classItem.classpassSeats = 0;
+      classItem.allowBooking = "bookingNo";
+
+      if (this.classpassIntegration) {
+        console.log("this.classpassIntegration = ", this.classpassIntegration);
+        if (classItem.classpass_com_all_seats_allowed) {
+          classItem.allowBooking = "bookingAll";
+        } else if (classItem.classpass_com_number_of_seats_allowed > 0) {
+          classItem.classpassSeats = classItem.classpass_com_number_of_seats_allowed;
+          classItem.allowBooking = "bookingSome"
+        }
       }
 
       classItem.date = moment(classItem.date)
@@ -775,7 +789,6 @@ export default {
       this.teachers = _.sortBy(this.teachers, ['first_name', 'last_name']);
       this.classTypes = _.sortBy(this.classTypes, 'name');
       this.rooms = _.sortBy(this.rooms, 'name');
-
     },
     async submit() {
       this.$v.$touch();
@@ -791,6 +804,8 @@ export default {
         'subtitle',
         'teachers',
         'seats',
+        'allowBooking',
+        'classpassSeats',
       ]);
       classData.date = moment(this.form.date)
           .format('YYYY-MM-DD');
@@ -811,6 +826,19 @@ export default {
             classData.studio_attendance_enabled = false;
             classData.livestream_enabled = true;
             break;
+        }
+      }
+
+      classData.classpass_com_enabled = this.classpassIntegration
+
+      if ( this.form.allowBooking == "bookingAll" ) {
+        classData.classpass_com_all_seats_allowed = true;
+      } else {
+        classData.classpass_com_all_seats_allowed = false;
+        if ( this.form.allowBooking == "bookingNo" ) {
+          classData.classpass_com_number_of_seats_allowed = 0;
+        } else {
+          classData.classpass_com_number_of_seats_allowed = parseInt(this.form.classpassSeats);
         }
       }
 

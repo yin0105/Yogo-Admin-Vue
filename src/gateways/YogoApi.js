@@ -29,6 +29,7 @@ yogoApi.interceptors.response.use(function (response) {
   return response.data;
 }, function (error) {
   console.log('Intercepted response error');
+  console.log("error = ", error);
   if (error.response.status === 401 || error.response.status === 403) {
 
     window.localStorage.removeItem('accessToken');
