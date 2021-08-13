@@ -129,6 +129,30 @@
 
       </div>
 
+      <div class="flex--row">
+
+        <md-field class="flex--50" v-if="classpassIntegration">
+          <label>{{ $t('global.AllowClassPassBookings') }}</label>
+          <md-select v-model="form.allowBooking">
+            <md-option value="bookingNo">{{ $t('global.No') }}</md-option>
+            <md-option value="bookingAll">{{ $t('global.AllSeats') }}</md-option>
+            <md-option value="bookingSome">{{ $t('global.ANumberOfSeats') }}</md-option>
+          </md-select>
+        </md-field>
+
+        <md-field class="flex--50" v-if="form.allowBooking == 'bookingSome'">
+          <label>{{ $t('global.NumberOfSeats') }}</label>
+          <md-input type="number" v-model="form.classpassSeats" required @blur="seatsBlur"></md-input>
+          <span
+            class="md-error"
+            v-if="!$v.form.seats.required"
+          >
+            {{ $t('global.MaxParticipantsMust') }}
+          </span>
+        </md-field>
+
+      </div>
+
       <div class="space8"></div>
 
       <div class="flex--50">
@@ -603,7 +627,7 @@ export default {
       createClassesProgress: 0,
 
       showCancelClassDialog: false,
-
+      
       form: {
         teachers: [],
         signups: [],
@@ -611,6 +635,9 @@ export default {
         livestream: 'attendanceOnly',
         class_type_id: '',
         room_id: '',
+        classpassIntegration: false,
+        allowBooking: 'bookingNo',
+        classpassSeats: 0,
       },
       loading: this.formType === 'edit',
 
@@ -673,6 +700,21 @@ export default {
     },
   },
   methods: {
+    async fetchClasspassIntegration() {
+      console.log("fetchClasspassIntegration");
+      this.loading = true;
+      const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=classpass_com_integration_enabled');
+
+      if (res) {
+        this.loading = false;
+        this.classpassIntegration = res.classpass_com_integration_enabled;
+        console.log("fetchClasspassIntegration = ", this.classpassIntegration, res.classpass_com_integration_enabled);
+      } else {
+        this.loading = false;
+        console.log("None");
+      }
+    },
+
     async fetchClass() {
       const classItem = (await YogoApi.get('/classes' +
           '?id=' + this.$route.params.id +
@@ -1028,6 +1070,7 @@ export default {
   },
   async created() {
     await this.loadSubFields();
+    this.fetchClasspassIntegration();
     if (this.formType === 'edit') this.fetchClass();
     if (this.$route.query.fromClass) {
       this.fromClass = await YogoApi.get('/classes/' + this.$route.query.fromClass +

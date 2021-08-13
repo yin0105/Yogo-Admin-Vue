@@ -1042,7 +1042,11 @@
     "OnlyPhysicalAttendance": "Kun klasser med fysisk fremmøde",
     "OnlyLivestream": "Kun klasser med livestream",
     "OnlyClassPassEnabled": "Kun klasser med ClassPass.com booking aktiveret",
-    "MaxTimePeriodIsOneYear": "Maks tidsperiode er et år"
+    "MaxTimePeriodIsOneYear": "Maks tidsperiode er et år",
+    "AllowClassPassBookings": "Tillad ClassPass.com -bookinger",
+    "AllSeats": "Alle sæder",
+    "ANumberOfSeats": "Et antal sæder",
+    "NumberOfSeats": "Antal pladser til ClassPass.com"
   },
   "classpass": {
     "EnableClasspassIntegration": "Aktiver ClassPass -integration",

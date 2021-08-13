@@ -1040,7 +1040,11 @@
     "OnlyPhysicalAttendance": "Only classes with physical attendance",
     "OnlyLivestream": "Only classes with livestream",
     "OnlyClassPassEnabled": "Only classes with ClassPass.com booking enabled",
-    "MaxTimePeriodIsOneYear": "Max time period is one year"
+    "MaxTimePeriodIsOneYear": "Max time period is one year",
+    "AllowClassPassBookings": "Allow ClassPass.com bookings",
+    "AllSeats": "All seats",
+    "ANumberOfSeats": "A number of seats",
+    "NumberOfSeats": "Number of seats for ClassPass.com"
   },
   "classpass": {
     "EnableClasspassIntegration": "Enable ClassPass integration",
