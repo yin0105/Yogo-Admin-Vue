@@ -755,9 +755,11 @@ export default {
         console.log("this.classpassIntegration = ", this.classpassIntegration);
         if (classItem.classpass_com_all_seats_allowed) {
           classItem.allowBooking = "bookingAll";
+          console.log("this.allowBooking = ", classItem.allowBooking);
         } else if (classItem.classpass_com_number_of_seats_allowed > 0) {
           classItem.classpassSeats = classItem.classpass_com_number_of_seats_allowed;
-          classItem.allowBooking = "bookingSome"
+          classItem.allowBooking = "bookingSome";
+          console.log("this.allowBooking = ", classItem.allowBooking);
         }
       }
 
