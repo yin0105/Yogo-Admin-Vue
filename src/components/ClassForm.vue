@@ -713,7 +713,6 @@ export default {
     },
 
     async fetchClass() {
-      console.log("== before =");
       const classItem = (await YogoApi.get('/classes' +
           '?id=' + this.$route.params.id +
           '&populate[]=signups.user.image' +
@@ -731,7 +730,6 @@ export default {
           // '&populate[]=classpass_com_all_seats_allowed' ,
           // '&populate[]=classpass_com_number_of_seats_allowed',
       )).classes[0];
-      console.log("== after = ", classItem);
       if (classItem.teachers.length) {
         classItem.teachers = _.map(classItem.teachers, 'id');
       }
@@ -751,16 +749,24 @@ export default {
       classItem.classpassSeats = 0;
       classItem.allowBooking = "bookingNo";
 
-      if (this.classpassIntegration) {
-        console.log("this.classpassIntegration = ", this.classpassIntegration);
+      if (classItem.classpass_com_enabled) {
+
         if (classItem.classpass_com_all_seats_allowed) {
+
           classItem.allowBooking = "bookingAll";
-          console.log("this.allowBooking = ", classItem.allowBooking);
-        } else if (classItem.classpass_com_number_of_seats_allowed > 0) {
-          classItem.classpassSeats = classItem.classpass_com_number_of_seats_allowed;
+          classItem.classpassSeats = 0;
+        
+        } else {
+
           classItem.allowBooking = "bookingSome";
-          console.log("this.allowBooking = ", classItem.allowBooking);
+          classItem.classpassSeats = classItem.classpass_com_number_of_seats_allowed;
+
         }
+      } else {
+
+        classItem.allowBooking = "bookingNo";
+        classItem.classpassSeats = 0;
+
       }
 
       classItem.date = moment(classItem.date)
@@ -829,18 +835,28 @@ export default {
             classData.livestream_enabled = true;
             break;
         }
-      }
+      }      
 
-      classData.classpass_com_enabled = this.classpassIntegration
-
-      if ( this.form.allowBooking == "bookingAll" ) {
-        classData.classpass_com_all_seats_allowed = true;
-      } else {
+      if ( this.form.allowBooking == "bookingNo" ) {
+        
+        classData.classpass_com_enabled = false;
         classData.classpass_com_all_seats_allowed = false;
-        if ( this.form.allowBooking == "bookingNo" ) {
-          classData.classpass_com_number_of_seats_allowed = 0;
+        classData.classpass_com_number_of_seats_allowed = 0;
+      
+      } else {
+      
+        classData.classpass_com_enabled = true; 
+      
+        if ( this.form.allowBooking == "bookingAll" ) {
+          
+          classData.classpass_com_all_seats_allowed = true;
+          classData.classpass_com_number_of_seats_allowed = 0;          
+        
         } else {
+
+          classData.classpass_com_all_seats_allowed = false;
           classData.classpass_com_number_of_seats_allowed = parseInt(this.form.classpassSeats);
+          
         }
       }
 

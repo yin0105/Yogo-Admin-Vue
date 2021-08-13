@@ -1044,7 +1044,8 @@
     "AllowClassPassBookings": "Allow ClassPass.com bookings",
     "AllSeats": "All seats",
     "ANumberOfSeats": "A number of seats",
-    "NumberOfSeats": "Number of seats for ClassPass.com"
+    "NumberOfSeats": "Number of seats for ClassPass.com",
+    "ClassPassBookings": "ClassPass.com bookings"
   },
   "classpass": {
     "EnableClasspassIntegration": "Enable ClassPass integration",
