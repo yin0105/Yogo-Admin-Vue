@@ -1047,7 +1047,14 @@
     "AllSeats": "Alle sæder",
     "ANumberOfSeats": "Et antal sæder",
     "NumberOfSeats": "Antal pladser til ClassPass.com",
-    "ClassPassBookings": "ClassPass.com bookinger"
+    "ClassPassBookings": "ClassPass.com bookinger",
+    "ClassPassSeatsMust": "Antal pladser til ClassPass.com er påkrævet",
+
+    "Allowed": "Tilladt",
+    "AllowedAll": "Tilladt til alle sæder",
+    "AllowedSpecific": "Tilladt et bestemt antal pladser",
+    "NotAllowed": "Ikke tilladt",
+    "NumberAllowedClassPass": "Antal tilladte ClassPass.com -bookinger"
   },
   "classpass": {
     "EnableClasspassIntegration": "Aktiver ClassPass -integration",

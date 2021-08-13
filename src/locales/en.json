@@ -1041,11 +1041,20 @@
     "OnlyLivestream": "Only classes with livestream",
     "OnlyClassPassEnabled": "Only classes with ClassPass.com booking enabled",
     "MaxTimePeriodIsOneYear": "Max time period is one year",
+    
     "AllowClassPassBookings": "Allow ClassPass.com bookings",
     "AllSeats": "All seats",
     "ANumberOfSeats": "A number of seats",
     "NumberOfSeats": "Number of seats for ClassPass.com",
-    "ClassPassBookings": "ClassPass.com bookings"
+    "ClassPassBookings": "ClassPass.com bookings",
+    "ClassPassSeatsMust": "Number of seats for ClassPass.com is required",
+
+    "Allowed": "Allowed",
+    "AllowedAll": "Allowed for all seats",
+    "AllowedSpecific": "Allowed for a specific number of seats",
+    "NotAllowed": "Not allowed",
+    "NumberAllowedClassPass": "Number of allowed ClassPass.com bookings"
+
   },
   "classpass": {
     "EnableClasspassIntegration": "Enable ClassPass integration",

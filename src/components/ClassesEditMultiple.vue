@@ -62,6 +62,23 @@
           </label>
           <md-input type="text" v-model="selectedSeats"></md-input>
         </md-field>
+<!--
+- Not selected - 
+Allowed (This should return all classes where CP bookings are allowed, whether all seats or specific number of seats.)
+Allowed for all seats 
+Allowed for a specific number of seats 
+Not allowed 
+-->
+        <md-field v-if="classpassIntegration">
+          <label>{{ $t('global.ClassPassBookings') }}</label>
+          <md-select v-model="allowBooking">
+            <md-option value="">{{ $t('global.NotSelected') }}</md-option>
+            <md-option value="bookingAllowed">{{ $t('global.Allowed') }}</md-option>
+            <md-option value="bookingAllowedAll">{{ $t('global.AllowedAll') }}</md-option>
+            <md-option value="bookingAllowedSpecific">{{ $t('global.AllowedSpecific') }}</md-option>
+            <md-option value="bookingNotAllowed">{{ $t('global.NotAllowed') }}</md-option>
+          </md-select>
+        </md-field>
 
         <md-button class="md-primary md-raised" :disabled="!showGetClassesButton" @click.prevent="fetchClasses"
                    style="margin-left:0;">
@@ -284,6 +301,9 @@ export default {
       showChangeProgressDialog: false,
       changeDialogTitle: '',
       processedClasses: [],
+
+      classpassIntegration: false,
+      allowBooking: 'bookingNo',
     };
   },
   computed: {
@@ -345,8 +365,18 @@ export default {
     this.teachers = _.sortBy(this.teachers, ['first_name', 'last_name']);
     this.classTypes = _.sortBy(this.classTypes, 'name');
     this.rooms = _.sortBy(this.rooms, ['branch.sort', 'name']);
+    this.fetchClasspassIntegration();
   },
+
   methods: {
+    async fetchClasspassIntegration() {
+      this.loading = true;
+      const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=classpass_com_integration_enabled');
+
+      this.loading = false;
+      this.classpassIntegration = res.classpass_com_integration_enabled;
+    },
+
     async fetchClasses() {
       const queryParams = {
         weekday: this.selectedWeekday !== '' ? this.selectedWeekday : undefined,

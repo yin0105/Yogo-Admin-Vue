@@ -140,14 +140,14 @@
           </md-select>
         </md-field>
 
-        <md-field class="flex--50" v-if="form.allowBooking == 'bookingSome'">
+        <md-field class="flex--50" v-if="form.allowBooking == 'bookingSome'" :class="getValidationClass('classpassSeats')">
           <label>{{ $t('global.NumberOfSeats') }}</label>
-          <md-input type="number" v-model="form.classpassSeats" required @blur="seatsBlur"></md-input>
+          <md-input type="number" v-model="form.classpassSeats" required @blur="classpassSeatsBlur"></md-input>
           <span
             class="md-error"
-            v-if="!$v.form.seats.required"
+            v-if="!$v.form.classpassSeats.required"
           >
-            {{ $t('global.MaxParticipantsMust') }}
+            {{ $t('global.ClassPassSeatsMust') }}
           </span>
         </md-field>
 
@@ -702,14 +702,11 @@ export default {
   },
   methods: {
     async fetchClasspassIntegration() {
-      console.log("fetchClasspassIntegration");
       this.loading = true;
       const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=classpass_com_integration_enabled');
 
       this.loading = false;
       this.classpassIntegration = res.classpass_com_integration_enabled;
-      console.log("fetchClasspassIntegration = ", this.classpassIntegration, res.classpass_com_integration_enabled);
-
     },
 
     async fetchClass() {
@@ -1005,6 +1002,11 @@ export default {
         this.form.seats = AutoFormatNumeric(this.form.seats);
       }
     },
+    classpassSeatsBlur() {
+      if (this.form.classpassSeats) {
+        this.form.classpassSeats = AutoFormatNumeric(this.form.classpassSeats);
+      }
+    },
     dateDidChange() {
       if (!this.repeatClassCount) {
         return;
@@ -1192,6 +1194,10 @@ export default {
           required,
         },
         seats: {
+          required,
+          numeric,
+        },
+        classpassSeats: {
           required,
           numeric,
         },
