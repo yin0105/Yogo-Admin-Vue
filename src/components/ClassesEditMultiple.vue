@@ -72,7 +72,7 @@ Not allowed
         <md-field v-if="classpassIntegration">
           <label>{{ $t('global.ClassPassBookings') }}</label>
           <md-select v-model="allowBooking">
-            <md-option value="">{{ $t('global.NotSelected') }}</md-option>
+            <md-option value="bookingNotSelected">{{ $t('global.NotSelected') }}</md-option>
             <md-option value="bookingAllowed">{{ $t('global.Allowed') }}</md-option>
             <md-option value="bookingAllowedAll">{{ $t('global.AllowedAll') }}</md-option>
             <md-option value="bookingAllowedSpecific">{{ $t('global.AllowedSpecific') }}</md-option>
@@ -399,6 +399,9 @@ export default {
         class_type: this.selectedClassType || undefined,
         startTime: this.selectedStartTime || undefined,
         seats: this.selectedSeats !== '' ? this.selectedSeats : undefined,
+        classpass_com_enabled: this.allowBooking=="bookingNotSelected" ? undefined: this.allowBooking=="bookingAllowed" || this.allowBooking=="bookingAllowedAll" || this.allowBooking=="bookingAllowedSpecific",
+        classpass_com_all_seats_allowed: this.allowBooking=="bookingAllowedAll"? true: (this.allowBooking=="bookingAllowedSpecific"? false: undefined),
+        classpass_com_number_of_seats_allowed: this.allowBooking=="bookingAllowedSpecific" ? this.form.classpassSeats : 0,
         populate: [
           'class_type',
           'room.branch',
@@ -406,7 +409,7 @@ export default {
           'waiting_list_count',
           'waiting_list_max',
           'livestream_signup_count',
-          'teachers',
+          'teachers',          
         ],
       };
       if (this.selectedStartDate) {
@@ -430,6 +433,8 @@ export default {
       this.$forceUpdate();
       this.loading = true;
       const queryString = qs.stringify(queryParams);
+      console.log("queryParams = ", queryParams);
+      console.log("queryString = ", queryString);
       ({ classes: this.filteredClasses } = await YogoApi.get(`/classes?${queryString}`));
       this.filteredClasses = _.sortBy(this.filteredClasses, ['date', 'start_time']);
       this.loading = false;
