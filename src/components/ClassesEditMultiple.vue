@@ -80,6 +80,17 @@ Not allowed
           </md-select>
         </md-field>
 
+        <md-field v-if="allowBooking == 'bookingAllowedSpecific'" :class="getValidationClass('classpassSeats')">
+          <label>{{ $t('global.NumberAllowedClassPass') }}</label>
+          <md-input type="number" v-model="form.classpassSeats" required @blur="classpassSeatsBlur"></md-input>
+          <span
+            class="md-error"
+            v-if="!$v.form.classpassSeats.required"
+          >
+            {{ $t('global.ClassPassSeatsMust') }}
+          </span>
+        </md-field>
+
         <md-button class="md-primary md-raised" :disabled="!showGetClassesButton" @click.prevent="fetchClasses"
                    style="margin-left:0;">
           <span v-if="!loading">{{ $t('global.FindClasses') }}</span>
@@ -263,8 +274,9 @@ import YogoApi from '@/gateways/YogoApi';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import { mapGetters } from 'vuex';
-
 import AutoFormatTime from '../auto-formatters/time';
+
+const { required, numeric } = require('vuelidate/lib/validators');
 
 export default {
   name: 'ClassesEditMultiple',
@@ -304,6 +316,9 @@ export default {
 
       classpassIntegration: false,
       allowBooking: 'bookingNo',
+      form: {
+        classpassSeats: 0,
+      },
     };
   },
   computed: {
@@ -591,7 +606,38 @@ export default {
       );
 
     },
+
+    classpassSeatsBlur() {
+      if (this.classpassSeats) {
+        this.classpassSeats = AutoFormatNumeric(this.classpassSeats);
+      }
+    },
+
+    getValidationClass(fieldName) {
+
+      const field = this.$v.form[fieldName];
+
+      if (field) {
+        return {
+          'md-invalid': field.$invalid && field.$dirty,
+        };
+      }
+    },
+    
     AutoFormatTime: AutoFormatTime,
+  },
+
+  validations() {
+    let v = {
+      form: {
+        classpassSeats: {
+          required,
+          numeric,
+        },
+      },
+    };
+    return v;
+
   },
 };
 
