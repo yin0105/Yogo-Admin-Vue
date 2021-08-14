@@ -72,7 +72,7 @@ Not allowed
         <md-field v-if="classpassIntegration">
           <label>{{ $t('global.ClassPassBookings') }}</label>
           <md-select v-model="allowBooking">
-            <md-option value="bookingNotSelected">{{ $t('global.NotSelected') }}</md-option>
+            <md-option value="bookingNotSelected">-- {{ $t('global.NotSelected') }} --</md-option>
             <md-option value="bookingAllowed">{{ $t('global.Allowed') }}</md-option>
             <md-option value="bookingAllowedAll">{{ $t('global.AllowedAll') }}</md-option>
             <md-option value="bookingAllowedSpecific">{{ $t('global.AllowedSpecific') }}</md-option>
@@ -181,7 +181,7 @@ Not allowed
         <md-field v-if="classpassIntegration">
           <label>{{ $t('global.NEWClassPassBookings') }}</label>
           <md-select v-model="newAllowBooking">
-            <md-option value="bookingNotSelected"></md-option>
+            <md-option value=""></md-option>
             <md-option value="bookingAllowedAll">{{ $t('global.AllowedAll') }}</md-option>
             <md-option value="bookingAllowedSpecific">{{ $t('global.AllowedSpecific') }}</md-option>
             <md-option value="bookingNotAllowed">{{ $t('global.NotAllowed') }}</md-option>
@@ -337,10 +337,10 @@ export default {
 
       classpassIntegration: false,
       allowBooking: 'bookingNo',
-      newAllowBooking: 'bookingNo',
+      newAllowBooking: '',
 
       form: {
-        newClasspassSeats: 0,
+        classpassSeats: 0,
         newClasspassSeats: 0,
       },
     };
@@ -500,6 +500,25 @@ export default {
           attendanceAndLivestream: 'global.AttendanceClassPlusLivestream',
         }[this.newStudioAttendanceLivestreamType];
         confirmText += this.$t('global.NewType') + ': ' + this.$t(newTypeTranslationKey) + '\n';
+      }
+
+      console.log("this.newAllowBooking = ", this.newAllowBooking);
+      if (this.newAllowBooking != "") {
+        confirmText += this.$t('global.NEWClassPassBookings') + ': ';
+        switch(this.newAllowBooking) {
+          case 'bookingAllowedAll':
+            confirmText += this.$t('global.AllowedAll') + '\n';
+            break;
+          case 'bookingAllowedSpecific':
+            confirmText += this.$t('global.AllowedSpecific') + '\n';
+            confirmText += this.$t('global.NumberAllowedClassPass') + ': ' + this.form.newClasspassSeats + '\n';
+            
+            break;
+          case 'bookingNotAllowed':
+            confirmText += this.$t('global.NotAllowed') + '\n';
+            break;
+
+        }
       }
 
       if (!confirm(confirmText)) return;
