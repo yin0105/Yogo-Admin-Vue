@@ -273,6 +273,9 @@ Not allowed
             md-sort-by="livestream_signup_count">
           {{ item.livestream_enabled ? item.livestream_signup_count || 0 : '--' }}
         </md-table-cell>
+        <md-table-cell :md-label="$t('global.ClassPassBookings')">
+          {{ getClasspassBooking(item) }}
+        </md-table-cell>
       </md-table-row>
     </md-table>
 
@@ -469,6 +472,17 @@ export default {
         return (teacher.first_name + ' ' + teacher.last_name).trim();
       })
           .join(', ');
+    },
+    getClasspassBooking(classItem) {
+      if (classItem.classpass_com_enabled) {
+        if (classItem.classpass_com_all_seats_allowed) {
+          return this.$t('global.AllSeats');
+        } else {
+          return classItem.classpass_com_number_of_seats_allowed.toString() + " " + this.$t('global.seats');
+        }
+      } else {
+        return this.$t('global.No');
+      }
     },
     onFilteredClassesSelect(items) {
       this.selectedClasses = items;

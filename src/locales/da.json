@@ -1056,7 +1056,9 @@
     "NotAllowed": "Ikke tilladt",
     "NumberAllowedClassPass": "Antal tilladte ClassPass.com -bookinger",
 
-    "NEWClassPassBookings": "NYE ClassPass.com -bookinger"
+    "NEWClassPassBookings": "NYE ClassPass.com -bookinger",
+
+    "seats": "sæder"
   },
   "classpass": {
     "EnableClasspassIntegration": "Aktiver ClassPass -integration",

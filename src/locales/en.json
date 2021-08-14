@@ -1055,7 +1055,8 @@
     "NotAllowed": "Not allowed",
     "NumberAllowedClassPass": "Number of allowed ClassPass.com bookings",
 
-    "NEWClassPassBookings": "NEW ClassPass.com bookings"
+    "NEWClassPassBookings": "NEW ClassPass.com bookings",
+    "seats": "seats"
 
   },
   "classpass": {
