@@ -178,6 +178,27 @@ Not allowed
           </md-select>
         </md-field>
 
+        <md-field v-if="classpassIntegration">
+          <label>{{ $t('global.NEWClassPassBookings') }}</label>
+          <md-select v-model="newAllowBooking">
+            <md-option value="bookingNotSelected"></md-option>
+            <md-option value="bookingAllowedAll">{{ $t('global.AllowedAll') }}</md-option>
+            <md-option value="bookingAllowedSpecific">{{ $t('global.AllowedSpecific') }}</md-option>
+            <md-option value="bookingNotAllowed">{{ $t('global.NotAllowed') }}</md-option>
+          </md-select>
+        </md-field>
+
+        <md-field v-if="newAllowBooking == 'bookingAllowedSpecific'" :class="getValidationClass('newClasspassSeats')">
+          <label>{{ $t('global.NumberAllowedClassPass') }}</label>
+          <md-input type="number" v-model="form.newClasspassSeats" required @blur="newClasspassSeatsBlur"></md-input>
+          <span
+            class="md-error"
+            v-if="!$v.form.newClasspassSeats.required"
+          >
+            {{ $t('global.ClassPassSeatsMust') }}
+          </span>
+        </md-field>
+
         <md-button class="md-primary md-raised" @click="confirmAndExecuteChanges" :disabled="!showChangeClassesButton"
                    style="margin-left: 0;">
           {{ $t('global.ApplyChanges') }}
@@ -316,8 +337,11 @@ export default {
 
       classpassIntegration: false,
       allowBooking: 'bookingNo',
+      newAllowBooking: 'bookingNo',
+
       form: {
-        classpassSeats: 0,
+        newClasspassSeats: 0,
+        newClasspassSeats: 0,
       },
     };
   },
@@ -532,9 +556,29 @@ export default {
           break;
       }
 
+      switch(this.newAllowBooking) {
+        case 'bookingAllowedAll':
+          changeData.classpass_com_enabled = true;
+          changeData.classpass_com_all_seats_allowed = true;
+          changeData.classpass_com_number_of_seats_allowed = 0;
+          break;
+        case 'bookingAllowedSpecific':
+          changeData.classpass_com_enabled = true;
+          changeData.classpass_com_all_seats_allowed = false;
+          changeData.classpass_com_number_of_seats_allowed = this.form.newClasspassSeats;
+          break;
+        case 'bookingNotAllowed':
+          changeData.classpass_com_enabled = false;
+          changeData.classpass_com_all_seats_allowed = false;
+          changeData.classpass_com_number_of_seats_allowed = 0;
+          break;
+      }
+
       this.processedClasses = [];
       this.changeDialogTitle = this.$t('global.ChangingClasses');
       this.showChangeProgressDialog = true;
+
+      console.log("changeData = ", changeData);
 
       for (let i = 0; i < this.selectedClasses.length; i++) {
         const classObj = this.selectedClasses[i];
@@ -618,6 +662,12 @@ export default {
       }
     },
 
+    newClasspassSeatsBlur() {
+      if (this.newClasspassSeats) {
+        this.newClasspassSeats = AutoFormatNumeric(this.newClasspassSeats);
+      }
+    },
+
     getValidationClass(fieldName) {
 
       const field = this.$v.form[fieldName];
@@ -636,6 +686,10 @@ export default {
     let v = {
       form: {
         classpassSeats: {
+          required,
+          numeric,
+        },
+        newClasspassSeats: {
           required,
           numeric,
         },

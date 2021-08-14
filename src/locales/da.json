@@ -1054,7 +1054,9 @@
     "AllowedAll": "Tilladt til alle sæder",
     "AllowedSpecific": "Tilladt et bestemt antal pladser",
     "NotAllowed": "Ikke tilladt",
-    "NumberAllowedClassPass": "Antal tilladte ClassPass.com -bookinger"
+    "NumberAllowedClassPass": "Antal tilladte ClassPass.com -bookinger",
+
+    "NEWClassPassBookings": "NYE ClassPass.com -bookinger"
   },
   "classpass": {
     "EnableClasspassIntegration": "Aktiver ClassPass -integration",

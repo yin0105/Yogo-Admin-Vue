@@ -1053,7 +1053,9 @@
     "AllowedAll": "Allowed for all seats",
     "AllowedSpecific": "Allowed for a specific number of seats",
     "NotAllowed": "Not allowed",
-    "NumberAllowedClassPass": "Number of allowed ClassPass.com bookings"
+    "NumberAllowedClassPass": "Number of allowed ClassPass.com bookings",
+
+    "NEWClassPassBookings": "NEW ClassPass.com bookings"
 
   },
   "classpass": {
