@@ -334,15 +334,16 @@
                         if (this.selectedPeriod.onlyLivestream && !this.classes[j].livestream_enabled) continue;
                         if (this.selectedPeriod.onlyClassPassEnabled && !this.classes[j].classpass_com_enabled) continue;
 
-                        for (const k in this.selectedPeriod.classTypes.classTypes) {
-                            if (this.classes[j].class_type_id == this.selectedPeriod.classTypes.classTypes[k].id) {
-                                exist = true;
-                                break;
+                        if (!this.selectedPeriod.classTypes.selectedAll) {
+                            for (const k in this.selectedPeriod.classTypes.classTypes) {
+                                if (this.classes[j].class_type_id == this.selectedPeriod.classTypes.classTypes[k].id) {
+                                    exist = true;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (!exist) continue;
-                        
+                            if (!exist) continue;
+                        }
                         
                         for (const k in this.classes[j].teachers) {
                             if (this.teachers[i].id == this.classes[j].teachers[k].id) {
