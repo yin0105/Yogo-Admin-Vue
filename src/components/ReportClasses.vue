@@ -227,6 +227,8 @@
                     countClassTypes: 0,
                 },
 
+                teachers: [],
+
                 classes: [],
                 selectedTeachersList: [],
                 loading: true,
@@ -278,6 +280,7 @@
                 if (this.selectedPeriod.fromDate <= this.selectedPeriod.endDate) {
                     let allClasses = await YogoApi.get('/classes' +
                         '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
+                        '&ignoreArchived=1' +
                         '&endDate=' + moment(this.selectedPeriod.endDate).format('YYYY-MM-DD') +
                         '&populate[]=class_type' +
                         '&populate[]=teachers' +
@@ -293,16 +296,35 @@
                     )
                     this.classes = allClasses.classes
                     this.classes = _.sortBy(this.classes, ['date', 'start_time'])
+
+                    if (this.selectedPeriod.teachers.selectedAll) {
+                        this.teachers = await YogoApi.get(
+                            '/users' +
+                            '?teacher=1' +
+                            '&ignoreArchived=1' +
+                            '&populate[]=image',
+                        );
+                        console.log("new Teachers = ", this.teachers)
+                    } else {
+                        if (this.selectedPeriod.teachers.teachers) {
+                            this.teachers = this.selectedPeriod.teachers.teachers.map(teacher => teacher);
+                        } else {
+                            this.teachers = [];
+                        }
+                    }
                 } else {
                     this.classes = [];
+                    this.teachers = [];
                 }
+                console.log("classes = ",this.classes)
                 this.selectedTeachersList = [];
-                for (const i in this.selectedPeriod.teachers.teachers) {
+                for (const i in this.teachers) {
                     let teacher = {}
                     let totalMins = 0, totalCheckedIn = 0, totalSignups = 0, totalLivestreamSignups = 0;
                     
-                    // this.selectedPeriod.teachers.teachers[i].classes = [];
-                    teacher.name = this.selectedPeriod.teachers.teachers[i].name;
+                    // this.teachers[i].classes = [];
+                    
+                    teacher.name = this.teachers[i].name ? this.teachers[i].name : this.teachers[i].first_name + " " + this.teachers[i].last_name;
                     teacher.classes = []
 
                     for (const j in this.classes) {
@@ -323,7 +345,7 @@
                         
                         
                         for (const k in this.classes[j].teachers) {
-                            if (this.selectedPeriod.teachers.teachers[i].id == this.classes[j].teachers[k].id) {
+                            if (this.teachers[i].id == this.classes[j].teachers[k].id) {
                                 //get teachers list
                                 let teachersList = "";
                                 for (const kk in this.classes[j].teachers) {
@@ -335,7 +357,7 @@
                                 // this.classes[j].livestream_enabled = this.toYesNo(this.classes[j].livestream_enabled);
                                 // this.classes[j].cancelled = this.toYesNo(this.classes[j].cancelled);
 
-                                // this.selectedPeriod.teachers.teachers[i].classes.push(this.classes[j]);
+                                // this.teachers[i].classes.push(this.classes[j]);
                                 teacher.classes.push(this.classes[j]);
 
                                 let start_timer = parseInt(this.classes[j].start_time.split(":")[0]) * 60 + parseInt(this.classes[j].start_time.split(":")[1])
@@ -353,7 +375,7 @@
                     teacher.totalSignups = totalSignups
                     teacher.totalLivestreamSignups = totalLivestreamSignups  
                     this.selectedTeachersList.push(teacher);        
-                    // Vue.set(this.selectedPeriod.teachers.teachers[i], "folded", true);
+                    // Vue.set(this.teachers[i], "folded", true);
                 }
                 this.selectedPeriod.dataUpdated = false;
                 this.loading = false
@@ -415,14 +437,14 @@
             },
 
             toggleFolded(idx) {
-                this.selectedPeriod.teachers.teachers[idx].folded = !this.selectedPeriod.teachers.teachers[idx].folded;
+                this.teachers[idx].folded = !this.teachers[idx].folded;
             },
 
             async downloadFile(format) {
                 const response = await YogoApi.post(
                     '/reports/make-report-token',
                     {
-                        teachers: this.selectedPeriod.teachers.teachers.map(teacher => {return {id: teacher.id, name: teacher.name}}),
+                        teachers: this.teachers.map(teacher => {return {id: teacher.id, name: teacher.name}}),
                         fromDate: this.selectedPeriod.fromDate,
                         endDate: this.selectedPeriod.endDate,
                     },

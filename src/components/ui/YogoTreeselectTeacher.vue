@@ -58,7 +58,7 @@ export default {
   async created() {
     this.teachers = await YogoApi.get(
           '/users' +
-          '?teacher=1' +
+          '?teacher=1' +          
           '&populate[]=image',
       );
     this.teachers = _.sortBy(this.teachers, 'name');
