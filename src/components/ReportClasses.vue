@@ -32,14 +32,14 @@
                         <th>{{ $t('global.Room') }}</th>
 
                         <th>{{ $t('global.Branch') }}</th>
-                        <th>{{ $t('global.PhysicalAttendance') }}</th>
-                        <th>{{ $t('global.Livestream') }}</th>
+                        <th v-if="livestream_enabled">{{ $t('global.PhysicalAttendance') }}</th>
+                        <th v-if="livestream_enabled">{{ $t('global.Livestream') }}</th>
                         <th>{{ $t('global.ClassPassComEnabled') }}</th>
                         <th>{{ $t('global.Cancelled') }}</th>
                         
                         <th>{{ $t('global.SignUps') }}</th>
                         <th>{{ $t('global.CheckedIn') }}</th>
-                        <th>{{ $t('global.LivestreamSignups') }}</th>
+                        <th v-if="livestream_enabled">{{ $t('global.LivestreamSignups') }}</th>
                         
                         <th>ClassPass.com {{ $t('global.SignUps') }}</th>
 
@@ -55,11 +55,15 @@
                         <td>{{ classItem.room.name }}</td>
                         <td>{{ classItem.room.branch.name }}</td>
                         
-                        <td v-if="classItem.studio_attendance_enabled == 1">{{ $t('global.Yes') }}</td>
-                        <td v-else>{{ $t('global.No') }}</td>
+                        <td v-if="livestream_enabled">
+                            <span v-if="classItem.studio_attendance_enabled == 1">{{ $t('global.Yes') }}</span>
+                            <span v-else>{{ $t('global.No') }}</span>
+                        </td>
                         
-                        <td v-if="classItem.livestream_enabled == 1">{{ $t('global.Yes') }}</td>
-                        <td v-else>{{ $t('global.No') }}</td>
+                        <td v-if="livestream_enabled">
+                            <span v-if="classItem.livestream_enabled == 1">{{ $t('global.Yes') }}</span>
+                            <span v-else>{{ $t('global.No') }}</span>
+                        </td>
                         
                         <td v-if="classItem.classpass_com_enabled == 1">{{ $t('global.Yes') }}</td>
                         <td v-else>{{ $t('global.No') }}</td>
@@ -69,7 +73,7 @@
 
                         <td>{{ classItem.signup_count }}</td>
                         <td>{{ classItem.checkedin_count }}</td>
-                        <td>{{ classItem.livestream_signup_count }}</td>
+                        <td v-if="livestream_enabled">{{ classItem.livestream_signup_count }}</td>
                         <td></td>
                         
                     </tr>
@@ -100,8 +104,8 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
+                        <th v-if="livestream_enabled"></th>
+                        <th v-if="livestream_enabled"></th>
                         <th></th>
                         <th></th>
                         
@@ -111,8 +115,10 @@
                         <th v-if="teacher.classes.length">{{ teacher.totalCheckedIn }}</th>
                         <th v-else></th>
                         
-                        <th v-if="teacher.classes.length">{{ teacher.totalLivestreamSignups }}</th>
-                        <th v-else></th>
+                        <th v-if="livestream_enabled">
+                            <span v-if="teacher.classes.length">{{ teacher.totalLivestreamSignups }}</span>
+                            <span v-else></span>
+                        </th>
                         
                         <th></th>
                     </tr>
@@ -236,6 +242,9 @@
                 classParticipantsDialogClass: null,
                 classLivestreamUsers: [],
                 showParticipantsDialog: false,
+
+                classpass_com_enabled: false,
+                livestream_enabled: false,
             };
         },
         computed: {
@@ -270,18 +279,21 @@
                 deep: true,
             },
         },
-        mounted() {            
+        mounted() {     
+            this.fetchClasspassSettings();       
             if (this.stateReady) this.fetchData();
         },
 
         methods: {
-            async fetchClasspassIntegration() {
+            async fetchClasspassSettings() {
                 this.loading = true;
-                const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=classpass_com_integration_enabled');
+                const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=livestream_enabled');
 
                 this.loading = false;
-                this.classpassIntegration = res.classpass_com_integration_enabled;
-                console.log("this.classpassIntegration = ", this.classpassIntegration);
+                // this.classpass_com_enabled = res.classpass_com_enabled;
+                this.livestream_enabled = res.livestream_enabled;
+                // console.log("this.classpass_com_enabled = ", this.classpass_com_enabled)
+                console.log("this.livestream_enabled = ", this.livestream_enabled)
             },
             async fetchData(dateUpdated) {
                 this.loading = true
