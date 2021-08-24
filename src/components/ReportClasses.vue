@@ -231,7 +231,7 @@
 
                 classes: [],
                 selectedTeachersList: [],
-                loading: true,
+                loading: true,               
 
                 classParticipantsDialogClass: null,
                 classLivestreamUsers: [],
@@ -270,11 +270,19 @@
                 deep: true,
             },
         },
-        mounted() {
+        mounted() {            
             if (this.stateReady) this.fetchData();
         },
 
         methods: {
+            async fetchClasspassIntegration() {
+                this.loading = true;
+                const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=classpass_com_integration_enabled');
+
+                this.loading = false;
+                this.classpassIntegration = res.classpass_com_integration_enabled;
+                console.log("this.classpassIntegration = ", this.classpassIntegration);
+            },
             async fetchData(dateUpdated) {
                 this.loading = true
                 if (this.selectedPeriod.fromDate <= this.selectedPeriod.endDate) {

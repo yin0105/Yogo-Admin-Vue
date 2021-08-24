@@ -28,7 +28,7 @@
         <div class="flex--25 mr10-md ">
             <md-checkbox v-model="onlyLivestream">{{ $t('global.OnlyLivestream') }}</md-checkbox>
         </div>
-        <div class="flex--25 mr10-md ">
+        <div class="flex--25 mr10-md" v-if="classpassIntegration">
             <md-checkbox v-model="onlyClassPassEnabled">{{ $t('global.OnlyClassPassEnabled') }}</md-checkbox>
         </div>
     </div>
@@ -37,10 +37,12 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
     import Datepicker from 'vuejs-datepicker'
     import moment from 'moment'
     import YogoTreeselectTeacher from '@/components/ui/YogoTreeselectTeacher';
     import YogoTreeselectClassTypes2 from '@/components/ui/YogoTreeselectClassTypes2';
+    import YogoApi from '../gateways/YogoApi';
 
 
     export default {
@@ -64,6 +66,8 @@
                 onlyLivestream: false,
                 onlyClassPassEnabled: false,
                 invalidDuration: false,
+
+                classpassIntegration: false,
             }
         },
         watch: {
@@ -106,6 +110,9 @@
         props: {
         },
         computed: {
+            ...mapGetters([
+                'client',
+            ]),
             years() {
                 const currentYear = moment().year()
                 const firstYear = Math.max(2018, currentYear - 9)
@@ -156,12 +163,18 @@
             }
         },    
         mounted() {
+            this.fetchClasspassIntegration();
             this.$emit('update:fromDate', this.fromDate);
             this.$emit('update:endDate', this.endDate);
             // this.$emit('update:dataUpdated', true);
         },
 
         methods: {
+            async fetchClasspassIntegration() {
+                const res = await YogoApi.get('/clients/' + this.client.id + '/settings/?keys[]=classpass_com_integration_enabled');
+                this.classpassIntegration = res.classpass_com_integration_enabled;
+                console.log("this.classpassIntegration = ", this.classpassIntegration)
+            },
             validateDuration(f, e) {
                 const limitDate = moment(f, 'YYYY-MM-DD').add(1, 'years');
                 if (limitDate < e) {
