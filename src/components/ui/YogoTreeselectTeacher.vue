@@ -66,15 +66,20 @@ export default {
   methods: {
     updateValue(newValue) {
       let selectedTeachers = [];
+      let selectedAll = true;
       for (const i in this.teachers) {
-        for (const j in newValue) {
+        let j = 0;
+        for (j in newValue) {
           if (this.teachers[i].id == newValue[j]) {
             selectedTeachers.push({"id": this.teachers[i].id, "name": this.teachers[i].first_name + " " + this.teachers[i].last_name, classes: [], folded: true});
             break;
           }
         }
+        console.log("j = ", j, " leng = ", newValue.length);
+        if (j >= newValue.length) selectedAll = false;
       }
       this.$emit('update:teachers', selectedTeachers);
+      this.$emit('update:selelectedAll', selectedAll);
     },
   },
 };

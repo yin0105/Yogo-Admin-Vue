@@ -53,7 +53,7 @@
                         <td>{{ classItem.class_type.name }}</td>
                         <td>{{ classItem.teachersList }}</td>
                         <td>{{ classItem.room.name }}</td>
-                        <td>{{ classItem.room.branch }}</td>
+                        <td>{{ classItem.room.branch.name }}</td>
                         
                         <td v-if="classItem.studio_attendance_enabled == 1">{{ $t('global.Yes') }}</td>
                         <td v-else>{{ $t('global.No') }}</td>
@@ -220,6 +220,7 @@
                     dataUpdated: false,
                     invalidDuration: false,
                     teachers: [],
+                    allTeachers: true,
                     classTypes: [],
                     onlyPhysicalAttendance: false,
                     onlyLivestream: false,
@@ -275,6 +276,7 @@
         methods: {
             async fetchData(dateUpdated) {
                 this.loading = true
+                console.log("allTeachers = ", this.selectedPeriod.allTeachers)
                 if (this.selectedPeriod.fromDate <= this.selectedPeriod.endDate) {
                     let allClasses = await YogoApi.get('/classes' +
                         '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
@@ -429,7 +431,7 @@
                     },
                 );
 
-                const relativePath = '/reports/classes?format=' + format + '&reportToken=' + response.token;
+                const relativePath = '/reports/class?format=' + format + '&reportToken=' + response.token;
 
                 downloadFile(relativePath);
 

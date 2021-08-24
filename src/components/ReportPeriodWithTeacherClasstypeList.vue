@@ -53,7 +53,8 @@
         data() {
             return {
                 selectedTeachers: {
-                    teachers: []
+                    teachers: [],
+                    selelectedAll: true,
                 },
                 selectedClassTypes: {
                     classTypes: []
@@ -66,6 +67,10 @@
         },
         watch: {
             selectedTeachers: {
+                handler: function (newSelelectedAll) {
+                    this.$emit('update:allTeachers', newSelelectedAll);
+                    this.$emit('update:dataUpdated', true);
+                },
                 handler: function (newTeachers) {
                     console.log("update teachers");
                     this.$emit('update:teachers', newTeachers);
