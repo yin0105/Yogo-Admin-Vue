@@ -68,18 +68,20 @@ export default {
       let selectedTeachers = [];
       let selectedAll = true;
       for (const i in this.teachers) {
-        let j = 0;
-        for (j in newValue) {
+        if (selectedAll) selectedAll = undefined;
+        for (const j in newValue) {
           if (this.teachers[i].id == newValue[j]) {
             selectedTeachers.push({"id": this.teachers[i].id, "name": this.teachers[i].first_name + " " + this.teachers[i].last_name, classes: [], folded: true});
+            if (selectedAll == undefined) selectedAll = true
             break;
           }
         }
-        console.log("j = ", j, " leng = ", newValue.length);
-        if (j >= newValue.length) selectedAll = false;
+
+        if (selectedAll == undefined) selectedAll = false;
+
       }
       this.$emit('update:teachers', selectedTeachers);
-      this.$emit('update:selelectedAll', selectedAll);
+      this.$emit('update:selectedAll', selectedAll);
     },
   },
 };

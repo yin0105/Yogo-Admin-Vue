@@ -220,7 +220,6 @@
                     dataUpdated: false,
                     invalidDuration: false,
                     teachers: [],
-                    allTeachers: true,
                     classTypes: [],
                     onlyPhysicalAttendance: false,
                     onlyLivestream: false,
@@ -276,7 +275,6 @@
         methods: {
             async fetchData(dateUpdated) {
                 this.loading = true
-                console.log("allTeachers = ", this.selectedPeriod.allTeachers)
                 if (this.selectedPeriod.fromDate <= this.selectedPeriod.endDate) {
                     let allClasses = await YogoApi.get('/classes' +
                         '?startDate=' + moment(this.selectedPeriod.fromDate).format('YYYY-MM-DD') +
@@ -295,7 +293,6 @@
                     )
                     this.classes = allClasses.classes
                     this.classes = _.sortBy(this.classes, ['date', 'start_time'])
-                    console.log("classes = ", this.classes);
                 } else {
                     this.classes = [];
                 }

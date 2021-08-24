@@ -54,10 +54,11 @@
             return {
                 selectedTeachers: {
                     teachers: [],
-                    selelectedAll: true,
+                    selectedAll: true,
                 },
                 selectedClassTypes: {
-                    classTypes: []
+                    classTypes: [],
+                    selectedAll: true,
                 },
                 onlyPhysicalAttendance: false,
                 onlyLivestream: false,
@@ -67,12 +68,7 @@
         },
         watch: {
             selectedTeachers: {
-                handler: function (newSelelectedAll) {
-                    this.$emit('update:allTeachers', newSelelectedAll);
-                    this.$emit('update:dataUpdated', true);
-                },
                 handler: function (newTeachers) {
-                    console.log("update teachers");
                     this.$emit('update:teachers', newTeachers);
                     this.$emit('update:dataUpdated', true);
                 },
@@ -80,7 +76,6 @@
             },
             selectedClassTypes: {
                 handler: function (newClassTypes) {
-                    console.log("update classTypes");
                     this.$emit('update:classTypes', newClassTypes);
                     this.$emit('update:dataUpdated', true);
                 },
@@ -173,7 +168,6 @@
                     this.invalidDuration = true;
                 } else {
                     this.invalidDuration = false;
-                    console.log("==", f, limitDate, e);
                 }
                 this.$emit('update:invalidDuration', this.invalidDuration);
                 this.$emit('update:dateUpdated', true);

@@ -58,20 +58,26 @@ export default {
   async created() {
     this.classTypes = await YogoApi.get('/class-types');
     this.classTypes = _.sortBy(this.classTypes, 'name');
-    console.log("this.classTypes = ", this.classTypes);
   },
   methods: {
     updateValue(newValue) {
       let selectedClassTypes = [];
+      let selectedAll = true;
       for (const i in this.classTypes) {
+        if (selectedAll) selectedAll = undefined;
         for (const j in newValue) {
           if (this.classTypes[i].id == newValue[j]) {
             selectedClassTypes.push({"id": this.classTypes[i].id, "name": this.classTypes[i].name});
+            if (selectedAll == undefined) selectedAll = true
             break;
           }
         }
+
+        if (selectedAll == undefined) selectedAll = false;
+
       }
       this.$emit('update:classTypes', selectedClassTypes);
+      this.$emit('update:selectedAll', selectedAll);
     },
   },
 };
