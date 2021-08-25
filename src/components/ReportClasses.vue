@@ -31,7 +31,7 @@
 
                         <th>{{ $t('global.Room') }}</th>
 
-                        <th>{{ $t('global.Branch') }}</th>
+                        <th v-if="branches">{{ $t('global.Branch') }}</th>
                         <th v-if="livestream_enabled">{{ $t('global.PhysicalAttendance') }}</th>
                         <th v-if="livestream_enabled">{{ $t('global.Livestream') }}</th>
                         <th v-if="classpass_com_integration_enabled">{{ $t('global.ClassPassComEnabled') }}</th>
@@ -53,7 +53,7 @@
                         <td>{{ classItem.class_type.name }}</td>
                         <td>{{ classItem.teachersList }}</td>
                         <td>{{ classItem.room.name }}</td>
-                        <td>{{ classItem.room.branch.name }}</td>
+                        <td v-if="branches">{{ classItem.room.branch.name }}</td>
                         
                         <td v-if="livestream_enabled">
                             <span v-if="classItem.studio_attendance_enabled == 1">{{ $t('global.Yes') }}</span>
@@ -105,7 +105,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
+                        <th v-if="branches"></th>
                         <th v-if="livestream_enabled"></th>
                         <th v-if="livestream_enabled"></th>
                         <th v-if="classpass_com_integration_enabled"></th>
@@ -247,6 +247,7 @@
 
                 classpass_com_integration_enabled: false,
                 livestream_enabled: false,
+                branches: false,
             };
         },
         computed: {
@@ -282,7 +283,8 @@
             },
         },
         mounted() {     
-            this.fetchClasspassSettings();       
+            this.fetchClasspassSettings();
+            this.fetchBranch();       
             if (this.stateReady) this.fetchData();
         },
 
@@ -296,6 +298,11 @@
                 this.livestream_enabled = res.livestream_enabled;
                 console.log("this.classpass_com_integration_enabled = ", this.classpass_com_integration_enabled)
                 console.log("this.livestream_enabled = ", this.livestream_enabled)
+            },
+            async fetchBranch() {
+                const branches = await YogoApi.get('/branches/');
+                this.branches = branches.length > 1 ? true: false;
+                console.log("this.branches = ", this.countsOfBranches);
             },
             async fetchData(dateUpdated) {
                 this.loading = true
