@@ -480,6 +480,9 @@
                         endDate: this.selectedPeriod.endDate,
                         // allTeachers: this.selectedPeriod.teachers.selectedAll,
                         allClassTypes: this.selectedPeriod.classTypes.selectedAll,
+                        onlyPhysicalAttendance: this.selectedPeriod.onlyPhysicalAttendance,
+                        onlyLivestream: this.selectedPeriod.onlyLivestream,
+                        onlyClassPassEnabled: this.selectedPeriod.onlyClassPassEnabled,
                     },
                 );
 
