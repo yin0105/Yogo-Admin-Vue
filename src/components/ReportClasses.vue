@@ -424,11 +424,12 @@
                 const hh = Math.floor(mins / 60);
                 const mm = Math.floor(mins % 60);
 
-                let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
-                if (mm > 0) {
-                    val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
-                }
-                return val;
+                // let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
+                // if (mm > 0) {
+                //     val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
+                // }
+                // return val;
+                return _.padStart(hh, 2, '0') + ":" + _.padStart(mm, 2, '0')
             },
 
             getDuration(start_time, end_time) {
@@ -438,11 +439,12 @@
                 const hh = Math.floor(mins / 60);
                 const mm = Math.floor(mins % 60);
 
-                let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
-                if (mm > 0) {
-                    val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
-                }
-                return val;
+                // let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
+                // if (mm > 0) {
+                //     val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
+                // }
+                // return val;
+                return _.padStart(hh, 2, '0') + ":" + _.padStart(mm, 2, '0')
             },
 
             // toYesNo(v) {
