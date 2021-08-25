@@ -76,7 +76,7 @@
                         <td>{{ classItem.signup_count }}</td>
                         <td>{{ classItem.checkedin_count }}</td>
                         <td v-if="livestream_enabled">{{ classItem.livestream_signup_count }}</td>
-                        <td v-if="classpass_com_integration_enabled"></td>
+                        <td v-if="classpass_com_integration_enabled">{{ classItem.classpass_signup_count }}</td>
                         
                     </tr>
                     <tr v-if="!teacher.classes.length">
@@ -324,6 +324,7 @@
                         // (this.filterByBranch ? '&branch='+this.filterByBranch : ''),
                     )
                     this.classes = allClasses.classes
+                    console.log("classes = ", this.classes)
                     this.classes = _.sortBy(this.classes, ['date', 'start_time'])
 
                     if (this.selectedPeriod.teachers.selectedAll) {
