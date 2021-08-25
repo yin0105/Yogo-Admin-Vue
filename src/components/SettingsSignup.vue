@@ -15,11 +15,19 @@
           <div v-if="form.signup_show_phone_field">
             <md-checkbox v-model="form.signup_phone_field_required">{{ $t('global.PhoneFieldRequired') }}</md-checkbox>
           </div>
+
           <div>
             <md-checkbox v-model="form.signup_show_date_of_birth_field">{{ $t('global.ShowDateOfBirthField') }}</md-checkbox>
           </div>
           <div v-if="form.signup_show_date_of_birth_field">
             <md-checkbox v-model="form.signup_date_of_birth_field_required">{{ $t('global.DateOfBirthFieldRequired') }}</md-checkbox>
+          </div>
+
+          <div>
+            <md-checkbox v-model="form.signup_show_address_fields">{{ $t('global.ShowAddressField') }}</md-checkbox>
+          </div>
+          <div v-if="form.signup_show_address_fields">
+            <md-checkbox v-model="form.signup_address_fields_required">{{ $t('global.AddressFieldRequired') }}</md-checkbox>
           </div>
         </div>
 
@@ -55,6 +63,8 @@
           signup_phone_field_required: false,
           signup_show_date_of_birth_field: false,
           signup_date_of_birth_field_required: false,
+          signup_show_address_fields: false,
+          signup_address_fields_required: false,
         },      
 
       }
@@ -70,7 +80,9 @@
         '?keys[]=signup_show_phone_field' +
         '&keys[]=signup_phone_field_required' +
         '&keys[]=signup_show_date_of_birth_field' +
-        '&keys[]=signup_date_of_birth_field_required',
+        '&keys[]=signup_date_of_birth_field_required' +
+        '&keys[]=signup_show_address_fields' +
+        '&keys[]=signup_address_fields_required',
       )
       this.loading = false
     },
@@ -82,6 +94,9 @@
           }
           if (!val.signup_show_date_of_birth_field) {
             val.signup_date_of_birth_field_required = false
+          }
+          if (!val.signup_show_address_fields) {
+            val.signup_address_fields_required = false
           }
         },
         deep: true,
@@ -97,6 +112,8 @@
             'signup_phone_field_required',
             'signup_show_date_of_birth_field',
             'signup_date_of_birth_field_required',
+            'signup_show_address_fields',
+            'signup_address_fields_required',
           ],
         )
         await YogoApi.put(
