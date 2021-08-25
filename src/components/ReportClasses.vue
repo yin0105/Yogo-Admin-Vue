@@ -474,11 +474,11 @@
                 const response = await YogoApi.post(
                     '/reports/make-report-token',
                     {
-                        teachers: this.selectedPeriod.teachers.teachers.map(teacher => {return {id: teacher.id, name: teacher.name}}),
+                        teachers: this.teachers.map(teacher => {return {id: teacher.id, name: teacher.first_name + " " + teacher.last_name}}),
                         classTypes: this.selectedPeriod.classTypes.classTypes.map(classType => {return {id: classType.id, name: classType.name}}),
                         fromDate: this.selectedPeriod.fromDate,
                         endDate: this.selectedPeriod.endDate,
-                        allTeachers: this.selectedPeriod.teachers.selectedAll,
+                        // allTeachers: this.selectedPeriod.teachers.selectedAll,
                         allClassTypes: this.selectedPeriod.classTypes.selectedAll,
                     },
                 );
