@@ -1082,5 +1082,20 @@
   },
   "log": {
     "logNotAvailableBeforeDate": "Log ikke tilgængelig før {date}"
+  },
+  "payment": {
+    "PleaseSelectYogoPlan": "Vælg en YOGO -plan",
+    "SelectPlanPleaseChoose": "For at konfigurere betaling skal du først vælge en af vores planer",
+    "SelectPlanExVAT": "Alle priser er ex moms",
+    "SelectPlanFullComparision": "For en fuldstændig sammenligning af planerne, klik",
+    "Here": "her",
+    "SelectPlanMoreBranch": "Hvis du har mere end en filial eller har brug for gratis eksport fra et andet bookingsystem, bedes du",
+    "ContactUs": "kontakte os",
+    "PayAsYouGrow": "Betale-når-du-vokser",
+    "SelectPlanOfYourSales": "af dit salg gennem YOGO",
+    "Studio": "Studio",
+    "StudioLight": "Studio Light",
+    "StudioApp": "Studio + App",
+    "Month": "month"
   }
 }

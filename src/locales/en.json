@@ -1081,5 +1081,23 @@
   },
   "log": {
     "logNotAvailableBeforeDate": "Log not available before {date}"
+  },
+  "payment": {
+    "PleaseSelectYogoPlan": "Please select a YOGO plan",
+    "SelectPlanPleaseChoose": "In order to set up payment, please first choose one of our plans",
+    "SelectPlanExVAT": "All prices are ex VAT",
+    "SelectPlanFullComparision": "For a full comparison of the plans, click",
+    "Here": "here",
+    "SelectPlanMoreBranch": "If you have more than one branch or need free export from another booking system, please",
+    "ContactUs": "contact us",
+    "PayAsYouGrow": "Pay-as-you-grow",
+    "SelectPlanOfYourSales": "af dit salg gennem YOGO",
+    "Studio": "Studio",
+    "StudioLight": "Studio Light",
+    "StudioApp": "Studio + App",
+    "Month": "month"
+
+
+
   }
 }
