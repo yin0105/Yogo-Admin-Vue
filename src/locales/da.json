@@ -1096,6 +1096,13 @@
     "Studio": "Studio",
     "StudioLight": "Studio Light",
     "StudioApp": "Studio + App",
-    "Month": "month"
+    "Month": "month",
+
+    "CountrySelectorWhichCountry": "I hvilket land er dit studie",
+    "Denmark": "Danmark",
+    "OtherCountry": "Andet land",
+    "Continue": "Blive ved",
+    "CountrySelectorNotServe": "Vi betjener i øjeblikket ikke studier uden for Danmark, men meget snart vil vi. Vi giver dig besked, når vi er klar!",
+    "CountrySelectorIfAnyQuestions": "Hvis du har spørgsmål, tøv ikke med at kontakte telefon, e -mail eller chat."
   }
 }

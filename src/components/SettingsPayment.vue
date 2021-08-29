@@ -53,7 +53,15 @@
       <div class="space8"></div>
 
     </div>
-
+<!--
+    <md-dialog :md-active.sync="step == 2" :md-close-on-esc="false"
+               :md-click-outside-to-close="false">
+      <md-dialog-title>{{ $t('global.CreatingClasses') }}</md-dialog-title>
+      <md-dialog-content>
+        {{ $t('payment.CountrySelectorWhichCountry')}}
+      </md-dialog-content>
+    </md-dialog>
+-->
   </div>
 </template>
 

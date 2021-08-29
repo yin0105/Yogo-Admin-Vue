@@ -1095,7 +1095,15 @@
     "Studio": "Studio",
     "StudioLight": "Studio Light",
     "StudioApp": "Studio + App",
-    "Month": "month"
+    "Month": "month",
+
+    "CountrySelectorWhichCountry": "In which country is your studio",
+    "Denmark": "Denmark",
+    "OtherCountry": "Other Country",
+    "Continue": "Continue",
+    "CountrySelectorNotServe": "We currently don't serve studios outside Denmark, but very soon, we will. We will be sure to let you know when we are ready!",
+    "CountrySelectorIfAnyQuestions": "If you have any questions, don't hesitate to get in touch by phone, email or chat."
+
 
 
 
