@@ -10,7 +10,7 @@
 
       <div v-else>
         <div v-if="form.plan == ''">
-          <SettingsPaymentSelectPlan></SettingsPaymentSelectPlan>
+          <SettingsPaymentSelectPlan v-bind.sync="planNum"></SettingsPaymentSelectPlan>
         </div>
         <div v-else class="flex--50">
 
@@ -79,6 +79,12 @@ export default {
     return {
       loading: true,
       form: {},
+      step: 1,
+
+      planNum: {
+        planNum: 0,
+      },
+      
     };
   },
   computed: {
@@ -122,6 +128,21 @@ export default {
         text: this.$t('global.SettingsHasBeenUpdated'),
       });
 
+    },
+  },
+
+  watch: {
+    planNum: {
+      handler: function (newPlanNum, oldPlanNum) {
+        console.log("newPlanNum: ",newPlanNum)
+        console.log("oldPlanNum: ",oldPlanNum)
+        console.log("this.step: ",this.step)
+        if ( newPlanNum.planNum > 0 && this.step == 1 ) {
+          this.step = 2;
+          console.log("step = ", this.step);
+        }                    
+      },
+      deep: true,
     },
   },
 
