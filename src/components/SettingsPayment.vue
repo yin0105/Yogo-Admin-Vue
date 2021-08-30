@@ -10,7 +10,7 @@
 
       <div v-else>
         <div v-if="form.plan == ''">
-          <SettingsPaymentSelectPlan v-bind.sync="planNum"></SettingsPaymentSelectPlan>
+          <SettingsPaymentSelectPlan v-bind.sync="plan"></SettingsPaymentSelectPlan>
         </div>
         <div v-else class="flex--50">
 
@@ -98,12 +98,69 @@
 
     <md-dialog :md-active.sync="showChoosePaymentProviderDlg" :md-close-on-esc="false"
                :md-click-outside-to-close="false">
-      <md-dialog-title>{{ $t('payment.ChoosePaymentProvider') }}</md-dialog-title>
+      <md-dialog-title v-bind:style="{fontSize: '28px', fontWeight: 'bold'}">{{ $t('payment.ChoosePaymentProvider') }}</md-dialog-title>
       <md-dialog-content>
-        <div class="dlg-msg">{{ $t('payment.ChoosePaymentProviderMsg') }}</div>
+        <div class="dlg-msg-2">
+          {{ $t('payment.ChoosePaymentProviderMsg') }}
+          <a href="mailto:contact@yogo.dk">{{ $t('payment.GetInTouch') }}</a>
+        </div>
+        <div class="flex">
+          <div class="flex--50 pl-4 pr-4" v-bind:style="{border: '1px solid'}">
+            <div class="flex flex-wrap">
+              <div v-bind:style="{ 
+                fontSize: '60px', 
+                fontWeight: '800', 
+                fontFamily: 'system-ui', 
+                margin: '20px auto 50px',
+              }">
+                stripe
+              </div>
+            </div>
+            <div v-bind:style="{fontSize: '18px', fontWeight: 'bold'}">{{ $t('payment.QuickEasySetup')}}</div>            
+            <div class="mt-4">
+              {{ $t('global.Accept')}}
+              <table class="ml-4">
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td>{{ $t('global.VisaMastercard')}}</td>
+                </tr>
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td>{{ $t('global.ApplePay')}}</td>
+                </tr>
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td>{{ $t('global.GooglePay')}}</td>
+                </tr>              
+              </table>
+            </div>
+            <div class="mt-4">
+              {{ $t('global.Fees')}}
+              <table class="ml-4">
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td v-bind:style="{fontSize: '12px'}">
+                    1.4% + 1.80kr ({{ $t('global.EuropeanCards')}})
+                  </td>
+                </tr>
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td v-bind:style="{fontSize: '12px'}">
+                    2.9% + 1.80kr ({{ $t('global.NonEuropeanCards')}})
+                  </td>
+                </tr>             
+              </table>
+            </div>
+            <div>
+              <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px'}">
+                {{ $t('payment.SelectStripe') }}
+              </md-button>
+            </div>
+          </div>
+        </div>
       </md-dialog-content>
       <md-dialog-actions>
-        <md-button v-if="countryDen" type="button" @click.prevent="cancelProgress()">
+        <md-button type="button" @click.prevent="cancelProgress()">
           {{ $t('global.Cancel') }}
         </md-button>
       </md-dialog-actions>
@@ -136,8 +193,8 @@ export default {
       form: {},
       step: 1,
 
-      planNum: {
-        planNum: 0,
+      plan: {
+        plan: 0,
       },
 
       countryDen: true,
@@ -195,7 +252,7 @@ export default {
     },
     selectCountry() {
       this.hideAllDlg();
-      if (this.planNum.planNum == 1) {
+      if (this.plan.plan == 'pay_as_you_grow') {
         this.showPreStripeDlg = true;
         this.step = 3;
       } else {
@@ -211,9 +268,9 @@ export default {
   },
 
   watch: {
-    planNum: {
-      handler: function (newPlanNum, oldPlanNum) {
-        if ( newPlanNum.planNum > 0 && this.step == 1 ) {
+    plan: {
+      handler: function (newPlan, oldPlan) {
+        if ( newPlan.plan != "" && this.step == 1 ) {
           this.step = 2;
           this.showCountryDlg = true;
         }                    
@@ -229,5 +286,17 @@ export default {
 <style lang="scss" scoped>
   .dlg-msg {
     max-width: 400px;
+  }
+  .dlg-msg-2 {
+    max-width: 650px;
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
+  li {
+    list-style-type: none;
+  }
+
+  li:before {
+    content: '- ';
   }
 </style>

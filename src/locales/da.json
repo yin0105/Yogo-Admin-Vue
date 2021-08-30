@@ -1060,8 +1060,15 @@
     "NumberAllowedClassPass": "Antal tilladte ClassPass.com -bookinger",
 
     "NEWClassPassBookings": "NYE ClassPass.com -bookinger",
+    "seats": "sæder",
 
-    "seats": "sæder"
+    "Accept": "Accept",
+    "VisaMastercard": "VISA/Mastercard",
+    "ApplePay": "Apple Pay",
+    "GooglePay": "Google Pay",
+    "Fees": "Gebyrer",
+    "EuropeanCards": "Europæiske kort",
+    "NonEuropeanCards": "ikke-europæiske kort"
   },
   "classpass": {
     "EnableClasspassIntegration": "Aktiver ClassPass -integration",
@@ -1112,7 +1119,9 @@
 
     "ChoosePaymentProvider": "Vælg betalingsudbyder",
     "ChoosePaymentProviderMsg": "Som dansk kunde kan du vælge mellem to forskellige betalingsudbydere. Hvis du har spørgsmål om dette valg, er du velkommen til at",
-    "ChoosePaymentGetInTouch": "kontakte os"
+    "GetInTouch": "kontakte os",
+    "QuickEasySetup": "Hurtig og nem opsætning",
+    "SelectStripe": "Vælg Stripe"
 
   }
 }
