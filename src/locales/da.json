@@ -77,6 +77,7 @@
     "AreYouSureYouWantToDelete": "Er du sikker på at du vil slette ",
     "AreYouSureYouWantToReactivateNoShowFee": "Vil du genaktivere dette gebyr for manglende fremmøde?",
     "AreYouSureYouWantToRemove": "Er du sikker på at du vil fjerne ",
+    "Continue": "Blive ved",
     "CustomerAlsoHasAccessToAdmin": "\n\nDenne kunde har også admin-adgang til systemet. Admin-adgangen vil blive bevaret.",
     "CustomerAlsoTeacher": "\n\nDenne kunde er også oprettet som underviser i systemet. Underviser-data vil IKKE blive slettet.",
     "AreYouSureYouWantToSendEmailToClassAfterClassStart": "Afsendelses-tidspunkt er senere end klassestart.\n\nEr du sikker på at du vil sende en email til deltagerne efter klassen er startet?",
@@ -1100,9 +1101,13 @@
 
     "CountrySelectorWhichCountry": "I hvilket land er dit studie",
     "Denmark": "Danmark",
-    "OtherCountry": "Andet land",
-    "Continue": "Blive ved",
+    "OtherCountry": "Andet land",    
     "CountrySelectorNotServe": "Vi betjener i øjeblikket ikke studier uden for Danmark, men meget snart vil vi. Vi giver dig besked, når vi er klar!",
-    "CountrySelectorIfAnyQuestions": "Hvis du har spørgsmål, tøv ikke med at kontakte telefon, e -mail eller chat."
+    "CountrySelectorIfAnyQuestions": "Hvis du har spørgsmål, tøv ikke med at kontakte telefon, e -mail eller chat.",
+
+    "PaymentSetupStripe": "Betalingsopsætning med Stripe",
+    "PaymentSetupStripeMsg1": "For at modtage betalinger skal du give et par oplysninger om dig selv/din virksomhed til vores betalingspartner Stripe.",
+    "PaymentSetupStripeMsg2": "Dette er en meget smidig proces, og bagefter vil du være i stand til at sælge medlemskab, klassekort osv.",
+    "PaymentSetupStripeGotoSetup": "Gå til Stripe -betalingsopsætning"
   }
 }

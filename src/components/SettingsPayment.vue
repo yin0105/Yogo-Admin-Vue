@@ -53,15 +53,49 @@
       <div class="space8"></div>
 
     </div>
-<!--
-    <md-dialog :md-active.sync="step == 2" :md-close-on-esc="false"
+
+    <md-dialog :md-active.sync="showCountryDlg" :md-close-on-esc="false"
                :md-click-outside-to-close="false">
-      <md-dialog-title>{{ $t('global.CreatingClasses') }}</md-dialog-title>
+      <!--<md-dialog-title>{{ $t('global.CreatingClasses') }}</md-dialog-title>-->
       <md-dialog-content>
         {{ $t('payment.CountrySelectorWhichCountry')}}
+        <div>
+          <md-radio v-model="countryDen" :value="true">{{ $t('payment.Denmark') }}</md-radio>
+          <md-radio v-model="countryDen" :value="false">{{ $t('payment.OtherCountry') }}</md-radio>
+        </div>
+        <div v-if="!countryDen" class="dlg-msg">{{ $t('payment.CountrySelectorNotServe') }}</div>
+        <div v-if="!countryDen" class="dlg-msg">{{ $t('payment.CountrySelectorIfAnyQuestions') }}</div>
       </md-dialog-content>
+      <md-dialog-actions>
+        <md-button v-if="countryDen" type="button" @click.prevent="cancelProgress()">
+          {{ $t('global.Cancel') }}
+        </md-button>
+        <md-button v-if="countryDen" type="button" @click.prevent="selectCountry()">
+          {{ $t('global.Continue') }}
+        </md-button>
+        <md-button v-if="!countryDen" type="button" @click.prevent="cancelProgress()">
+          {{ $t('global.Ok') }}
+        </md-button>
+      </md-dialog-actions>
     </md-dialog>
--->
+
+    <md-dialog :md-active.sync="showPreStripeDlg" :md-close-on-esc="false"
+               :md-click-outside-to-close="false">
+      <md-dialog-title>{{ $t('payment.PaymentSetupStripe') }}</md-dialog-title>
+      <md-dialog-content>
+        <div class="dlg-msg">{{ $t('payment.PaymentSetupStripeMsg1') }}</div>
+        <div class="dlg-msg mt-4">{{ $t('payment.PaymentSetupStripeMsg2') }}</div>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button v-if="countryDen" type="button" @click.prevent="cancelProgress()">
+          {{ $t('global.Cancel') }}
+        </md-button>
+        <md-button v-if="countryDen" type="button" @click.prevent="gotoStripeSetup()">
+          {{ $t('payment.PaymentSetupStripeGotoSetup') }}
+        </md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
   </div>
 </template>
 
@@ -92,6 +126,11 @@ export default {
       planNum: {
         planNum: 0,
       },
+
+      countryDen: true,
+
+      showCountryDlg: false,
+      showPreStripeDlg: false,
       
     };
   },
@@ -111,8 +150,6 @@ export default {
         '&keys[]=plan' +
         '&keys[]=payment_service_provider',
     );
-    console.log(" == plan = #", this.form.plan + "#")
-    console.log(" == payment_service_provider = ", this.form.payment_service_provider)
     this.loading = false;
   },
   methods: {
@@ -137,17 +174,30 @@ export default {
       });
 
     },
+    hideAllDlg() {
+      this.showCountryDlg = false;
+      this.showPreStripeDlg = false;
+    },
+    selectCountry() {
+      this.hideAllDlg();
+      this.step = 3;
+      if (this.planNum.planNum == 1) {
+        this.showPreStripeDlg = true;
+      }
+      console.log("countryDen: ", this.countryDen);
+    },
+    cancelProgress() {
+      this.hideAllDlg();
+      this.step = 1;
+    }
   },
 
   watch: {
     planNum: {
       handler: function (newPlanNum, oldPlanNum) {
-        console.log("newPlanNum: ",newPlanNum)
-        console.log("oldPlanNum: ",oldPlanNum)
-        console.log("this.step: ",this.step)
         if ( newPlanNum.planNum > 0 && this.step == 1 ) {
           this.step = 2;
-          console.log("step = ", this.step);
+          this.showCountryDlg = true;
         }                    
       },
       deep: true,
@@ -157,3 +207,9 @@ export default {
 };
 
 </script>
+
+<style lang="scss" scoped>
+  .dlg-msg {
+    max-width: 400px;
+  }
+</style>

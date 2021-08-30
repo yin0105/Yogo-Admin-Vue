@@ -73,7 +73,8 @@
     "Background": "Background",
     "BelongsTo": "Belongs to",
     "BelongsToVideoGroups": "Belongs to video groups",
-    "BodyText": "Body text",
+    "BodyText": "Body text",   
+    "Continue": "Continue", 
     "CurrentMembershipPause": "Current membership pause",
     "CustomersNameIs": "\" The customers name is ",
     "CustomerAlsoHasAccessToAdmin": "\n\nThis customer also has admin access to the system. Admin access will be retained.",
@@ -1099,10 +1100,15 @@
 
     "CountrySelectorWhichCountry": "In which country is your studio",
     "Denmark": "Denmark",
-    "OtherCountry": "Other Country",
-    "Continue": "Continue",
+    "OtherCountry": "Other Country",    
     "CountrySelectorNotServe": "We currently don't serve studios outside Denmark, but very soon, we will. We will be sure to let you know when we are ready!",
-    "CountrySelectorIfAnyQuestions": "If you have any questions, don't hesitate to get in touch by phone, email or chat."
+    "CountrySelectorIfAnyQuestions": "If you have any questions, don't hesitate to get in touch by phone, email or chat.",
+
+    "PaymentSetupStripe": "Payment setup with Stripe",
+    "PaymentSetupStripeMsg1": "To receive payments you will need to provide a few details about yourself/your company to our payment partner Stripe.",
+    "PaymentSetupStripeMsg2": "This is a very smooth process and afterwards you will be able to sell membership, class passes, etc.",
+    "PaymentSetupStripeGotoSetup": "Go to Stripe payment setup"
+
 
 
 

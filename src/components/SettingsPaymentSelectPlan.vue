@@ -56,8 +56,6 @@ export default {
 
     methods: {
         showCountrySelector(planNum) {
-            // this.planNum = planNum;
-            console.log("showCountrySelector: ", planNum)
             this.$emit('update:planNum', planNum)
         }
     }
@@ -66,9 +64,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    // .yogo-plan-card:hover {
-    //     cursor: pointer;
-    // }
 
     .yogo-plan-card {
         border: 1px solid black;
@@ -94,77 +89,5 @@ export default {
         text-align: center;
         margin-bottom: 30px;
     }
-
-// .pagination-top-container {
-//   padding-bottom: 5px;
-//   background: rgb(236, 239, 241);
-// }
-
-// .pagination-bottom-container {
-//   padding-top: 5px;
-//   background: rgb(236, 239, 241);
-// }
-
-// .yogo-table-content {
-//   overflow-x:scroll;
-// }
-
-// table {
-//   width: 100%;
-//   border-spacing: 0;
-//   border-collapse: collapse;
-//   overflow: hidden;
-
-//   th {
-//     text-align: left;
-//     padding: 0;
-//     position: relative;
-//     font-size: 12px;
-//     line-height: 16px;
-//     color: rgba(0, 0, 0, 0.54);
-
-//     &.numeric {
-//       text-align: right;
-//     }
-
-//     .table-sort-arrow {
-//       opacity: 0;
-//       width: 16px;
-//       height: 16px;
-//       transition: .3s cubic-bezier(.4, 0, .2, 1);
-//     }
-
-//     &.sortable {
-//       cursor: pointer;
-//     }
-
-//     &.sortable:hover .table-sort-arrow,
-//     &.sorted .table-sort-arrow {
-//       opacity: 1;
-//     }
-
-//     &.sorted-desc .table-sort-arrow {
-//       transform: rotate(180deg);
-//     }
-//   }
-
-
-//   td {
-//     height: 48px;
-//     position: relative;
-//     transition: .3s cubic-bezier(.4, 0, .2, 1);
-//     font-size: 13px;
-//     line-height: 18px;
-//   }
-
-//   tr.md-has-selection:hover {
-
-//     td {
-//       background: rgba(0, 0, 0, 0.08);
-//     }
-
-//   }
-
-// }
 
 </style>
