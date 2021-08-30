@@ -96,6 +96,19 @@
       </md-dialog-actions>
     </md-dialog>
 
+    <md-dialog :md-active.sync="showChoosePaymentProviderDlg" :md-close-on-esc="false"
+               :md-click-outside-to-close="false">
+      <md-dialog-title>{{ $t('payment.ChoosePaymentProvider') }}</md-dialog-title>
+      <md-dialog-content>
+        <div class="dlg-msg">{{ $t('payment.ChoosePaymentProviderMsg') }}</div>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button v-if="countryDen" type="button" @click.prevent="cancelProgress()">
+          {{ $t('global.Cancel') }}
+        </md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
   </div>
 </template>
 
@@ -131,6 +144,7 @@ export default {
 
       showCountryDlg: false,
       showPreStripeDlg: false,
+      showChoosePaymentProviderDlg: false,
       
     };
   },
@@ -177,12 +191,16 @@ export default {
     hideAllDlg() {
       this.showCountryDlg = false;
       this.showPreStripeDlg = false;
+      this.showChoosePaymentProviderDlg = false;
     },
     selectCountry() {
       this.hideAllDlg();
-      this.step = 3;
       if (this.planNum.planNum == 1) {
         this.showPreStripeDlg = true;
+        this.step = 3;
+      } else {
+        this.showChoosePaymentProviderDlg = true;
+        this.step = 4;
       }
       console.log("countryDen: ", this.countryDen);
     },

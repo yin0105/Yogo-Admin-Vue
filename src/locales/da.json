@@ -1108,6 +1108,11 @@
     "PaymentSetupStripe": "Betalingsopsætning med Stripe",
     "PaymentSetupStripeMsg1": "For at modtage betalinger skal du give et par oplysninger om dig selv/din virksomhed til vores betalingspartner Stripe.",
     "PaymentSetupStripeMsg2": "Dette er en meget smidig proces, og bagefter vil du være i stand til at sælge medlemskab, klassekort osv.",
-    "PaymentSetupStripeGotoSetup": "Gå til Stripe -betalingsopsætning"
+    "PaymentSetupStripeGotoSetup": "Gå til Stripe -betalingsopsætning",
+
+    "ChoosePaymentProvider": "Vælg betalingsudbyder",
+    "ChoosePaymentProviderMsg": "Som dansk kunde kan du vælge mellem to forskellige betalingsudbydere. Hvis du har spørgsmål om dette valg, er du velkommen til at",
+    "ChoosePaymentGetInTouch": "kontakte os"
+
   }
 }
