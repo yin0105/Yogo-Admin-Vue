@@ -106,53 +106,55 @@
           <a href="mailto:contact@yogo.dk">{{ $t('payment.GetInTouch') }}</a>
         </div>
         <div class="flex" v-bind:style="{maxWidth: '700px'}">
-          <div class="flex--50 pl-4 pr-4 mr-2" v-bind:style="{border: '1px solid'}">
-            <div class="flex flex-wrap">
-              <div v-bind:style="{ 
-                fontSize: '60px', 
-                fontWeight: '800', 
-                fontFamily: 'system-ui', 
-                margin: '20px auto 50px',
-              }">
-                stripe
+          <div class="flex--50 flex flex-col" v-bind:style="{border: '1px solid'}">
+            <div class=" pl-4 pr-4 mr-2">
+              <div class="flex flex-wrap">
+                <div v-bind:style="{ 
+                  fontSize: '60px', 
+                  fontWeight: '800', 
+                  fontFamily: 'system-ui', 
+                  margin: '20px auto 50px',
+                }">
+                  stripe
+                </div>
+              </div>
+              <div v-bind:style="{fontSize: '18px', fontWeight: 'bold'}">{{ $t('payment.QuickEasySetup')}}</div>            
+              <div class="mt-4">
+                {{ $t('global.Accept')}}
+                <table class="ml-4">
+                  <tr>
+                    <td v-bind:style="{width: '30px'}">-</td>
+                    <td>{{ $t('global.VisaMastercard')}}</td>
+                  </tr>
+                  <tr>
+                    <td v-bind:style="{width: '30px'}">-</td>
+                    <td>{{ $t('global.ApplePay')}}</td>
+                  </tr>
+                  <tr>
+                    <td v-bind:style="{width: '30px'}">-</td>
+                    <td>{{ $t('global.GooglePay')}}</td>
+                  </tr>              
+                </table>
+              </div>
+              <div class="mt-4">
+                {{ $t('global.Fees')}}
+                <table class="ml-4">
+                  <tr>
+                    <td v-bind:style="{width: '30px'}">-</td>
+                    <td v-bind:style="{fontSize: '13px'}">
+                      1.4% + 1.80kr ({{ $t('global.EuropeanCards')}})
+                    </td>
+                  </tr>
+                  <tr>
+                    <td v-bind:style="{width: '30px'}">-</td>
+                    <td v-bind:style="{fontSize: '13px'}">
+                      2.9% + 1.80kr ({{ $t('global.NonEuropeanCards')}})
+                    </td>
+                  </tr>             
+                </table>
               </div>
             </div>
-            <div v-bind:style="{fontSize: '18px', fontWeight: 'bold'}">{{ $t('payment.QuickEasySetup')}}</div>            
-            <div class="mt-4">
-              {{ $t('global.Accept')}}
-              <table class="ml-4">
-                <tr>
-                  <td v-bind:style="{width: '30px'}">-</td>
-                  <td>{{ $t('global.VisaMastercard')}}</td>
-                </tr>
-                <tr>
-                  <td v-bind:style="{width: '30px'}">-</td>
-                  <td>{{ $t('global.ApplePay')}}</td>
-                </tr>
-                <tr>
-                  <td v-bind:style="{width: '30px'}">-</td>
-                  <td>{{ $t('global.GooglePay')}}</td>
-                </tr>              
-              </table>
-            </div>
-            <div class="mt-4">
-              {{ $t('global.Fees')}}
-              <table class="ml-4">
-                <tr>
-                  <td v-bind:style="{width: '30px'}">-</td>
-                  <td v-bind:style="{fontSize: '13px'}">
-                    1.4% + 1.80kr ({{ $t('global.EuropeanCards')}})
-                  </td>
-                </tr>
-                <tr>
-                  <td v-bind:style="{width: '30px'}">-</td>
-                  <td v-bind:style="{fontSize: '13px'}">
-                    2.9% + 1.80kr ({{ $t('global.NonEuropeanCards')}})
-                  </td>
-                </tr>             
-              </table>
-            </div>
-            <div class="flex">
+            <div class="flex" style="margin-top: auto;">
               <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px', backgroundColor: '#CFE2F3', }">
                 {{ $t('payment.SelectStripe') }}
               </md-button>
@@ -180,11 +182,11 @@
                 </tr>
                 <tr>
                   <td v-bind:style="{width: '30px'}">-</td>
-                  <td>{{ $t('global.ApplePay')}}</td>
+                  <td>Dankort</td>
                 </tr>
                 <tr>
                   <td v-bind:style="{width: '30px'}">-</td>
-                  <td>{{ $t('global.GooglePay')}}</td>
+                  <td>MobilePay</td>
                 </tr>              
               </table>
             </div>
@@ -194,20 +196,26 @@
                 <tr>
                   <td v-bind:style="{width: '30px'}">-</td>
                   <td v-bind:style="{fontSize: '13px'}">
-                    1.4% + 1.80kr ({{ $t('global.EuropeanCards')}})
+                    139 kr/md
                   </td>
                 </tr>
                 <tr>
                   <td v-bind:style="{width: '30px'}">-</td>
                   <td v-bind:style="{fontSize: '13px'}">
-                    2.9% + 1.80kr ({{ $t('global.NonEuropeanCards')}})
+                    1.1% ({{ $t('global.EuropeanCards')}})
+                  </td>
+                </tr>
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td v-bind:style="{fontSize: '13px'}">
+                    2.75% ({{ $t('global.NonEuropeanCards')}})
                   </td>
                 </tr>             
               </table>
             </div>
             <div class="flex">
               <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px', backgroundColor: '#CFE2F3', }">
-                {{ $t('payment.SelectStripe') }}
+                {{ $t('payment.SelectReepay') }}
               </md-button>
             </div>
           </div>
