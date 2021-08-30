@@ -96,6 +96,7 @@
       </md-dialog-actions>
     </md-dialog>
 
+<!-- Choose Payment Provider Dialog-->
     <md-dialog :md-active.sync="showChoosePaymentProviderDlg" :md-close-on-esc="false"
                :md-click-outside-to-close="false">
       <md-dialog-title v-bind:style="{fontSize: '28px', fontWeight: 'bold'}">{{ $t('payment.ChoosePaymentProvider') }}</md-dialog-title>
@@ -105,7 +106,7 @@
           <a href="mailto:contact@yogo.dk">{{ $t('payment.GetInTouch') }}</a>
         </div>
         <div class="flex">
-          <div class="flex--50 pl-4 pr-4" v-bind:style="{border: '1px solid'}">
+          <div class="flex--50 pl-4 pr-4 mr-2" v-bind:style="{border: '1px solid'}">
             <div class="flex flex-wrap">
               <div v-bind:style="{ 
                 fontSize: '60px', 
@@ -139,20 +140,73 @@
               <table class="ml-4">
                 <tr>
                   <td v-bind:style="{width: '30px'}">-</td>
-                  <td v-bind:style="{fontSize: '12px'}">
+                  <td v-bind:style="{fontSize: '13px'}">
                     1.4% + 1.80kr ({{ $t('global.EuropeanCards')}})
                   </td>
                 </tr>
                 <tr>
                   <td v-bind:style="{width: '30px'}">-</td>
-                  <td v-bind:style="{fontSize: '12px'}">
+                  <td v-bind:style="{fontSize: '13px'}">
                     2.9% + 1.80kr ({{ $t('global.NonEuropeanCards')}})
                   </td>
                 </tr>             
               </table>
             </div>
-            <div>
-              <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px'}">
+            <div class="flex">
+              <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px', backgroundColor: '#CFE2F3', }">
+                {{ $t('payment.SelectStripe') }}
+              </md-button>
+            </div>
+          </div>
+
+          <div class="flex--50 pl-4 pr-4 ml-2" v-bind:style="{border: '1px solid'}">
+            <div class="flex flex-wrap">
+              <div v-bind:style="{ 
+                fontSize: '60px', 
+                fontWeight: '800', 
+                fontFamily: 'system-ui', 
+                margin: '20px auto 50px',
+              }">
+                stripe
+              </div>
+            </div>
+            <div v-bind:style="{fontSize: '18px', fontWeight: 'bold'}">{{ $t('payment.QuickEasySetup')}}</div>            
+            <div class="mt-4">
+              {{ $t('global.Accept')}}
+              <table class="ml-4">
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td>{{ $t('global.VisaMastercard')}}</td>
+                </tr>
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td>{{ $t('global.ApplePay')}}</td>
+                </tr>
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td>{{ $t('global.GooglePay')}}</td>
+                </tr>              
+              </table>
+            </div>
+            <div class="mt-4">
+              {{ $t('global.Fees')}}
+              <table class="ml-4">
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td v-bind:style="{fontSize: '13px'}">
+                    1.4% + 1.80kr ({{ $t('global.EuropeanCards')}})
+                  </td>
+                </tr>
+                <tr>
+                  <td v-bind:style="{width: '30px'}">-</td>
+                  <td v-bind:style="{fontSize: '13px'}">
+                    2.9% + 1.80kr ({{ $t('global.NonEuropeanCards')}})
+                  </td>
+                </tr>             
+              </table>
+            </div>
+            <div class="flex">
+              <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px', backgroundColor: '#CFE2F3', }">
                 {{ $t('payment.SelectStripe') }}
               </md-button>
             </div>
