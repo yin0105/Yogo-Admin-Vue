@@ -858,6 +858,7 @@ export default {
       }
 
       if (this.formType === 'edit') {
+        console.log("classData = ", classData)
         await YogoApi.put('/classes/' + this.$route.params.id, classData);
 
         this.$store.commit('postFlashMessage', {

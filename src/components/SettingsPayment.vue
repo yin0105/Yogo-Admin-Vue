@@ -90,7 +90,7 @@
         <md-button v-if="countryDen" type="button" @click.prevent="cancelProgress()">
           {{ $t('global.Cancel') }}
         </md-button>
-        <md-button v-if="countryDen" type="button" @click.prevent="gotoStripeSetup()">
+        <md-button v-if="countryDen" type="button" @click.prevent="selectStripe()">
           {{ $t('payment.PaymentSetupStripeGotoSetup') }}
         </md-button>
       </md-dialog-actions>
@@ -155,7 +155,7 @@
               </div>
             </div>
             <div class="flex" style="margin-top: auto;">
-              <md-button type="button" @click.prevent="cancelProgress()"  class="btn-select-payment">
+              <md-button type="button" @click.prevent="selectStripe()"  class="btn-select-payment">
                 {{ $t('payment.SelectStripe') }}
               </md-button>
             </div>
@@ -214,7 +214,7 @@
               </table>
             </div>
             <div class="flex">
-              <md-button type="button" @click.prevent="cancelProgress()" class="btn-select-payment">
+              <md-button type="button" @click.prevent="selectReepay()" class="btn-select-payment">
                 {{ $t('payment.SelectReepay') }}
               </md-button>
             </div>
@@ -253,10 +253,10 @@ export default {
     return {
       loading: true,
       form: {},
-      step: 1,
+      step: 'init',
 
       plan: {
-        plan: 0,
+        plan: '',
       },
 
       countryDen: true,
@@ -316,24 +316,38 @@ export default {
       this.hideAllDlg();
       if (this.plan.plan == 'pay_as_you_grow') {
         this.showPreStripeDlg = true;
-        this.step = 3;
+        this.step = 'setup_with_stripe';
       } else {
         this.showChoosePaymentProviderDlg = true;
-        this.step = 4;
+        this.step = 'choose_payment_provider';
       }
       console.log("countryDen: ", this.countryDen);
     },
     cancelProgress() {
       this.hideAllDlg();
-      this.step = 1;
-    }
+      this.step = 'init';
+    }, 
+    async selectStripe() {
+      this.hideAllDlg();
+      this.loading = true;
+      await YogoApi.put('/clients/' + this.client.id + '/settings', { plan: this.plan.plan, payment_service_provider: 'stripe_onboarding'});
+      this.loading = false;
+      this.step = 'stripe_onboarding';
+    },
+    async selectReepay() {
+      this.hideAllDlg();
+      this.loading = true;
+      await YogoApi.put('/clients/' + this.client.id + '/settings', { plan: this.plan.plan, payment_service_provider: 'reepay_onboarding'});
+      this.loading = false;
+      this.step = 'reepay_onboarding';
+    },
   },
 
   watch: {
     plan: {
       handler: function (newPlan, oldPlan) {
-        if ( newPlan.plan != "" && this.step == 1 ) {
-          this.step = 2;
+        if ( newPlan.plan != "" && this.step == 'init' ) {
+          this.step = 'select_country';
           this.showCountryDlg = true;
         }                    
       },
