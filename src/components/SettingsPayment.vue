@@ -155,7 +155,7 @@
               </div>
             </div>
             <div class="flex" style="margin-top: auto;">
-              <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px', backgroundColor: '#CFE2F3', }">
+              <md-button type="button" @click.prevent="cancelProgress()"  class="btn-select-payment">
                 {{ $t('payment.SelectStripe') }}
               </md-button>
             </div>
@@ -214,7 +214,7 @@
               </table>
             </div>
             <div class="flex">
-              <md-button type="button" @click.prevent="cancelProgress()" v-bind:style="{ border: '1px solid', margin: '30px auto auto', bottom: '10px', backgroundColor: '#CFE2F3', }">
+              <md-button type="button" @click.prevent="cancelProgress()" class="btn-select-payment">
                 {{ $t('payment.SelectReepay') }}
               </md-button>
             </div>
@@ -222,7 +222,7 @@
         </div>
       </md-dialog-content>
       <md-dialog-actions>
-        <md-button type="button" @click.prevent="cancelProgress()">
+        <md-button type="button" @click.prevent="cancelProgress()" class="btn-select-payment" v-bind:style="{marginRight: '20px'}">
           {{ $t('global.Cancel') }}
         </md-button>
       </md-dialog-actions>
@@ -360,5 +360,13 @@ export default {
 
   li:before {
     content: '- ';
+  }
+
+  .btn-select-payment {
+    border: 1px solid !important;
+    margin: 30px auto auto;
+    padding: 10px 30px;
+    bottom: 10px;
+    background-color: #CFE2F3;
   }
 </style>
