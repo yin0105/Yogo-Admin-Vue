@@ -1121,7 +1121,8 @@
     "ChoosePaymentProviderMsg": "Som dansk kunde kan du vælge mellem to forskellige betalingsudbydere. Hvis du har spørgsmål om dette valg, er du velkommen til at",
     "GetInTouch": "kontakte os",
     "QuickEasySetup": "Hurtig og nem opsætning",
-    "SelectStripe": "Vælg Stripe"
+    "SelectStripe": "Vælg Stripe",
+    "LowerFees": "Lavere gebyrer, danske betalingsmetoder, opsætning tager et par dage"
 
   }
 }

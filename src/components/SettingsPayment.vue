@@ -105,7 +105,7 @@
           {{ $t('payment.ChoosePaymentProviderMsg') }}
           <a href="mailto:contact@yogo.dk">{{ $t('payment.GetInTouch') }}</a>
         </div>
-        <div class="flex">
+        <div class="flex" v-bind:style="{maxWidth: '700px'}">
           <div class="flex--50 pl-4 pr-4 mr-2" v-bind:style="{border: '1px solid'}">
             <div class="flex flex-wrap">
               <div v-bind:style="{ 
@@ -167,10 +167,10 @@
                 fontFamily: 'system-ui', 
                 margin: '20px auto 50px',
               }">
-                stripe
+                reepay
               </div>
             </div>
-            <div v-bind:style="{fontSize: '18px', fontWeight: 'bold'}">{{ $t('payment.QuickEasySetup')}}</div>            
+            <div v-bind:style="{fontSize: '18px', fontWeight: 'bold'}">{{ $t('payment.LowerFees')}}</div>            
             <div class="mt-4">
               {{ $t('global.Accept')}}
               <table class="ml-4">
@@ -342,7 +342,7 @@ export default {
     max-width: 400px;
   }
   .dlg-msg-2 {
-    max-width: 650px;
+    max-width: 680px;
     font-size: 20px;
     margin-bottom: 30px;
   }
