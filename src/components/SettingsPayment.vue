@@ -12,37 +12,80 @@
         <div v-if="form.plan == ''">
           <SettingsPaymentSelectPlan v-bind.sync="plan"></SettingsPaymentSelectPlan>
         </div>
-        <div v-else class="flex--50">
-
-          <div>
-            <md-checkbox v-model="form.payment_show_visa_mastercard_logos">{{
-                $t('global.ShowVisaMastercardLogos')
-              }}
-            </md-checkbox>
+        <div v-else>
+          <div v-if="form.payment_service_provider == 'reepay_onboarding'">
+            {{ $t('payment.ReepayOnboardingMsg') }}
           </div>
-
-          <div>
-            <md-checkbox v-model="form.payment_show_dankort_logo">{{ $t('global.ShowDankortLogo') }}</md-checkbox>
-          </div>
-
-          <div>
-            <md-checkbox v-model="form.payment_show_mobilepay_logo">{{ $t('global.ShowMobilepayLogo') }}</md-checkbox>
-          </div>
-
-          <md-field>
-            <label>{{ $t('global.ReepayAPIkey') }}</label>
-            <md-input type="text" v-model="form.payment_service_provider_reepay_private_api_key" required></md-input>
           
-          </md-field>
+          <div v-if="form.payment_service_provider == 'stripe_onboarding'" class="flex flex-col">
+            <div>{{ $t('payment.StripeOnboardingMsg1') }}</div>
+            <div v-bind:style="{ 
+              fontSize: '85px', 
+              fontWeight: '800', 
+              fontFamily: 'system-ui', 
+              margin: '30px 0px 60px',
+              color: '#625AFE',
+            }">
+              stripe
+            </div>
+            <div>{{ $t('payment.StripeOnboardingMsg2') }}</div>
+            <div class="mt-4">
+              <md-button type="button" @click.prevent="" class="btn-select-payment">
+                {{ $t('payment.CompleteStripeSetup') }}
+              </md-button>
+            </div>
+          </div>
 
-          <md-field>
-            <label>{{ $t('global.ReepayWebhookSecret') }}</label>
-            <md-input type="text" v-model="form.payment_service_provider_reepay_webhook_secret" required></md-input>
+          <div v-if="form.payment_service_provider == 'stripe'" class="flex flex-col">
+            <div>{{ $t('payment.StripeOnboardingMsg1') }}</div>
+            <div v-bind:style="{ 
+              fontSize: '85px', 
+              fontWeight: '800', 
+              fontFamily: 'system-ui', 
+              margin: '30px 0px 30px',
+              color: '#625AFE',
+            }">
+              stripe
+            </div>
+            <div class="mt-4">
+              <md-button type="button" @click.prevent="" class="btn-select-payment">
+                {{ $t('payment.OpenStripeDashboard') }}
+              </md-button>
+            </div>
+          </div>
           
-          </md-field>
+          <div v-if="form.payment_service_provider == 'reepay'" class="flex--50">
 
-          <div class="mt2">
-            <md-button class="md-raised md-primary" @click="submit">{{ $t('global.Save') }}</md-button>
+            <div>
+              <md-checkbox v-model="form.payment_show_visa_mastercard_logos">{{
+                  $t('global.ShowVisaMastercardLogos')
+                }}
+              </md-checkbox>
+            </div>
+
+            <div>
+              <md-checkbox v-model="form.payment_show_dankort_logo">{{ $t('global.ShowDankortLogo') }}</md-checkbox>
+            </div>
+
+            <div>
+              <md-checkbox v-model="form.payment_show_mobilepay_logo">{{ $t('global.ShowMobilepayLogo') }}</md-checkbox>
+            </div>
+
+            <md-field>
+              <label>{{ $t('global.ReepayAPIkey') }}</label>
+              <md-input type="text" v-model="form.payment_service_provider_reepay_private_api_key" required></md-input>
+            
+            </md-field>
+
+            <md-field>
+              <label>{{ $t('global.ReepayWebhookSecret') }}</label>
+              <md-input type="text" v-model="form.payment_service_provider_reepay_webhook_secret" required></md-input>
+            
+            </md-field>
+
+            <div class="mt2">
+              <md-button class="md-raised md-primary" @click="submit">{{ $t('global.Save') }}</md-button>
+            </div>
           </div>
         </div>
 
@@ -346,7 +389,8 @@ export default {
   watch: {
     plan: {
       handler: function (newPlan, oldPlan) {
-        if ( newPlan.plan != "" && this.step == 'init' ) {
+        // if ( newPlan.plan != "" && this.step == 'init' ) {
+        if ( newPlan.plan != "") {
           this.step = 'select_country';
           this.showCountryDlg = true;
         }                    

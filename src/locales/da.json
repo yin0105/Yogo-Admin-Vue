@@ -1123,7 +1123,13 @@
     "QuickEasySetup": "Hurtig og nem opsætning",
     "SelectStripe": "Vælg Stripe",
     "SelectReepay": "Vælg Reepay",
-    "LowerFees": "Lavere gebyrer, danske betalingsmetoder, opsætning tager et par dage"
+    "LowerFees": "Lavere gebyrer, danske betalingsmetoder, opsætning tager et par dage",
+
+    "ReepayOnboardingMsg": "Tak fordi du valgte Reepay. Vi kontakter dig meget snart for at hjælpe dig med at konfigurere din betalingsbehandling.",
+    "StripeOnboardingMsg1": "Din betalingsudbyder med YOGO er",
+    "StripeOnboardingMsg2": "Det ser ud til, at din Stripe -konto endnu ikke er fuldstændig fuldført!",
+    "CompleteStripeSetup": "Komplet opsætning af Stripe",
+    "OpenStripeDashboard": "Åbn Stripe Dashboard"
 
   }
 }

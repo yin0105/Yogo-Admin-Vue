@@ -1122,7 +1122,13 @@
     "QuickEasySetup": "Quick and easy setup",
     "SelectStripe": "Select Stripe",
     "SelectReepay": "Select Reepay",
-    "LowerFees": "Lower fees, Danish payment methods, setup takes a couple of days"
+    "LowerFees": "Lower fees, Danish payment methods, setup takes a couple of days",
+
+    "ReepayOnboardingMsg": "Thank you for choosing Reepay. We will be in touch very soon to assist you in setting up your payment processing.",
+    "StripeOnboardingMsg1": "Your payment provider with YOGO is",
+    "StripeOnboardingMsg2": "It appears that your Stripe account is not yet fully complete!",
+    "CompleteStripeSetup": "Complete Stripe set-up",
+    "OpenStripeDashboard": "Open Stripe Dashboard"
 
 
 
