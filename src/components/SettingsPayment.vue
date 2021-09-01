@@ -374,6 +374,14 @@ export default {
       this.hideAllDlg();
       this.loading = true;
       await YogoApi.put('/clients/' + this.client.id + '/settings', { plan: this.plan.plan, payment_service_provider: 'stripe_onboarding'});
+      const res = await YogoApi.post('/payments/stripe/onboarding');
+      
+      if (res.error) {
+        console.log("error = ", res.error)
+      } else {
+        window.location.href = res;
+      }
+      
       this.loading = false;
       this.step = 'stripe_onboarding';
     },
