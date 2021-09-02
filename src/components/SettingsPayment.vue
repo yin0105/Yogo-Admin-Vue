@@ -439,7 +439,10 @@ export default {
     async selectReepay() {
       this.hideAllDlg();
       this.loading = true;
+
       await YogoApi.put('/clients/' + this.client.id + '/settings', { plan: this.plan.plan, payment_service_provider: 'reepay_onboarding'});
+      await YogoApi.get('/payments/reepay/send-onboarding-email/' + this.client.id);
+      
       this.loading = false;
       this.step = 'reepay_onboarding';
     },
