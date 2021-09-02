@@ -328,135 +328,21 @@ export default {
         '&keys[]=payment_service_provider' +
         '&keys[]=payment_service_provider_stripe_account_id',        
     );
+    
+    await this.stripeOnboardingCheck();
     this.loading = false;
   },
-  async mounted() {
-    if (this.$route.query.type) {
-      console.log("type=", this.$route.query.type)
-      if (this.$route.query.type == "refresh") {
-        this.loading = true;
-        await this.stripeOnboarding();
-        this.loading = false;
-      } else if (this.$route.query.type == "return") {
-        this.loading = true;
-        await this.stripeOnboardingCheck();
-        this.loading = false;
-      }
-    }
-  },
-  methods: {
-    async submit() {
-      this.loading = true;
-      const submitData = _pick(
-          this.form,
-          [
-            'payment_show_visa_mastercard_logos',
-            'payment_show_dankort_logo',
-            'payment_show_mobilepay_logo',
-            'payment_service_provider_reepay_webhook_secret',
-            'payment_service_provider_reepay_private_api_key',
-          ],
-      );
-      await YogoApi.put('/clients/' + this.client.id + '/settings', submitData);
-      this.loading = false;
-
-      this.$store.commit('postFlashMessage', {
-        type: 'MESSAGE_TYPE_INFO',
-        text: this.$t('global.SettingsHasBeenUpdated'),
-      });
-
-    },
-    hideAllDlg() {
-      this.showCountryDlg = false;
-      this.showPreStripeDlg = false;
-      this.showChoosePaymentProviderDlg = false;
-    },
-    selectCountry() {
-      this.hideAllDlg();
-      if (this.plan.plan == 'pay_as_you_grow') {
-        this.showPreStripeDlg = true;
-        this.step = 'setup_with_stripe';
-      } else {
-        this.showChoosePaymentProviderDlg = true;
-        this.step = 'choose_payment_provider';
-      }
-      console.log("countryDen: ", this.countryDen);
-    },
-    cancelProgress() {
-      this.hideAllDlg();
-      this.step = 'init';
-    }, 
-
-// Stripe Onboarding
-    async selectStripe() {
-      this.hideAllDlg();
-      this.loading = true;
-      await YogoApi.put('/clients/' + this.client.id + '/settings', { plan: this.plan.plan, payment_service_provider: 'stripe_onboarding'});     
-      await this.stripeOnboarding();
-      this.loading = false;
-      this.step = 'stripe_onboarding';
-    },
-    async stripeOnboarding() {
-        this.loading = true;
-        const host = window.location.protocol + "//" + window.location.host;
-        const params = new URLSearchParams();
-        params.append('host', host);
-        const res = await YogoApi.post('/payments/stripe/onboarding', {host: host});
-      
-        if (res.error) {
-            console.log("error = ", res.error)
-        } else {
-            console.log("account_id = ", res.account_id)
-            await YogoApi.put('/clients/' + this.client.id + '/settings', { payment_service_provider_stripe_account_id: res.account_id});     
-            window.location.href = res.url;
-        }
-
-        this.loading = false;
-        this.step = 'stripe_onboarding';
-    },
+  methods: {   
     async stripeOnboardingCheck() {
-      this.form = await YogoApi.get(
-        '/clients/' + this.client.id + '/settings' +
-        '?keys[]=payment_show_visa_mastercard_logos' +
-        '&keys[]=payment_show_dankort_logo' +
-        '&keys[]=payment_show_mobilepay_logo' +
-        '&keys[]=payment_service_provider_reepay_webhook_secret' +
-        '&keys[]=payment_service_provider_reepay_private_api_key' +
-        '&keys[]=plan' +
-        '&keys[]=payment_service_provider' +
-        '&keys[]=payment_service_provider_stripe_account_id',        
-      );
       console.log("accountId = ", this.form.payment_service_provider_stripe_account_id)
       const res_2 = await YogoApi.get(`/payments/stripe/onboarding-check?accountId=${this.form.payment_service_provider_stripe_account_id}`);
       console.log('res_2 = ', res_2)
       if (res_2) {
         await YogoApi.put('/clients/' + this.client.id + '/settings', { payment_service_provider: 'stripe'});     
       }
-      // this.$router.push('SettingsPayment');
+      this.$router.push('settings-payment');
     },
-
-// Reepay Onboarding
-    async selectReepay() {
-      this.hideAllDlg();
-      this.loading = true;
-      await YogoApi.put('/clients/' + this.client.id + '/settings', { plan: this.plan.plan, payment_service_provider: 'reepay_onboarding'});
-      this.loading = false;
-      this.step = 'reepay_onboarding';
-    },
-  },
-
-  watch: {
-    plan: {
-      handler: function (newPlan, oldPlan) {
-        // if ( newPlan.plan != "" && this.step == 'init' ) {
-        if ( newPlan.plan != "") {
-          this.step = 'select_country';
-          this.showCountryDlg = true;
-        }                    
-      },
-      deep: true,
-    },
-  },
+  }
 
 };
 

@@ -316,7 +316,6 @@ export default {
     ]),
   },
   async created() {
-    this.loading = true;
     this.form = await YogoApi.get(
         '/clients/' + this.client.id + '/settings' +
         '?keys[]=payment_show_visa_mastercard_logos' +
@@ -325,24 +324,9 @@ export default {
         '&keys[]=payment_service_provider_reepay_webhook_secret' +
         '&keys[]=payment_service_provider_reepay_private_api_key' +
         '&keys[]=plan' +
-        '&keys[]=payment_service_provider' +
-        '&keys[]=payment_service_provider_stripe_account_id',        
+        '&keys[]=payment_service_provider',
     );
     this.loading = false;
-  },
-  async mounted() {
-    if (this.$route.query.type) {
-      console.log("type=", this.$route.query.type)
-      if (this.$route.query.type == "refresh") {
-        this.loading = true;
-        await this.stripeOnboarding();
-        this.loading = false;
-      } else if (this.$route.query.type == "return") {
-        this.loading = true;
-        await this.stripeOnboardingCheck();
-        this.loading = false;
-      }
-    }
   },
   methods: {
     async submit() {
@@ -386,27 +370,24 @@ export default {
       this.hideAllDlg();
       this.step = 'init';
     }, 
-
-// Stripe Onboarding
     async selectStripe() {
       this.hideAllDlg();
       this.loading = true;
       await YogoApi.put('/clients/' + this.client.id + '/settings', { plan: this.plan.plan, payment_service_provider: 'stripe_onboarding'});     
-      await this.stripeOnboarding();
+    //   await stripeOnboarding();
       this.loading = false;
       this.step = 'stripe_onboarding';
     },
     async stripeOnboarding() {
         this.loading = true;
-        const host = window.location.protocol + "//" + window.location.host;
-        const params = new URLSearchParams();
-        params.append('host', host);
-        const res = await YogoApi.post('/payments/stripe/onboarding', {host: host});
+        // const host = window.location.protocol + "//" + window.location.host;
+        // const params = new URLSearchParams();
+        // params.append('host', host);
+        const res = await YogoApi.post('/payments/stripe/onboarding');
       
         if (res.error) {
             console.log("error = ", res.error)
         } else {
-            console.log("account_id = ", res.account_id)
             await YogoApi.put('/clients/' + this.client.id + '/settings', { payment_service_provider_stripe_account_id: res.account_id});     
             window.location.href = res.url;
         }
@@ -414,28 +395,6 @@ export default {
         this.loading = false;
         this.step = 'stripe_onboarding';
     },
-    async stripeOnboardingCheck() {
-      this.form = await YogoApi.get(
-        '/clients/' + this.client.id + '/settings' +
-        '?keys[]=payment_show_visa_mastercard_logos' +
-        '&keys[]=payment_show_dankort_logo' +
-        '&keys[]=payment_show_mobilepay_logo' +
-        '&keys[]=payment_service_provider_reepay_webhook_secret' +
-        '&keys[]=payment_service_provider_reepay_private_api_key' +
-        '&keys[]=plan' +
-        '&keys[]=payment_service_provider' +
-        '&keys[]=payment_service_provider_stripe_account_id',        
-      );
-      console.log("accountId = ", this.form.payment_service_provider_stripe_account_id)
-      const res_2 = await YogoApi.get(`/payments/stripe/onboarding-check?accountId=${this.form.payment_service_provider_stripe_account_id}`);
-      console.log('res_2 = ', res_2)
-      if (res_2) {
-        await YogoApi.put('/clients/' + this.client.id + '/settings', { payment_service_provider: 'stripe'});     
-      }
-      // this.$router.push('SettingsPayment');
-    },
-
-// Reepay Onboarding
     async selectReepay() {
       this.hideAllDlg();
       this.loading = true;

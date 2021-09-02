@@ -83,6 +83,8 @@ import GiftCardForm from '@/components/GiftCardForm';
 import SettingsImportSenses from '@/components/SettingsImportSenses';
 import SettingsGiftCards from '@/components/SettingsGiftCards';
 import SettingsPayment from '@/components/SettingsPayment';
+import SettingsPaymentRefresh from '@/components/SettingsPaymentRefresh';
+import SettingsPaymentReturn from '@/components/SettingsPaymentReturn';
 import SettingsImportGeneric from '@/components/SettingsImportGeneric';
 import SettingsMemberships from '@/components/SettingsMemberships';
 import SettingsImportMomoyoga from '@/components/SettingsImportMomoyoga';
@@ -619,6 +621,16 @@ const router = new Router({
       path: '/settings-payment',
       name: 'SettingsPayment',
       component: SettingsPayment,
+    },
+    {
+      path: '/stripe-onboarding-return',
+      name: 'SettingsPaymentReturn',
+      component: SettingsPaymentReturn,
+    },
+    {
+      path: '/stripe-onboarding-refresh',
+      name: 'SettingsPaymentRefresh',
+      component: SettingsPaymentRefresh,
     },
     {
       path: '/settings-import',
