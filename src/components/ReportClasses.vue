@@ -16,8 +16,7 @@
                 <md-button md-theme-default class="md-primary md-raised ml-0" @click="downloadFile('pdf')" :disabled="selectedPeriod.invalidDuration">Download PDF</md-button>          
             </div>
 
-            <div v-if="!selectedPeriod.invalidDuration" v-for="(teacher, idx) in this.selectedTeachersList" class="w-100 overflow-scroll">
-                <h3>{{ teacher.name }}</h3>
+            <div v-if="!selectedPeriod.invalidDuration" class="w-100 overflow-scroll">
                 <table class="classes">
                     <tr>
                         <th>{{ $t('global.ID') }}</th>
@@ -44,7 +43,7 @@
                         <th v-if="classpass_com_integration_enabled">ClassPass.com {{ $t('global.SignUps') }}</th>
 
                     </tr>
-                    <tr v-if="!teacher.folded" v-for="classItem in teacher.classes">
+                    <tr v-for="classItem in classes">
                         <td>{{ classItem.id }}</td>
                         <td>{{ dbDateToHumanDate(classItem.date) }}</td>
                         <td>{{ classItem.start_time }}</td>
@@ -79,26 +78,22 @@
                         <td v-if="classpass_com_integration_enabled">{{ classItem.classpass_signup_count }}</td>
                         
                     </tr>
-                    <tr v-if="!teacher.classes.length">
+                    <tr v-if="!classes.length">
                         <td colspan="5">{{ $t('global.NoClassesForTheSelectedTimePeriod') }}</td>
                     </tr>
 
                     <tr>
-                        <th colspan="3">
-                            <md-button v-if="teacher.classes.length" @click="toggleFolded(idx)" v-bind:style="{margin: '0px', fontWeight: 'bold', color: 'white'}">
-                            {{ $t('global.Total') }}: {{teacher.classes.length}} classes
-                            <md-icon v-if="teacher.folded" v-bind:style="{color: 'white'}">expand_more</md-icon>
+                        <th colspan="4">
+                            <md-button v-if="classes.length" @click="toggleFolded(idx)" v-bind:style="{margin: '0px', fontWeight: 'bold', color: 'white'}">
+                            {{ $t('global.Total') }}: {{classes.length}} classes
+                            <md-icon v-if="folded" v-bind:style="{color: 'white'}">expand_more</md-icon>
                             <md-icon v-else v-bind:style="{color: 'white'}">expand_less</md-icon>
                             </md-button>
                             <span v-else>{{ $t('global.Total') }}:</span>
-                        </th>              
+                        </th>   
 
-                        <th>
-                            <!-- {{ totalParticipantSessions }} -->
-                        </th>
-
-                        <th v-if="teacher.classes.length">
-                            {{ durationStringWithoutSecond(teacher.totalMins) }}
+                        <th v-if="classes.length">
+                            {{ durationStringWithoutSecond(totalMins) }}
                         </th>                        
                         <th v-else></th>
 
@@ -111,14 +106,14 @@
                         <th v-if="classpass_com_integration_enabled"></th>
                         <th></th>
                         
-                        <th v-if="teacher.classes.length">{{ teacher.totalSignups }}</th>
+                        <th v-if="classes.length">{{ totalSignups }}</th>
                         <th v-else></th>
 
-                        <th v-if="teacher.classes.length">{{ teacher.totalCheckedIn }}</th>
+                        <th v-if="classes.length">{{ totalCheckedIn }}</th>
                         <th v-else></th>
                         
                         <th v-if="livestream_enabled">
-                            <span v-if="teacher.classes.length">{{ teacher.totalLivestreamSignups }}</span>
+                            <span v-if="classes.length">{{ totalLivestreamSignups }}</span>
                             <span v-else></span>
                         </th>
                         
@@ -238,7 +233,6 @@
                 teachers: [],
 
                 classes: [],
-                selectedTeachersList: [],
                 loading: true,               
 
                 classParticipantsDialogClass: null,
@@ -248,6 +242,12 @@
                 classpass_com_integration_enabled: false,
                 livestream_enabled: false,
                 branches: false,
+
+                totalMins: 0, 
+                totalCheckedIn: 0, 
+                totalSignups: 0, 
+                totalLivestreamSignups: 0,
+                folded: false,
             };
         },
         computed: {
@@ -296,13 +296,10 @@
                 this.loading = false;
                 this.classpass_com_integration_enabled = res.classpass_com_integration_enabled;
                 this.livestream_enabled = res.livestream_enabled;
-                console.log("this.classpass_com_integration_enabled = ", this.classpass_com_integration_enabled)
-                console.log("this.livestream_enabled = ", this.livestream_enabled)
             },
             async fetchBranch() {
                 const branches = await YogoApi.get('/branches/');
                 this.branches = branches.length > 1 ? true: false;
-                console.log("this.branches = ", this.countsOfBranches);
             },
             async fetchData(dateUpdated) {
                 this.loading = true
@@ -321,10 +318,8 @@
                         '&populate[]=livestream_signup_count' +
                         '&sort[]=' + encodeURIComponent('date ASC') +
                         '&sort[]=' + encodeURIComponent('start_time ASC') ,
-                        // (this.filterByBranch ? '&branch='+this.filterByBranch : ''),
                     )
                     this.classes = allClasses.classes
-                    console.log("classes = ", this.classes)
                     this.classes = _.sortBy(this.classes, ['date', 'start_time'])
 
                     if (this.selectedPeriod.teachers.selectedAll) {
@@ -334,7 +329,6 @@
                             '&ignoreArchived=1' +
                             '&populate[]=image',
                         );
-                        console.log("new Teachers = ", this.teachers)
                     } else {
                         if (this.selectedPeriod.teachers.teachers) {
                             this.teachers = this.selectedPeriod.teachers.teachers.map(teacher => teacher);
@@ -346,36 +340,32 @@
                     this.classes = [];
                     this.teachers = [];
                 }
-                console.log("classes = ",this.classes)
-                this.selectedTeachersList = [];
-                for (const i in this.teachers) {
-                    let teacher = {}
-                    let totalMins = 0, totalCheckedIn = 0, totalSignups = 0, totalLivestreamSignups = 0;
-                    
-                    // this.teachers[i].classes = [];
-                    
-                    teacher.name = this.teachers[i].name ? this.teachers[i].name : this.teachers[i].first_name + " " + this.teachers[i].last_name;
-                    teacher.classes = []
 
-                    for (const j in this.classes) {
+                this.totalMins = 0;
+                this.totalCheckedIn = 0;
+                this.totalSignups = 0;
+                this.totalLivestreamSignups = 0;
+                
+                for (const j in this.classes) {
 
-                        let exist = false;
-                        if (this.selectedPeriod.onlyPhysicalAttendance && !this.classes[j].studio_attendance_enabled) continue;
-                        if (this.selectedPeriod.onlyLivestream && !this.classes[j].livestream_enabled) continue;
-                        if (this.selectedPeriod.onlyClassPassEnabled && !this.classes[j].classpass_com_enabled) continue;
+                    let exist = false;
+                    if (this.selectedPeriod.onlyPhysicalAttendance && !this.classes[j].studio_attendance_enabled) continue;
+                    if (this.selectedPeriod.onlyLivestream && !this.classes[j].livestream_enabled) continue;
+                    if (this.selectedPeriod.onlyClassPassEnabled && !this.classes[j].classpass_com_enabled) continue;
 
-                        if (!this.selectedPeriod.classTypes.selectedAll) {
-                            for (const k in this.selectedPeriod.classTypes.classTypes) {
-                                if (this.classes[j].class_type_id == this.selectedPeriod.classTypes.classTypes[k].id) {
-                                    exist = true;
-                                    break;
-                                }
+                    if (!this.selectedPeriod.classTypes.selectedAll) {
+                        for (const k in this.selectedPeriod.classTypes.classTypes) {
+                            if (this.classes[j].class_type_id == this.selectedPeriod.classTypes.classTypes[k].id) {
+                                exist = true;
+                                break;
                             }
-
-                            if (!exist) continue;
                         }
-                        
-                        for (const k in this.classes[j].teachers) {
+
+                        if (!exist) continue;
+                    }
+                    
+                    for (const k in this.classes[j].teachers) {
+                        for (const i in this.teachers) {
                             if (this.teachers[i].id == this.classes[j].teachers[k].id) {
                                 //get teachers list
                                 let teachersList = "";
@@ -384,29 +374,17 @@
                                     teachersList += this.classes[j].teachers[kk].first_name + " " + this.classes[j].teachers[kk].last_name;
                                 }
                                 this.classes[j].teachersList = teachersList;
-                                // this.classes[j].studio_attendance_enabled = this.toYesNo(this.classes[j].studio_attendance_enabled);
-                                // this.classes[j].livestream_enabled = this.toYesNo(this.classes[j].livestream_enabled);
-                                // this.classes[j].cancelled = this.toYesNo(this.classes[j].cancelled);
-
-                                // this.teachers[i].classes.push(this.classes[j]);
-                                teacher.classes.push(this.classes[j]);
-
-                                let start_timer = parseInt(this.classes[j].start_time.split(":")[0]) * 60 + parseInt(this.classes[j].start_time.split(":")[1])
-                                let end_timer = parseInt(this.classes[j].end_time.split(":")[0]) * 60 + parseInt(this.classes[j].end_time.split(":")[1])
-                                totalMins += end_timer - start_timer
-                                totalCheckedIn += this.classes[j].checkedin_count;
-                                totalSignups += this.classes[j].signup_count;
-                                totalLivestreamSignups += this.classes[j].livestream_signup_count;
                                 break;
                             }
                         }
                     }
-                    teacher.totalMins = totalMins
-                    teacher.totalCheckedIn = totalCheckedIn
-                    teacher.totalSignups = totalSignups
-                    teacher.totalLivestreamSignups = totalLivestreamSignups  
-                    this.selectedTeachersList.push(teacher);        
-                    // Vue.set(this.teachers[i], "folded", true);
+
+                    let start_timer = parseInt(this.classes[j].start_time.split(":")[0]) * 60 + parseInt(this.classes[j].start_time.split(":")[1])
+                    let end_timer = parseInt(this.classes[j].end_time.split(":")[0]) * 60 + parseInt(this.classes[j].end_time.split(":")[1])
+                    this.totalMins += end_timer - start_timer
+                    this.totalCheckedIn += this.classes[j].checkedin_count;
+                    this.totalSignups += this.classes[j].signup_count;
+                    this.totalLivestreamSignups += this.classes[j].livestream_signup_count;
                 }
                 this.selectedPeriod.dataUpdated = false;
                 this.loading = false
@@ -423,12 +401,6 @@
             durationStringWithoutSecond(mins) {
                 const hh = Math.floor(mins / 60);
                 const mm = Math.floor(mins % 60);
-
-                // let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
-                // if (mm > 0) {
-                //     val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
-                // }
-                // return val;
                 return _.padStart(hh, 2, '0') + ":" + _.padStart(mm, 2, '0')
             },
 
@@ -438,18 +410,8 @@
                 let mins = end_timer - start_timer;
                 const hh = Math.floor(mins / 60);
                 const mm = Math.floor(mins % 60);
-
-                // let val =_.padStart(hh, 2, '0') + (hh > 1 ? this.$t('time.hours') : this.$t('time.hour'));
-                // if (mm > 0) {
-                //     val += " " + _.padStart(mm, 2, '0') + (mm > 1 ? this.$t('time.minutes') : this.$t('time.minute'));
-                // }
-                // return val;
                 return _.padStart(hh, 2, '0') + ":" + _.padStart(mm, 2, '0')
             },
-
-            // toYesNo(v) {
-            //     return v ? $t('global.Yes') : $t('global.No');
-            // },
 
             async showClassUsers(classItem) {
                 this.classParticipantsDialogClass = classItem;
@@ -469,8 +431,8 @@
                 this.showParticipantsDialog = true;
             },
 
-            toggleFolded(idx) {
-                this.teachers[idx].folded = !this.teachers[idx].folded;
+            toggleFolded() {
+                this.folded = !this.folded;
             },
 
             async downloadFile(format) {
@@ -481,7 +443,6 @@
                         classTypes: this.selectedPeriod.classTypes.classTypes.map(classType => {return {id: classType.id, name: classType.name}}),
                         fromDate: this.selectedPeriod.fromDate,
                         endDate: this.selectedPeriod.endDate,
-                        // allTeachers: this.selectedPeriod.teachers.selectedAll,
                         allClassTypes: this.selectedPeriod.classTypes.selectedAll,
                         onlyPhysicalAttendance: this.selectedPeriod.onlyPhysicalAttendance,
                         onlyLivestream: this.selectedPeriod.onlyLivestream,
@@ -558,10 +519,6 @@
 
         th {
             background: #ccc;
-        }
-
-        td {
-
         }
     }
 
