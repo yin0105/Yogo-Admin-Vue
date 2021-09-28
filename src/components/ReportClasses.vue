@@ -345,6 +345,7 @@
                 this.totalCheckedIn = 0;
                 this.totalSignups = 0;
                 this.totalLivestreamSignups = 0;
+                console.log("teachers = ", this.teachers);
                 
                 for (const j in this.classes) {
 
@@ -436,6 +437,16 @@
             },
 
             async downloadFile(format) {
+                console.log("data = ", {
+                        teachers: this.teachers.map(teacher => {return {id: teacher.id, name: teacher.first_name + " " + teacher.last_name}}),
+                        classTypes: this.selectedPeriod.classTypes.classTypes.map(classType => {return {id: classType.id, name: classType.name}}),
+                        fromDate: this.selectedPeriod.fromDate,
+                        endDate: this.selectedPeriod.endDate,
+                        allClassTypes: this.selectedPeriod.classTypes.selectedAll,
+                        onlyPhysicalAttendance: this.selectedPeriod.onlyPhysicalAttendance,
+                        onlyLivestream: this.selectedPeriod.onlyLivestream,
+                        onlyClassPassEnabled: this.selectedPeriod.onlyClassPassEnabled,
+                    })
                 const response = await YogoApi.post(
                     '/reports/make-report-token',
                     {
@@ -520,6 +531,10 @@
         th {
             background: #ccc;
         }
+    }
+
+    table.classes th {
+        text-align: center !important;
     }
 
 
